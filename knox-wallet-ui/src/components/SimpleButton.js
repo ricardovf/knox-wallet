@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  */
 class SimpleButton extends Component {
   static propTypes = {
-    /** The name of the button */
+    onClick: PropTypes.func,
     name: PropTypes.string,
     bg: PropTypes.string,
   };
@@ -16,7 +16,14 @@ class SimpleButton extends Component {
   };
 
   render() {
-    return <a style={{ backgroundColor: this.props.bg }}>{this.props.name}</a>;
+    return (
+      <button
+        onClick={this.props.onClick}
+        style={{ backgroundColor: this.props.bg }}
+      >
+        {this.props.name}
+      </button>
+    );
   }
 }
 
