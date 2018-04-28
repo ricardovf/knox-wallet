@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { hot } from 'react-hot-loader';
 // import ErrorBoundary from './ErrorBoundary';
-import Incrementer from './container/Incrementer';
+import Incrementer from './containers/Incrementer';
 
 class App extends Component {
   constructor(props) {
