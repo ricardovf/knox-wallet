@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from 'material-ui/Button';
 
 /**
  * This is a simple button, use it! Markdown is *supported*.
@@ -17,12 +18,9 @@ class SimpleButton extends Component {
 
   render() {
     return (
-      <button
-        onClick={this.props.onClick}
-        style={{ backgroundColor: this.props.bg }}
-      >
+      <Button variant="raised" color="primary" onClick={this.props.onClick}>
         {this.props.name}
-      </button>
+      </Button>
     );
   }
 }

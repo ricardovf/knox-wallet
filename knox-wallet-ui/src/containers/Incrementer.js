@@ -3,7 +3,7 @@ import SimpleButton from '../components/SimpleButton';
 import { incrementCounter } from '../actions';
 import { connect } from 'react-redux';
 
-let Incrementer = ({ value, onClick }) => {
+const Incrementer = ({ value, onClick }) => {
   return (
     <div>
       <h1>Valor atual: {value}</h1>
@@ -13,7 +13,7 @@ let Incrementer = ({ value, onClick }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  value: state.value,
+  value: state.incrementer.value,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

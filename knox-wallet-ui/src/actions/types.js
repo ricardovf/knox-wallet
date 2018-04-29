@@ -1,3 +1,0 @@
-export default {
-  INCREMENT_COUNTER: 'INCREMENT_COUNTER',
-};
