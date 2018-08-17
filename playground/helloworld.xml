@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HelloWorld Applet" default="dist" basedir=".">
+    <description>Builds the project.</description>
+    <property name="aid"     value="f2:76:a2:88:bc:fb:a6:9d:34:f3:10"/>
+    <property name="aid.app" value="f2:76:a2:88:bc:fb:a6:9d:34:f3:10:01"/>
+    <property name="output.cap" value="out/ant/HelloWorldApplet.cap"/>
+    <property name="jckit" value="../ext/jc222_kit"/>
+    <property name="cap.source" value="helloworld/src/"/>
+    <property name="class" value="com.knox.playground.helloworld.HelloWorldApplet"/>
+
+    <target name="dist" description="generate the distribution">
+        <tstamp/>
+        <taskdef name="javacard" classname="pro.javacard.ant.JavaCard" classpath="../ext/ant-javacard.jar"/>
+        <javacard>
+            <cap jckit="${jckit}" aid="${aid}" output="${output.cap}" sources="${cap.source}" version="1.0">
+                <applet class="${class}" aid="${aid.app}"/>
+            </cap>
+        </javacard>
+
+        <exec executable="java">
+            <arg value="-jar"/>
+            <arg value="/usr/local/include/gp.jar"/>
+            <arg value="-delete"/>
+            <arg value="${aid}"/>
+        </exec>
+
+        <exec executable="java">
+            <arg value="-jar"/>
+            <arg value="/usr/local/include/gp.jar"/>
+            <arg value="-install"/>
+            <arg value="./out/ant/HelloWorldApplet.cap"/>
+            <arg value="-default"/>
+        </exec>
+    </target>
+</project>

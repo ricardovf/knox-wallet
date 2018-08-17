@@ -136,7 +136,7 @@ public class HelloWorldApplet extends Applet {
         short incomeBytes = apdu.setIncomingAndReceive();
         byte[] echo = transientMemory;
         short echoLength;
-        if (buffer[ISO7816.OFFSET_P1] == 0x01) {
+        if (buffer[ISO7816.OFFSET_P1] == (short) 0x01) {
             echoLength = incomeBytes;
             Util.arrayCopyNonAtomic(buffer, ISO7816.OFFSET_CDATA, echo, (short) 0, incomeBytes);
         } else {
@@ -150,7 +150,7 @@ public class HelloWorldApplet extends Applet {
         // Send our message starting at 0 position
         apdu.sendBytesLong(echo, (short) 0, echoLength);
         // Set application specific sw
-        if(sw!=0x9000) {
+        if(sw!=(short)0x9000) {
             ISOException.throwIt(sw);
         }
     }
