@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LedgerWalletApplet" default="dist" basedir=".">
+    <description>Builds the project.</description>
+    <property name="aid"     value="f2:76:a2:88:bc:fb:a6:9d:34:f4:20"/>
+    <property name="aid.app" value="f2:76:a2:88:bc:fb:a6:9d:34:f4:20:01"/>
+    <property name="output.cap" value="out/ant/LedgerWalletApplet.cap"/>
+    <property name="jckit" value="../ext/jc222_kit"/>
+    <property name="cap.source" value="basic/src/"/>
+    <property name="class" value="com.knox.playground.basic.LedgerWalletApplet"/>
+
+    <target name="dist" description="generate the distribution">
+        <tstamp/>
+        <taskdef name="javacard" classname="pro.javacard.ant.JavaCard" classpath="../ext/ant-javacard.jar"/>
+        <javacard>
+            <cap jckit="${jckit}" aid="${aid}" output="${output.cap}" sources="${cap.source}" version="1.0">
+                <applet class="${class}" aid="${aid.app}"/>
+            </cap>
+        </javacard>
+
+        <exec executable="java">
+            <arg value="-jar"/>
+            <arg value="/usr/local/include/gp.jar"/>
+            <arg value="-delete"/>
+            <arg value="${aid}"/>
+        </exec>
+
+        <exec executable="java">
+            <arg value="-jar"/>
+            <arg value="/usr/local/include/gp.jar"/>
+            <arg value="-install"/>
+            <arg value="./out/ant/LedgerWalletApplet.cap"/>
+            <arg value="-default"/>
+        </exec>
+    </target>
+</project>

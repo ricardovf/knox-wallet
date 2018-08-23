@@ -18,13 +18,6 @@ public class HelloWorldAppletTest extends JavaCardTest {
         TestSuite.setup();
     }
 
-    private void sendCmdBatch(byte[] cmd, byte[] data, int expectedSw, byte[] expectedResponse) throws CardException {
-        CommandAPDU commandAPDU = new CommandAPDU(TestUtils.buildApdu(cmd, data));
-        ResponseAPDU response = transmitCommand(commandAPDU);
-        assertEquals(expectedSw, response.getSW());
-        assertArrayEquals(expectedResponse, response.getData());
-    }
-
     private void sendHello(byte[] data, int expectedSw, byte[] expectedResponse) throws CardException {
         sendCmdBatch(CMD_HELLO, data, expectedSw, expectedResponse);
     }

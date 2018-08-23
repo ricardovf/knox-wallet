@@ -23,8 +23,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Suite.class)
 @SuiteClasses({HelloWorldAppletTest.class})
 public class TestSuite {
-
-//    private final static String APPLET_AID = "01020304050607080901";
     private final static String APPLET_AID = "f276a288bcfba69d34f310";
 
     private static CardSimulator mSimulator;
