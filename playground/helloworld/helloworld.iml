@@ -6,10 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="com.knox.playground.helloworld" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" packagePrefix="com.knox.playground.helloworld" />
     </content>
-    <orderEntry type="library" name="jcardsim-3.0.4-SNAPSHOT" level="application" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="jcardsim-3.0.5-SNAPSHOT" level="application" />
     <orderEntry type="library" name="apdu4j" level="application" />
-    <orderEntry type="library" name="jc222_kit" level="application" />
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit4">
         <CLASSES>
@@ -21,5 +19,6 @@
       </library>
     </orderEntry>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
   </component>
 </module>

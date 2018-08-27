@@ -50,7 +50,7 @@ public class BTChipException extends Exception {
 			return "BTChip Exception : " + getMessage();
 		}
 		else {
-			return "BTChip Exception : " + getMessage() + " " + Integer.toHexString(sw);
+			return "BTChip Exception : " + getMessage() + " " + Integer.toHexString(sw) + " | " + sw;
 		}
 	}
 	

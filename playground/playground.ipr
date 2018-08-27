@@ -3,17 +3,41 @@
   <component name="AntConfiguration">
     <buildFile url="file://$PROJECT_DIR$/helloworld.xml" />
   </component>
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="basic" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="basic" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">
       <option name="myName" value="Project Default" />
     </profile>
     <version value="1.0" />
   </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/basic/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectDictionaryState">
     <dictionary name="ricardo">
       <words>
+        <w>airgap</w>
         <w>contactless</w>
         <w>helloworld</w>
+        <w>nist</w>
+        <w>secp</w>
+        <w>testnet</w>
       </words>
     </dictionary>
   </component>

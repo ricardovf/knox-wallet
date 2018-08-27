@@ -20,6 +20,7 @@
 package com.knox.playground.dongle;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 import com.knox.playground.dongle.comm.BTChipTransport;
 import com.knox.playground.dongle.utils.*;
@@ -293,7 +294,6 @@ public class BTChipDongle implements BTChipConstants {
 	}
 
 	private byte[] exchange(byte[] apdu, boolean rawResponse) throws BTChipException {
-//		byte[] response = transport.exchange(apdu);
 		ResponseAPDU responseAPDU = transport.exchange(apdu);
 		byte[] response = responseAPDU.getBytes();
 
@@ -385,15 +385,25 @@ public class BTChipDongle implements BTChipConstants {
 	}
 	
 	public void verifyPin(byte[] pin) throws BTChipException {
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x00, (byte)0x00, pin, OK);
+		verifyPin(pin, OK);
+	}
+
+	public void verifyPin(byte[] pin, int acceptedSW[]) throws BTChipException {
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x00, (byte)0x00, pin, acceptedSW);
 	}
 	
 	public int getVerifyPinRemainingAttempts() throws BTChipException {
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x80, (byte)0x00, DUMMY, null);
-		if ((lastSW & 0xfff0) != 0x63c0) {
-			throw new BTChipException("Invalid status", lastSW);
+		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x80, (byte)0x00, DUMMY, null);
+		System.out.println("Yo: ");
+		System.out.println(Integer.toHexString(lastSW));
+
+		if (response.length == 1) {
+			System.out.println(response[0]);
+
+			return (int) response[0];
 		}
-		return (lastSW - 0x63c0);
+
+		return lastSW;
 	}
 	
 	public BTChipPublicKey getWalletPublicKey(String keyPath) throws BTChipException {
@@ -673,12 +683,6 @@ public class BTChipDongle implements BTChipConstants {
 		return new BTChipFirmware(major, minor, patch, compressedKeys);
 	}		
 	
-	public void setKeymapEncoding(byte[] keymapEncoding) throws BTChipException {
-		ByteArrayOutputStream data = new ByteArrayOutputStream();
-		BufferUtils.writeBuffer(data, keymapEncoding);
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SET_KEYMAP, (byte)0x00, (byte)0x00, data.toByteArray(), OK_OR_NOT_SUPPORTED);		
-	}
-	
 	public boolean setup(OperationMode supportedOperationModes[], Feature features[], int keyVersion, int keyVersionP2SH, byte[] userPin, byte[] wipePin, byte[] keymapEncoding, byte[] seed, byte[] developerKey) throws BTChipException {
 		int operationModeFlags = 0;
 		int featuresFlags = 0;
@@ -697,39 +701,19 @@ public class BTChipDongle implements BTChipConstants {
 			throw new BTChipException("Invalid user PIN length");
 		}
 		data.write(userPin.length);
-		BufferUtils.writeBuffer(data,  userPin);
-		if (wipePin != null) {
-			if (wipePin.length > 0x04) {
-				throw new BTChipException("Invalid wipe PIN length");	
-			}
-			data.write(wipePin.length);
-			BufferUtils.writeBuffer(data,  wipePin);			
-		}
-		else {
-			data.write(0);
-		}
+		BufferUtils.writeBuffer(data, userPin);
+
 		if (seed != null) {
 			if ((seed.length < 32) || (seed.length > 64)) {
 				throw new BTChipException("Invalid seed length");
 			}
 			data.write(seed.length);
 			BufferUtils.writeBuffer(data, seed);
-		}
-		else {
+		} else {
 			data.write(0);
 		}
-		if (developerKey != null) {
-			if (developerKey.length != 0x10) {
-				throw new BTChipException("Invalid developer key");
-			}
-			data.write(developerKey.length);
-			BufferUtils.writeBuffer(data, developerKey);
-		}
-		else {
-			data.write(0);
-		}
+
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
-		setKeymapEncoding(keymapEncoding);
 		return (response[0] == (byte)0x01);
 	}
 

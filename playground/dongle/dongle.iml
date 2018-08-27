@@ -6,7 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="com.knox.playground.dongle" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="apdu4j" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

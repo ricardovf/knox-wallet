@@ -23,42 +23,32 @@
 
 package com.knox.playground.basic;
 
-import javacard.framework.APDU;
-import javacard.framework.Applet;
-//import javacard.framework.CardRuntimeException;
-import javacard.framework.ISO7816;
-import javacard.framework.ISOException;
-import javacard.framework.JCSystem;
-//import javacard.framework.OwnerPIN;
-import javacard.framework.Util;
-//import javacard.security.DESKey;
-//import javacard.security.AESKey;
-//import javacard.security.KeyBuilder;
-//import javacard.security.ECPrivateKey;
-//import javacard.security.ECPublicKey;
-//import javacard.security.Signature;
+import javacard.framework.*;
+import javacard.security.DESKey;
+import javacard.security.KeyBuilder;
 
 public class LedgerWalletApplet extends Applet {
-    protected static boolean HAVE_PROPRIETARY_API = true;
-    protected static boolean PROPRIETARY_API_JCOP = false;
+//    protected static boolean HAVE_PROPRIETARY_API = false;
+//    protected static boolean PROPRIETARY_API_JCOP = false;
     protected static boolean PROPRIETARY_API_SIM = true;
-    protected static boolean SIMULATION_DEBUG = true;
+//    protected static boolean SIMULATION_DEBUG = false;
 
     public LedgerWalletApplet(byte[] parameters, short parametersOffset, byte parametersLength) {
-//        BCDUtils.init();
-//        TC.init();
-//        Crypto.init();
-//        Transaction.init();
-//        Bip32Cache.init();
+        BCDUtils.init();
+        TC.init();
+        Crypto.init();
+        Transaction.init();
+        Bip32Cache.init();
 //        Keycard.init();
-//        limits = new byte[LIMIT_LAST];
-//        scratch256 = JCSystem.makeTransientByteArray((short)256, JCSystem.CLEAR_ON_DESELECT);
+        limits = new byte[LIMIT_LAST];
+        scratch256 = JCSystem.makeTransientByteArray((short) 256, JCSystem.CLEAR_ON_DESELECT);
 //        transactionPin = new OwnerPIN(TRANSACTION_PIN_ATTEMPTS, TRANSACTION_PIN_SIZE);
-//        walletPin = new OwnerPIN(WALLET_PIN_ATTEMPTS, WALLET_PIN_SIZE);
+        walletPin = new OwnerPIN(WALLET_PIN_ATTEMPTS, WALLET_PIN_SIZE);
 //        secondaryPin = new OwnerPIN(SECONDARY_PIN_ATTEMPTS, SECONDARY_PIN_SIZE);
-//        masterDerived = new byte[64];
-//        chipKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
-//        trustedInputKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
+        masterDerived = new byte[64];
+        // Chip Key is unique for a device and is used to encrypt memory
+        chipKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
+        trustedInputKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
 //        developerKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
 
         transientMemoryHelloWorld = JCSystem.makeTransientByteArray((short) 256, JCSystem.CLEAR_ON_RESET);
@@ -69,11 +59,13 @@ public class LedgerWalletApplet extends Applet {
 //        catch(Exception e) {
 //        }
         reset();
+
         if (PROPRIETARY_API_SIM) {
             proprietaryAPI = new JCardSIMProprietaryAPI();
-        } else if (PROPRIETARY_API_JCOP) {
-//            proprietaryAPI = new JCOPProprietaryAPI();
         }
+//        else if (PROPRIETARY_API_JCOP) {
+//            proprietaryAPI = new JCOPProprietaryAPI();
+//        }
 //        if (parametersLength != 0) {
 //            attestationPrivate = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, KeyBuilder.LENGTH_EC_FP_256, false);
 //            attestationPublic = new byte[65];
@@ -84,34 +76,34 @@ public class LedgerWalletApplet extends Applet {
 //            Util.arrayCopy(parameters, parametersOffset, attestationSignature, (short)0, (short)attestationSignature.length);
 //        }
         register();
+
     }
 
-    private static void reset() {
-//        Crypto.random.generateData(scratch256, (short)0, (short)16);
-//        chipKey.setKey(scratch256, (short)0);
-//        Util.arrayFillNonAtomic(scratch256, (short)0, (short)16, (byte)0x00);
-//        setup = TC.FALSE;
+    protected static void reset() {
+        // Set a random Chip Key for this device
+        Crypto.random.generateData(scratch256, (short)0, (short)16);
+        chipKey.setKey(scratch256, (short)0);
+
+        // Clean scratch memory
+        Util.arrayFillNonAtomic(scratch256, (short)0, (short)16, (byte)0x00);
+
+        // Setup did not happen yet
+        setup = TC.FALSE;
+
 //        limitsSet = TC.FALSE;
     }
-
-//#if defined(NFC_2FA)
-//    protected static void writeIdleText() {
-//        short offset = Util.arrayCopyNonAtomic(TEXT_IDLE, (short)0, LWNFCForumApplet.FILE_DATA, LWNFCForumApplet.OFFSET_TEXT, (short)TEXT_IDLE.length);
-//        LWNFCForumApplet.writeHeader((short)(offset - LWNFCForumApplet.OFFSET_TEXT));
-//    }
-//#endif
 
     protected static boolean isContactless() {
         return ((APDU.getProtocol() & APDU.PROTOCOL_MEDIA_MASK) == APDU.PROTOCOL_MEDIA_CONTACTLESS_TYPE_A);
     }
 
     private static void checkAccess(boolean checkPinContactless) {
-//        if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//        if (!isContactless() && !walletPin.isValidated()) {
-//            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
-//        }
+        if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
+            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+        }
+        if (!isContactless() && !walletPin.isValidated()) {
+            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
+        }
 //        if (checkPinContactless && !walletPin.isValidated()) {
 //            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
 //        }
@@ -134,19 +126,19 @@ public class LedgerWalletApplet extends Applet {
 //    }
 //
 //    // Compressed public key in scratch256, 0
-//    private static short publicKeyToAddress(byte[] out, short outOffset) {
-//        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)33, scratch256, (short)33);
-//        if (Crypto.digestRipemd != null) {
-//            Crypto.digestRipemd.doFinal(scratch256, (short)33, (short)32, scratch256, (short)1);
-//        }
-//        else {
-//            Ripemd160.hash32(scratch256, (short)33, scratch256, (short)1, scratch256, (short)100);
-//        }
-//        scratch256[0] = stdVersion;
-//        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)21, scratch256, (short)21);
-//        Crypto.digestScratch.doFinal(scratch256, (short)21, (short)32, scratch256, (short)21);
-//        return Base58.encode(scratch256, (short)0, (short)25, out, outOffset, scratch256, (short)100);
-//    }
+    private static short publicKeyToAddress(byte[] out, short outOffset) {
+        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)33, scratch256, (short)33);
+        if (Crypto.digestRipemd != null) {
+            Crypto.digestRipemd.doFinal(scratch256, (short)33, (short)32, scratch256, (short)1);
+        }
+        else {
+            Ripemd160.hash32(scratch256, (short)33, scratch256, (short)1, scratch256, (short)100);
+        }
+        scratch256[0] = stdVersion;
+        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)21, scratch256, (short)21);
+        Crypto.digestScratch.doFinal(scratch256, (short)21, (short)32, scratch256, (short)21);
+        return Base58.encode(scratch256, (short)0, (short)25, out, outOffset, scratch256, (short)100);
+    }
 
 //    private static void signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
 //        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
@@ -224,7 +216,6 @@ public class LedgerWalletApplet extends Applet {
 //        }
 //        Util.arrayCopy(buffer, ISO7816.OFFSET_CDATA, attestationPublic, (short)0, (short)attestationPublic.length);
 //    }
-
 
 
 ////#if !defined(HAVE_PROPRIETARY_API)
@@ -343,58 +334,58 @@ public class LedgerWalletApplet extends Applet {
 //        apdu.setOutgoingAndSend((short)0, (short)1);
 //    }
 //
-//    private static void handleGetWalletPublicKey(APDU apdu) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte derivationSize = buffer[offset++];
-//        byte i;
-//        if (derivationSize > MAX_DERIVATION_PATH) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        // Unwrap the initial seed
-//        Crypto.initCipher(chipKey, false);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
-//        // Derive all components
-//        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
-//        for (; i<derivationSize; i++) {
-//            Util.arrayCopyNonAtomic(buffer, (short)(offset + 4 * i), scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
-//            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
-//                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
-//                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-//                }
-//            }
-//            if (!Bip32.derive(buffer)) {
-//                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-//            }
-//            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
-//        }
-//        if (proprietaryAPI == null) {
-//            if (!Bip32Cache.setPublicIndex(buffer, offset, derivationSize)) {
-//                ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-//            }
-//        }
-//        // Finally output
-//        offset = 0;
-//        buffer[offset++] = (short)65;
-//        if (proprietaryAPI == null) {
-//            Bip32Cache.copyLastPublic(buffer, offset);
-//        }
-//        else {
-//            proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, buffer, offset);
-//        }
-//        // Save the chaincode
-//        Util.arrayCopyNonAtomic(scratch256, (short)32, buffer, (short)200, (short)32);
-//        // Get the encoded address
-//        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, (short)65);
-//        AddressUtils.compressPublicKey(scratch256, (short)0);
-//        offset += (short)65;
-//        buffer[offset] = (byte)(publicKeyToAddress(buffer, (short)(offset + 1)) - (short)(offset + 1));
-//        offset += (short)(buffer[offset] + 1);
-//        // Add the chaincode
-//        Util.arrayCopyNonAtomic(buffer, (short)200, buffer, offset, (short)32);
-//        offset += 32;
-//        apdu.setOutgoingAndSend((short)0, offset);
-//    }
+    private static void handleGetWalletPublicKey(APDU apdu) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+        byte derivationSize = buffer[offset++];
+        byte i;
+        if (derivationSize > MAX_DERIVATION_PATH) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
+        // Unwrap the initial seed
+        Crypto.initCipher(chipKey, false);
+        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
+        // Derive all components
+        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
+        for (; i<derivationSize; i++) {
+            Util.arrayCopyNonAtomic(buffer, (short)(offset + 4 * i), scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
+            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
+                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
+                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
+                }
+            }
+            if (!Bip32.derive(buffer)) {
+                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+            }
+            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
+        }
+        if (proprietaryAPI == null) {
+            if (!Bip32Cache.setPublicIndex(buffer, offset, derivationSize)) {
+                ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
+            }
+        }
+        // Finally output
+        offset = 0;
+        buffer[offset++] = (short)65;
+        if (proprietaryAPI == null) {
+            Bip32Cache.copyLastPublic(buffer, offset);
+        }
+        else {
+            proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, buffer, offset);
+        }
+        // Save the chaincode
+        Util.arrayCopyNonAtomic(scratch256, (short)32, buffer, (short)200, (short)32);
+        // Get the encoded address
+        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, (short)65);
+        AddressUtils.compressPublicKey(scratch256, (short)0);
+        offset += (short)65;
+        buffer[offset] = (byte)(publicKeyToAddress(buffer, (short)(offset + 1)) - (short)(offset + 1));
+        offset += (short)(buffer[offset] + 1);
+        // Add the chaincode
+        Util.arrayCopyNonAtomic(buffer, (short)200, buffer, offset, (short)32);
+        offset += 32;
+        apdu.setOutgoingAndSend((short)0, offset);
+    }
 //
 //    private static void handleTrustedInput(APDU apdu) throws ISOException {
 //        byte[] buffer = apdu.getBuffer();
@@ -766,7 +757,7 @@ public class LedgerWalletApplet extends Applet {
 //        apdu.setOutgoingAndSend((short)0, outOffset);
 //    }
 
-//    private static void handleHashSignDerive(APDU apdu, boolean checkStage) throws ISOException {
+    //    private static void handleHashSignDerive(APDU apdu, boolean checkStage) throws ISOException {
 //        byte[] buffer = apdu.getBuffer();
 //        short offset = ISO7816.OFFSET_CDATA;
 //        byte i;
@@ -956,137 +947,103 @@ public class LedgerWalletApplet extends Applet {
 //        }
 //    }
 //
-//    private static void handleSetup(APDU apdu, boolean airgap) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte keyLength;
-//        apdu.setIncomingAndReceive();
-//        if ((setup == TC.TRUE) || (setup != TC.FALSE)) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//        if (buffer[ISO7816.OFFSET_P1] != P1_REGULAR_SETUP) {
-//            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
-//        }
-//        Bip32Cache.reset();
-//        supportedModes = buffer[offset++];
-//        for (byte i=0; i<(byte)AVAILABLE_MODES.length; i++) {
-//            if ((supportedModes & AVAILABLE_MODES[i]) != 0) {
-//                currentMode = AVAILABLE_MODES[i];
-//                break;
-//            }
-//        }
-//        features = buffer[offset++];
-//        if ((features & FEATURE_UNCOMPRESSED_KEYS) != 0) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        stdVersion = buffer[offset++];
-//        p2shVersion = buffer[offset++];
-//        walletPinSize = buffer[offset++];
-//        if (walletPinSize < 4) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        Util.arrayFillNonAtomic(scratch256, (short)0, WALLET_PIN_SIZE, (byte)0xff);
-//        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, walletPinSize);
-//        walletPin.update(scratch256, (short)0, WALLET_PIN_SIZE);
-//        walletPin.resetAndUnblock();
-//        offset += walletPinSize;
-//        secondaryPinSize = buffer[offset++];
-//        if (secondaryPinSize != 0) {
-//            Util.arrayFillNonAtomic(scratch256, (short)0, SECONDARY_PIN_SIZE, (byte)0xff);
-//            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, secondaryPinSize);
-//            secondaryPin.update(scratch256, (short)0, SECONDARY_PIN_SIZE);
-//            secondaryPin.resetAndUnblock();
-//            offset += secondaryPinSize;
-//        }
-//        keyLength = buffer[offset++];
-//        if (keyLength == 0) {
-//            keyLength = DEFAULT_SEED_LENGTH;
-//            Crypto.random.generateData(scratch256, (short)0, keyLength);
-//            if (airgap) {
-//                Util.arrayCopyNonAtomic(scratch256, (short)0, scratch256, (short)(256 - DEFAULT_SEED_LENGTH), DEFAULT_SEED_LENGTH);
-//            }
-////#if defined(NFC_2FA)
-////            short textOffset = LWNFCForumApplet.OFFSET_TEXT;
-////            textOffset = Util.arrayCopyNonAtomic(TEXT_SEED, (short)0, LWNFCForumApplet.FILE_DATA, textOffset, (short)TEXT_SEED.length);
-////            for (byte i=0; i<DEFAULT_SEED_LENGTH; i++) {
-////                LWNFCForumApplet.FILE_DATA[textOffset++] = HEX[(scratch256[i] >> 4) & 0x0f];
-////                LWNFCForumApplet.FILE_DATA[textOffset++] = HEX[scratch256[i] & 0x0f];
-////            }
-////            LWNFCForumApplet.writeHeader((short)(textOffset - LWNFCForumApplet.OFFSET_TEXT));
-////            LWNFCForumApplet.erase = true;
-////#endif
-//        }
-//        else {
-//            if ((keyLength < 0) || (keyLength > DEFAULT_SEED_LENGTH)) {
-//                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//            }
-//            if (airgap) {
-//                Crypto.initCipherAES(pairingKey, false);
-//                Crypto.blobEncryptDecryptAES.doFinal(buffer, offset, keyLength, scratch256, (short)0);
-//            }
-//            else {
-//                Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, keyLength);
-//            }
-//        }
-//        Bip32.deriveSeed(keyLength);
-//        Crypto.initCipher(chipKey, true);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, masterDerived, (short)0);
-//        offset += keyLength;
-//        if ((supportedModes & MODE_DEVELOPER) != 0) {
-//            keyLength = buffer[offset++];
-//            if (keyLength == 0) {
-//                Crypto.random.generateData(scratch256, (short)0, (short)16);
-//                developerKey.setKey(scratch256, (short)0);
-//            }
-//            else {
-//                if (keyLength != 16) {
-//                    ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//                }
-//                developerKey.setKey(buffer, offset);
-//            }
-//        }
-//        Crypto.random.generateData(scratch256, (short)0, (short)16);
-//        trustedInputKey.setKey(scratch256, (short)0);
-//        offset = 0;
-//        buffer[offset++] = (airgap ? SEED_ENCODED_AIRGAP : SEED_NOT_TYPED);
-//        if ((supportedModes & MODE_DEVELOPER) != 0) {
-//            trustedInputKey.getKey(buffer, offset);
-//            offset += (short)16;
-//            developerKey.getKey(buffer, offset);
-//            offset += (short)16;
-//        }
-//        if (airgap) {
-//            Crypto.initCipherAES(pairingKey, true);
-//            Crypto.blobEncryptDecryptAES.doFinal(scratch256, (short)(256 - DEFAULT_SEED_LENGTH), DEFAULT_SEED_LENGTH, buffer, offset);
-//            offset += DEFAULT_SEED_LENGTH;
-//        }
-//        apdu.setOutgoingAndSend((short)0, offset);
-//        setup = TC.TRUE;
-//    }
-//
-//    private static void handleVerifyPin(APDU apdu) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//        if (buffer[ISO7816.OFFSET_P1] == P1_GET_REMAINING_ATTEMPTS) {
-//            buffer[0] = walletPin.getTriesRemaining();
-//            apdu.setOutgoingAndSend((short)0, (short)1);
-//            return;
-//        }
-//        apdu.setIncomingAndReceive();
-//        if (buffer[ISO7816.OFFSET_LC] != walletPinSize) {
-//            ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
-//        }
-//        Util.arrayFillNonAtomic(scratch256, (short)0, WALLET_PIN_SIZE, (byte)0xff);
-//        Util.arrayCopyNonAtomic(buffer, ISO7816.OFFSET_CDATA, scratch256, (short)0, walletPinSize);
-//        if (!walletPin.check(scratch256, (short)0, WALLET_PIN_SIZE)) {
-//            if (walletPin.getTriesRemaining() == 0) {
-//                reset();
-//            }
-//            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
-//        }
-//    }
+    private static void handleSetup(APDU apdu, boolean airgap) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+        byte keyLength;
+        apdu.setIncomingAndReceive();
+        // If already initialized, throw error
+        if ((setup == TC.TRUE) || (setup != TC.FALSE)) {
+            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+        }
+        if (buffer[ISO7816.OFFSET_P1] != P1_REGULAR_SETUP) {
+            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
+        }
+        Bip32Cache.reset();
+        // Setup supported mode
+        supportedModes = buffer[offset++];
+        for (byte i = 0; i < (byte) AVAILABLE_MODES.length; i++) {
+            if ((supportedModes & AVAILABLE_MODES[i]) != 0) {
+                currentMode = AVAILABLE_MODES[i];
+                break;
+            }
+        }
+        // Setup features
+        features = buffer[offset++];
+        if ((features & FEATURE_UNCOMPRESSED_KEYS) != 0) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
+
+        // Setup Bitcoin version
+        stdVersion = buffer[offset++];
+
+        // Setup P2SH version
+        p2shVersion = buffer[offset++];
+
+        // Setup wallet PIN
+        walletPinSize = buffer[offset++];
+        if (walletPinSize < 4) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
+        Util.arrayFillNonAtomic(scratch256, (short) 0, WALLET_PIN_SIZE, (byte) 0xff);
+        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, walletPinSize);
+        walletPin.update(scratch256, (short) 0, WALLET_PIN_SIZE);
+        walletPin.resetAndUnblock();
+        offset += walletPinSize;
+
+        // Setup SEED
+        keyLength = buffer[offset++];
+        if (keyLength == 0) {
+            // If we do not have a SEED yet, lets generate one
+            keyLength = DEFAULT_SEED_LENGTH;
+            Crypto.random.generateData(scratch256, (short) 0, keyLength);
+        } else {
+            // We have a seed, lets setup it
+            if ((keyLength < 0) || (keyLength > DEFAULT_SEED_LENGTH)) {
+                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+            }
+            // Store the seed on the scratch memory
+            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, keyLength);
+        }
+        // Derive the seed from the scratch memory
+        Bip32.deriveSeed(keyLength);
+
+        // Encrypt the seed using the chipkey
+        Crypto.initCipher(chipKey, true);
+        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short) 0, (short) DEFAULT_SEED_LENGTH, masterDerived, (short) 0);
+
+        Crypto.random.generateData(scratch256, (short) 0, (short) 16);
+        trustedInputKey.setKey(scratch256, (short) 0);
+        offset = 0;
+        buffer[offset++] = SEED_NOT_TYPED;
+
+        apdu.setOutgoingAndSend((short) 0, offset);
+        setup = TC.TRUE;
+    }
+
+    private static void handleVerifyPin(APDU apdu) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
+            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+        }
+        if (buffer[ISO7816.OFFSET_P1] == P1_GET_REMAINING_ATTEMPTS) {
+            buffer[0] = walletPin.getTriesRemaining();
+            apdu.setOutgoingAndSend((short)0, (short)1);
+            return;
+        }
+        apdu.setIncomingAndReceive();
+        if (buffer[ISO7816.OFFSET_LC] != walletPinSize) {
+            ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
+        }
+        Util.arrayFillNonAtomic(scratch256, (short)0, WALLET_PIN_SIZE, (byte)0xff);
+        Util.arrayCopyNonAtomic(buffer, ISO7816.OFFSET_CDATA, scratch256, (short)0, walletPinSize);
+        if (!walletPin.check(scratch256, (short)0, WALLET_PIN_SIZE)) {
+            if (walletPin.getTriesRemaining() == 0) {
+                reset();
+            }
+            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
+        }
+    }
 //
 //    private static void handleGetContactlessLimit(APDU apdu) throws ISOException {
 //        if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
@@ -1154,19 +1111,13 @@ public class LedgerWalletApplet extends Applet {
 //    }
 
     public static void clearScratch() {
-//        if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != (byte)0x01) {
-//            Util.arrayFillNonAtomic(scratch256, (short)0, (short)scratch256.length, (byte)0x00);
-//        }
+        if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != (byte)0x01) {
+            Util.arrayFillNonAtomic(scratch256, (short)0, (short)scratch256.length, (byte)0x00);
+        }
     }
 
     public void process(APDU apdu) throws ISOException {
         if (selectingApplet()) {
-//#if defined(NFC_2FA)
-//            if (LWNFCForumApplet.erase) {
-//                writeIdleText();
-//                LWNFCForumApplet.erase = false;
-//            }
-//#endif
             return;
         }
         byte[] buffer = apdu.getBuffer();
@@ -1176,85 +1127,83 @@ public class LedgerWalletApplet extends Applet {
 //            if (isContactless()) {
 //                apdu.waitExtension();
 //            }
-//            try {
-                switch(buffer[ISO7816.OFFSET_INS]) {
+            try {
+                switch (buffer[ISO7816.OFFSET_INS]) {
                     case SAY_HELLO_INS:
                         sayHello(apdu, (short) 0x9000);
                         return;
-//                    case INS_SETUP:
-//                        handleSetup(apdu, false);
-//                        break;
-//                    case INS_SET_USER_KEYCARD:
-//                        handleSetUserKeycard(apdu, false);
-//                        break;
-//                    case INS_VERIFY_PIN:
-//                        handleVerifyPin(apdu);
-//                        break;
-//                    case INS_GET_WALLET_PUBLIC_KEY:
-//                        checkAccess(true);
-//                        handleGetWalletPublicKey(apdu);
-//                        break;
-//                    case INS_GET_CONTACTLESS_LIMIT:
-//                        handleGetContactlessLimit(apdu);
-//                        break;
-//                    case INS_SET_CONTACTLESS_LIMIT:
-//                        checkAccess(true);
-//                        handleSetContactlessLimit(apdu);
-//                        break;
-//                    case INS_GET_TRUSTED_INPUT:
-//                        checkAccess(false);
-//                        handleTrustedInput(apdu);
-//                        break;
-//                    case INS_UNTRUSTED_HASH_START:
-//                        handleHashTransaction(apdu);
-//                        break;
-//                    case INS_UNTRUSTED_HASH_FINALIZE_FULL:
-//                        // Split to avoid a stack overflow on JCOP
-//                        if (buffer[ISO7816.OFFSET_P1] == P1_FINALIZE_CHANGEINFO) {
-//                            handleHashOutputFullChange(apdu);
-//                        }
-//                        else {
-//                            handleHashOutputFull(apdu);
-//                        }
-//                        break;
-//                    case INS_UNTRUSTED_HASH_SIGN:
-//                        // Split to avoid a stack overflow on JCOP
-//                        handleHashSignDerive(apdu, true);
-//                        handleHashSign(apdu);
-//                        break;
-//                    case INS_SIGN_MESSAGE:
-//                        // Split to avoid a stack overflow on JCOP
-//                        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
-//                            handleHashSignDerive(apdu, false);
-//                        }
-//                        handleSignMessage(apdu);
-//                        break;
-//                    case INS_GET_FIRMWARE_VERSION:
-//                        handleGetFirmwareVersion(apdu);
-//                        break;
-//                    case INS_GET_OPERATION_MODE:
-//                        handleGetOperationMode(apdu);
-//                        break;
+                    case INS_SETUP:
+                        handleSetup(apdu, false);
+                        break;
+                        case INS_VERIFY_PIN:
+                            handleVerifyPin(apdu);
+                            break;
+                        case INS_GET_WALLET_PUBLIC_KEY:
+                            checkAccess(false);
+                            handleGetWalletPublicKey(apdu);
+                            break;
+//                        case INS_SET_USER_KEYCARD:
+//                            handleSetUserKeycard(apdu, false);
+//                            break;
+    //                    case INS_GET_CONTACTLESS_LIMIT:
+    //                        handleGetContactlessLimit(apdu);
+    //                        break;
+    //                    case INS_SET_CONTACTLESS_LIMIT:
+    //                        checkAccess(true);
+    //                        handleSetContactlessLimit(apdu);
+    //                        break;
+    //                    case INS_GET_TRUSTED_INPUT:
+    //                        checkAccess(false);
+    //                        handleTrustedInput(apdu);
+    //                        break;
+    //                    case INS_UNTRUSTED_HASH_START:
+    //                        handleHashTransaction(apdu);
+    //                        break;
+    //                    case INS_UNTRUSTED_HASH_FINALIZE_FULL:
+    //                        // Split to avoid a stack overflow on JCOP
+    //                        if (buffer[ISO7816.OFFSET_P1] == P1_FINALIZE_CHANGEINFO) {
+    //                            handleHashOutputFullChange(apdu);
+    //                        }
+    //                        else {
+    //                            handleHashOutputFull(apdu);
+    //                        }
+    //                        break;
+    //                    case INS_UNTRUSTED_HASH_SIGN:
+    //                        // Split to avoid a stack overflow on JCOP
+    //                        handleHashSignDerive(apdu, true);
+    //                        handleHashSign(apdu);
+    //                        break;
+    //                    case INS_SIGN_MESSAGE:
+    //                        // Split to avoid a stack overflow on JCOP
+    //                        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
+    //                            handleHashSignDerive(apdu, false);
+    //                        }
+    //                        handleSignMessage(apdu);
+    //                        break;
+    //                    case INS_GET_FIRMWARE_VERSION:
+    //                        handleGetFirmwareVersion(apdu);
+    //                        break;
+    //                    case INS_GET_OPERATION_MODE:
+    //                        handleGetOperationMode(apdu);
+    //                        break;
                     default:
                         ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
                 }
-//            }
-//            catch(Exception e) {
-//                if (SIMULATION_DEBUG) {
-////                    e.printStackTrace();
-//                }
-//                // Abort the current transaction if an exception is thrown
-////                TC.clear();
-////                if (e instanceof CardRuntimeException) {
-////                    throw ((CardRuntimeException)e);
-////                }
-//                else {
-//                    ISOException.throwIt(ISO7816.SW_UNKNOWN);
-//                }
-//            }
-//            finally {
-//                clearScratch();
-//            }
+            } catch(Exception e) {
+                if (PROPRIETARY_API_SIM) {
+                    System.out.println("Erro na execução de comando no cartão: ");
+                    System.out.println(e);
+                }
+                // Abort the current transaction if an exception is thrown
+                TC.clear();
+                if (e instanceof CardRuntimeException) {
+                    throw ((CardRuntimeException)e);
+                } else {
+                    ISOException.throwIt(ISO7816.SW_UNKNOWN);
+                }
+            } finally {
+                clearScratch();
+            }
             return;
         }
 //        else
@@ -1371,7 +1320,7 @@ public class LedgerWalletApplet extends Applet {
 
     }
 
-    public static void install (byte bArray[], short bOffset, byte bLength) throws ISOException {
+    public static void install(byte bArray[], short bOffset, byte bLength) throws ISOException {
 //        short offset = bOffset;
 //        offset += (short)(bArray[offset] + 1); // instance
 //        offset += (short)(bArray[offset] + 1); // privileges
@@ -1379,17 +1328,17 @@ public class LedgerWalletApplet extends Applet {
         new LedgerWalletApplet(bArray, bOffset, bLength);
     }
 
-//    private static final byte FIRMWARE_VERSION[] = {
+    //    private static final byte FIRMWARE_VERSION[] = {
 //            (byte)0x01, (byte)0x60, (byte)0x01, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00
 //    };
 //
-//    protected static final short SW_PUBLIC_POINT_NOT_AVAILABLE = (short)0x6FF6;
+    protected static final short SW_PUBLIC_POINT_NOT_AVAILABLE = (short)0x6FF6;
 //
 //    private static final byte TRANSACTION_PIN_ATTEMPTS = (byte)1;
 //    private static final byte TRANSACTION_PIN_SIZE = (byte)4;
-//    private static final byte WALLET_PIN_ATTEMPTS = (byte)3;
-//    private static final byte WALLET_PIN_SIZE = (byte)32;
-//    private static final byte SECONDARY_PIN_ATTEMPTS = (byte)3;
+    private static final byte WALLET_PIN_ATTEMPTS = (byte) 3;
+    private static final byte WALLET_PIN_SIZE = (byte) 32;
+    //    private static final byte SECONDARY_PIN_ATTEMPTS = (byte)3;
 //    private static final byte SECONDARY_PIN_SIZE = (byte)4;
 //
 //
@@ -1427,16 +1376,16 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte PRIVATE_KEY_S_LENGTH = 32;
 //
 //    private static final byte CLA_BTC_ADMIN = (byte)0xD0;
-    private static final byte CLA_BTC = (byte)0xE0;
-//    private static final byte CLA_BTC_JC_EXTENSIONS = (byte)0xF0;
-//    private static final byte INS_SETUP = (byte)0x20;
-//    private static final byte INS_SET_USER_KEYCARD = (byte)0x10;
+    private static final byte CLA_BTC = (byte) 0xE0;
+    //    private static final byte CLA_BTC_JC_EXTENSIONS = (byte)0xF0;
+    private static final byte INS_SETUP = (byte) 0x20;
+    //    private static final byte INS_SET_USER_KEYCARD = (byte)0x10;
 //    private static final byte INS_SETUP_SECURE_SCREEN = (byte)0x12;
 //    private static final byte INS_SET_ALTERNATE_COIN_VERSIONS = (byte)0x14;
-//    private static final byte INS_VERIFY_PIN = (byte)0x22;
+    private static final byte INS_VERIFY_PIN = (byte)0x22;
 //    private static final byte INS_GET_OPERATION_MODE = (byte)0x24;
 //    private static final byte INS_SET_OPERATION_MODE = (byte)0x26;
-//    private static final byte INS_GET_WALLET_PUBLIC_KEY = (byte)0x40;
+    private static final byte INS_GET_WALLET_PUBLIC_KEY = (byte)0x40;
 //    private static final byte INS_GET_TRUSTED_INPUT = (byte)0x42;
 //    private static final byte INS_UNTRUSTED_HASH_START = (byte)0x44;
 //    private static final byte INS_UNTRUSTED_HASH_FINALIZE = (byte)0x46;
@@ -1467,7 +1416,7 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte INS_EXT_AIRGAP_SET_ATTESTATION_PUBLIC = (byte)0x48;
 //    private static final byte INS_EXT_AIRGAP_GET_ATTESTATION = (byte)0x4A;
 //
-//    private static final byte P1_REGULAR_SETUP = (byte)0x00;
+    private static final byte P1_REGULAR_SETUP = (byte) 0x00;
 //
 //    private static final byte P1_TRUSTED_INPUT_FIRST = (byte)0x00;
 //    private static final byte P1_TRUSTED_INPUT_NEXT = (byte)0x80;
@@ -1488,7 +1437,7 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte P1_PREPARE_MESSAGE = (byte)0x00;
 //    private static final byte P1_SIGN_MESSAGE = (byte)0x80;
 //
-//    private static final byte P1_GET_REMAINING_ATTEMPTS = (byte)0x80;
+    private static final byte P1_GET_REMAINING_ATTEMPTS = (byte)0x80;
 //
 //    private static final byte P1_GET_OPERATION_MODE = (byte)0x00;
 //    private static final byte P1_GET_OPERATION_MODE_2FA = (byte)0x01;
@@ -1500,17 +1449,17 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte P1_CONFIRM_KEYCARD = (byte)0x02;
 //    private static final byte CONFIRM_PREVIOUS_KEYCARD = (byte)0x02;
 
-//    public static final byte BLOB_MAGIC_TRUSTED_INPUT = (byte)0x32;
+    public static final byte BLOB_MAGIC_TRUSTED_INPUT = (byte)0x32;
 //
-//    private static final byte LIMIT_GLOBAL_AMOUNT = (byte)0;
-//    private static final byte LIMIT_MAX_FEES = (byte)(LIMIT_GLOBAL_AMOUNT + TC.SIZEOF_AMOUNT);
-//    private static final byte LIMIT_MAX_CHANGE = (byte)(LIMIT_MAX_FEES + TC.SIZEOF_AMOUNT);
-//    private static final byte LIMIT_LAST = (byte)(LIMIT_MAX_CHANGE + TC.SIZEOF_AMOUNT);
+    private static final byte LIMIT_GLOBAL_AMOUNT = (byte)0;
+    private static final byte LIMIT_MAX_FEES = (byte)(LIMIT_GLOBAL_AMOUNT + TC.SIZEOF_AMOUNT);
+    private static final byte LIMIT_MAX_CHANGE = (byte)(LIMIT_MAX_FEES + TC.SIZEOF_AMOUNT);
+    private static final byte LIMIT_LAST = (byte)(LIMIT_MAX_CHANGE + TC.SIZEOF_AMOUNT);
 
-//    protected static final byte MODE_WALLET = (byte)0x01;
-//    protected static final byte MODE_RELAXED_WALLET = (byte)0x02;
-//    protected static final byte MODE_SERVER = (byte)0x04;
-//    protected static final byte MODE_DEVELOPER = (byte)0x08;
+    protected static final byte MODE_WALLET = (byte) 0x01;
+    protected static final byte MODE_RELAXED_WALLET = (byte) 0x02;
+    protected static final byte MODE_SERVER = (byte) 0x04;
+    protected static final byte MODE_DEVELOPER = (byte) 0x08;
 
 //    private static final byte SFA_NONE = (byte)0x00;
 //    private static final byte SFA_ORIGINAL = (byte)0x11;
@@ -1518,43 +1467,43 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte SFA_SECURE_SCREEN = (byte)0x13;
 //    private static final byte SFA_NFC = (byte)0x20;
 
-//    protected static final byte FEATURE_UNCOMPRESSED_KEYS = (byte)0x01;
-//    protected static final byte FEATURE_RFC_6979 = (byte)0x02;
-//    protected static final byte FEATURE_ALL_HASHTYPES = (byte)0x04;
-//    protected static final byte FEATURE_NO_2FA_P2SH = (byte)0x08;
-//    protected static final byte FEATURE_ARBITRARY_CHANGE = (byte)0x10;
+    protected static final byte FEATURE_UNCOMPRESSED_KEYS = (byte) 0x01;
+    protected static final byte FEATURE_RFC_6979 = (byte) 0x02;
+    protected static final byte FEATURE_ALL_HASHTYPES = (byte) 0x04;
+    protected static final byte FEATURE_NO_2FA_P2SH = (byte) 0x08;
+    protected static final byte FEATURE_ARBITRARY_CHANGE = (byte) 0x10;
 
-//    private static final byte DEFAULT_SEED_LENGTH = (byte)64;
-//    private static final byte KEYCARD_KEY_LENGTH = (byte)16;
+    private static final byte DEFAULT_SEED_LENGTH = (byte) 64;
+    //    private static final byte KEYCARD_KEY_LENGTH = (byte)16;
 //    private static final byte KEYCARD_CHALLENGE_LENGTH = (byte)4;
 //
-//    private static final byte MAX_DERIVATION_PATH = (byte)10;
+    private static final byte MAX_DERIVATION_PATH = (byte)10;
 //
-//    private static final byte SEED_NOT_TYPED = (byte)0x00;
+    private static final byte SEED_NOT_TYPED = (byte)0x00;
 //    private static final byte SEED_ENCODED_AIRGAP = (byte)0xF0;
 //
-//    private static final byte AVAILABLE_MODES[] = { MODE_WALLET, MODE_RELAXED_WALLET, MODE_SERVER, MODE_DEVELOPER };
+    private static final byte AVAILABLE_MODES[] = {MODE_WALLET, MODE_RELAXED_WALLET, MODE_SERVER, MODE_DEVELOPER};
 //
 //    private static final byte JC_FEATURE_HAS_PROPRIETARY_API = (byte)0x01;
 
-//    public static byte[] scratch256;
-//    private static OwnerPIN transactionPin;
-//    private static OwnerPIN walletPin;
-//    private static byte walletPinSize;
-//    private static OwnerPIN secondaryPin;
-//    private static byte secondaryPinSize;
-//    private static byte setup;
-//    private static byte limitsSet;
-//    protected static DESKey chipKey;
-//    protected static DESKey trustedInputKey;
-//    protected static DESKey developerKey;
-//    private static byte supportedModes;
-//    protected static byte features;
-//    protected static byte currentMode;
-//    private static byte stdVersion;
-//    private static byte p2shVersion;
-//    protected static byte[] masterDerived;
-//    private static byte[] limits;
+    public static byte[] scratch256;
+    //    private static OwnerPIN transactionPin;
+    private static OwnerPIN walletPin;
+    private static byte walletPinSize;
+    //    private static OwnerPIN secondaryPin;
+    private static byte secondaryPinSize;
+    private static byte setup;
+    //    private static byte limitsSet;
+    protected static DESKey chipKey;
+        protected static DESKey trustedInputKey;
+    protected static DESKey developerKey;
+    private static byte supportedModes;
+    protected static byte features;
+    protected static byte currentMode;
+    private static byte stdVersion;
+    private static byte p2shVersion;
+    protected static byte[] masterDerived;
+    private static byte[] limits;
     protected static ProprietaryAPI proprietaryAPI;
 
 //    protected static AESKey pairingKey;

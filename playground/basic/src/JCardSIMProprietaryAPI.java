@@ -22,30 +22,37 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
 //            keyAgreement = com.licel.jcardsim.extensions.security.KeyAgreement.getInstance(com.licel.jcardsim.extensions.security.KeyAgreement.ALG_EC_SVDP_DH_PLAIN_XY, false);
 //            signature = com.licel.jcardsim.extensions.security.Signature.getInstance(com.licel.jcardsim.extensions.security.Signature.ALG_ECDSA_SHA_256_RFC6979, false);
 
-            keyAgreement = KeyAgreement.getInstance(KeyAgreement.ALG_EC_SVDP_DH_PLAIN, false);
-            signature = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
-        }
-        catch(Exception e) {
+            keyAgreement = com.licel.jcardsim.crypto.KeyAgreementImpl.getInstance(KeyAgreement.ALG_EC_SVDP_DH_PLAIN_XY, false);
+            signature = com.licel.jcardsim.crypto.AsymmetricSignatureImpl.getInstance(Signature.ALG_ECDSA_SHA_256, false);
+        } catch(Exception e) {
+//            System.out.println("Erro ao criar keyAgreement e signature");
 //            System.out.println(e);
         }
+
         try {
             privateKey = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, KeyBuilder.LENGTH_EC_FP_256, false);
             ecAlgorithm = KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT;
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
+//            System.out.println("Erro ao criar privateKey e ecAlgorithm (1 tentativa)");
+//            System.out.println(e);
+
             try {
                 privateKey = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_RESET, KeyBuilder.LENGTH_EC_FP_256, false);
                 ecAlgorithm = KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_RESET;
-            }
-            catch(Exception e1) {
+            } catch(Exception e1) {
+//                System.out.println("Erro ao criar privateKey e ecAlgorithm (2 tentativa)");
+//                System.out.println(e1);
+
                 try {
                     privateKey = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE, KeyBuilder.LENGTH_EC_FP_256, false);
                     ecAlgorithm = KeyBuilder.TYPE_EC_FP_PRIVATE;
-                }
-                catch(Exception e2) {
+                } catch(Exception e2) {
+//                    System.out.println("Erro ao criar privateKey e ecAlgorithm (3 tentativa)");
+//                    System.out.println(e2);
                 }
             }
         }
+
         if ((privateKey != null) && (ecAlgorithm == KeyBuilder.TYPE_EC_FP_PRIVATE)) {
             Secp256k1.setCommonCurveParameters(privateKey);
         }

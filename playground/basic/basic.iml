@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="com.knox.playground.basic" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" packagePrefix="com.knox.playground.basic" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="com.knox.playground.basic" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="library" name="jcardsim-3.0.5-SNAPSHOT" level="application" />
+    <orderEntry type="library" name="jc305u2" level="application" />
+    <orderEntry type="library" name="slf4j-jdk14-1.7.25" level="application" />
+    <orderEntry type="module" module-name="dongle" scope="TEST" />
+    <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit4">
         <CLASSES>
@@ -17,10 +25,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="dongle" scope="TEST" />
-    <orderEntry type="library" name="jc222_kit" level="application" />
-    <orderEntry type="library" name="apdu4j" level="application" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="bitcoinj-core-0.14.7-bundled" level="application" />
+    <orderEntry type="jdk" jdkName="8" jdkType="JavaSDK" />
   </component>
 </module>
