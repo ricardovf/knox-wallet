@@ -19,29 +19,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class Bip32Tests extends AbstractJavaCardTest {
-    private final static byte[] CMD_HELLO = new byte[]{0x00, 0x01, 0x00, 0x00};
-
     public static final String EXPECTED_ADDRESS_1 = "mtVeEwnNwH23GuURg2MzPmzKPGzzgTe4vx";
     public static final byte[] EXPECTED_PUBLIC_KEY_1 = ByteUtil.byteArray("0475e55e9edef059e186c27610c15c611921ebe82306013519c227c114a3baca01921e222b8bba28c142480edba7efd19e7d8e58140e1b0b358dcf1bb7e5ef7129");
     public static final byte[] EXPECTED_CHAINCODE_1 = ByteUtil.byteArray("363e279a6f13e362bdceb6bcd4335b687cc6fdd5a31b3513afe45381af745348");
 
-//    @Before
-//    public void initTest() throws CardException {
-//        TestSuite.setup();
-//    }
+    public static final String EXPECTED_ADDRESS_1_CHANGE = "mgteEzPS6zEDpjNZAW84dCtatVLBiPNLYw";
+    public static final byte[] EXPECTED_PUBLIC_KEY_1_CHANGE = ByteUtil.byteArray("047e6d32f58015e5867c65f5ff2bf7ba8a8124bc9109aa6e8bac4ccd051dadae19455e274a6887f779c177b1d7478eb6398dbbc1105f4db67a5811799e4f0710bd");
+    public static final byte[] EXPECTED_CHAINCODE_1_CHANGE = ByteUtil.byteArray("28556239ec3cfa333f997561a602577dc26105b214d7d8458633b72063811487");
 
     @Test
-    public void helloWorldTest() throws CardException, BTChipException, javax.smartcardio.CardException {
+    public void fullPathBip32Bip44Test() throws BTChipException {
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-//        sendAPDUAndCheck(dongle, CMD_HELLO, new byte[]{}, 0x9000, "Hello world !".getBytes());
         dongle.verifyPin(DEFAULT_PIN);
         BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("44'/0'/0'/0/42");
         assertEquals(publicKey.getAddress(), EXPECTED_ADDRESS_1);
         assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_1));
         assertTrue(Arrays.equals(publicKey.getChainCode(), EXPECTED_CHAINCODE_1));
+
+        BTChipDongle.BTChipPublicKey publicKeyChange = dongle.getWalletPublicKey("44'/0'/0'/1/42");
+        assertEquals(publicKeyChange.getAddress(), EXPECTED_ADDRESS_1_CHANGE);
+        assertTrue(Arrays.equals(publicKeyChange.getPublicKey(), EXPECTED_PUBLIC_KEY_1_CHANGE));
+        assertTrue(Arrays.equals(publicKeyChange.getChainCode(), EXPECTED_CHAINCODE_1_CHANGE));
     }
 
-//    @Test
+    @Test
     public void generateAddress() throws UnreadableWalletException {
         NetworkParameters params = TestNet3Params.get();
 
@@ -53,9 +54,10 @@ public class Bip32Tests extends AbstractJavaCardTest {
         DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 44 | ChildNumber.HARDENED_BIT);
         DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 0 | ChildNumber.HARDENED_BIT);
         DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
-        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 0);
+        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 1);
         DeterministicKey dk44H0H0H042 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 42);
 
         System.out.println(dk44H0H0H042.toAddress(params));
+        System.out.println(dk44H0H0H042.getPubKeyPoint());
     }
 }
