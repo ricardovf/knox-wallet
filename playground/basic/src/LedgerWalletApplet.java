@@ -97,25 +97,23 @@ public class LedgerWalletApplet extends Applet {
         return ((APDU.getProtocol() & APDU.PROTOCOL_MEDIA_MASK) == APDU.PROTOCOL_MEDIA_CONTACTLESS_TYPE_A);
     }
 
-    private static void checkAccess(boolean checkPinContactless) {
+    private static void checkAccess() {
         if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
             ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
         }
         if (!isContactless() && !walletPin.isValidated()) {
             ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
         }
-//        if (checkPinContactless && !walletPin.isValidated()) {
-//            ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
-//        }
     }
 
-//    private static void checkInterfaceConsistency() {
-//        // Check interface consistency - signature cannot go across interfaces
-//        if ((isContactless() && (TC.ctxP[TC.P_TX_Z_WIRED] != TC.FALSE)) ||
-//                (!isContactless() && (TC.ctxP[TC.P_TX_Z_WIRED] != TC.TRUE))) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//    }
+    // @todo this can be removed as we will not use dual interface
+    private static void checkInterfaceConsistency() {
+        // Check interface consistency - signature cannot go across interfaces
+        if ((isContactless() && (TC.ctxP[TC.P_TX_Z_WIRED] != TC.FALSE)) ||
+                (!isContactless() && (TC.ctxP[TC.P_TX_Z_WIRED] != TC.TRUE))) {
+            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+        }
+    }
 //
 //    private static void verifyKeyChecksum(byte[] buffer, short offset, short length, byte[] scratch, short scratchOffset) {
 //        Crypto.digestScratch.doFinal(buffer, offset, (short)(length - 4), scratch, scratchOffset);
@@ -125,7 +123,8 @@ public class LedgerWalletApplet extends Applet {
 //        }
 //    }
 //
-//    // Compressed public key in scratch256, 0
+
+    // Compressed public key in scratch256, 0
     private static short publicKeyToAddress(byte[] out, short outOffset) {
         Crypto.digestScratch.doFinal(scratch256, (short)0, (short)33, scratch256, (short)33);
         if (Crypto.digestRipemd != null) {
@@ -140,18 +139,18 @@ public class LedgerWalletApplet extends Applet {
         return Base58.encode(scratch256, (short)0, (short)25, out, outOffset, scratch256, (short)100);
     }
 
-//    private static void signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
-//        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
-//            Crypto.signTransientPrivate(keyBuffer, keyOffset, dataBuffer, dataOffset, targetBuffer, targetOffset);
-//        }
-//        else {
-//            Crypto.initTransientPrivate(keyBuffer, keyOffset);
-//            proprietaryAPI.signDeterministicECDSASHA256(Crypto.transientPrivate, dataBuffer, dataOffset, (short)32, targetBuffer, targetOffset);
-//            if (Crypto.transientPrivateTransient) {
-//                Crypto.transientPrivate.clearKey();
-//            }
-//        }
-//    }
+    private static void signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
+        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
+            Crypto.signTransientPrivate(keyBuffer, keyOffset, dataBuffer, dataOffset, targetBuffer, targetOffset);
+        }
+        else {
+            Crypto.initTransientPrivate(keyBuffer, keyOffset);
+            proprietaryAPI.signDeterministicECDSASHA256(Crypto.transientPrivate, dataBuffer, dataOffset, (short)32, targetBuffer, targetOffset);
+            if (Crypto.transientPrivateTransient) {
+                Crypto.transientPrivate.clearKey();
+            }
+        }
+    }
 
     // Airgap pairing methods
 
@@ -757,41 +756,41 @@ public class LedgerWalletApplet extends Applet {
 //        apdu.setOutgoingAndSend((short)0, outOffset);
 //    }
 
-    //    private static void handleHashSignDerive(APDU apdu, boolean checkStage) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte i;
-//        apdu.setIncomingAndReceive();
-//        if (checkStage) {
-//            checkInterfaceConsistency();
-//            if (TC.ctx[TC.TX_B_TRANSACTION_STATE] != Transaction.STATE_SIGN_READY) {
-//                ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//            }
-//        }
-//        byte derivationSize = buffer[offset++];
-//        if (derivationSize > MAX_DERIVATION_PATH) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        // Unwrap the initial seed
-//        Crypto.initCipher(chipKey, false);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
-//        // Derive all components
-//        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
-//        offset += (short)(i * 4);
-//        for (; i<derivationSize; i++) {
-//            Util.arrayCopyNonAtomic(buffer, offset, scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
-//            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
-//                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
-//                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-//                }
-//            }
-//            if (!Bip32.derive(buffer)) {
-//                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-//            }
-//            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
-//            offset += (short)4;
-//        }
-//    }
+    private static void handleHashSignDerive(APDU apdu, boolean checkStage) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+        byte i;
+        apdu.setIncomingAndReceive();
+        if (checkStage) {
+            checkInterfaceConsistency();
+            if (TC.ctx[TC.TX_B_TRANSACTION_STATE] != Transaction.STATE_SIGN_READY) {
+                ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+            }
+        }
+        byte derivationSize = buffer[offset++];
+        if (derivationSize > MAX_DERIVATION_PATH) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
+        // Unwrap the initial seed
+        Crypto.initCipher(chipKey, false);
+        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
+        // Derive all components
+        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
+        offset += (short)(i * 4);
+        for (; i<derivationSize; i++) {
+            Util.arrayCopyNonAtomic(buffer, offset, scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
+            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
+                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
+                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
+                }
+            }
+            if (!Bip32.derive(buffer)) {
+                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+            }
+            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
+            offset += (short)4;
+        }
+    }
 //
 //    private static void handleHashSign(APDU apdu) throws ISOException {
 //        byte[] buffer = apdu.getBuffer();
@@ -846,57 +845,58 @@ public class LedgerWalletApplet extends Applet {
 //        apdu.setOutgoingAndSend((short)0, (short)(signatureSize + 1));
 //    }
 //
-//    private static void handleSignMessage(APDU apdu) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
-//            // Check derivation address - only allow derived signature without user confirmation
-//            byte derivationSize = buffer[offset++];
-//            boolean addressVerified = false;
-//            if (Util.arrayCompare(buffer, offset, SLIP13_HEAD, (short)0, (short)SLIP13_HEAD.length) == (short)0) {
-//                addressVerified = true;
-//            }
-//            else {
-//                for (byte i=0; i<derivationSize; i++) {
-//                    if ((Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE, (short)0, (short)BITID_DERIVE.length) == (short)0) ||
-//                            (Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE_MULTIPLE, (short)0, (short)BITID_DERIVE_MULTIPLE.length) == (short)0)) {
-//                        addressVerified = true;
-//                        break;
-//                    }
-//                    offset += 4;
-//                }
-//            }
-//            if (!addressVerified) {
-//                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-//            }
-//            offset = (short)(ISO7816.OFFSET_CDATA + 1 + 4 * derivationSize);
-//            short messageLength = (short)(buffer[offset++] & 0xff);
-//            Crypto.digestFull.reset();
-//            Crypto.digestFull.update(SIGNMAGIC, (short)0, (short)SIGNMAGIC.length);
-//            scratch256[(short)100] = (byte)messageLength;
-//            Crypto.digestFull.update(scratch256, (short)100, (short)1);
-//            Crypto.digestFull.doFinal(buffer, offset, messageLength, scratch256, (short)32);
-//            signTransientPrivate(scratch256, (short)0, scratch256, (short)32, scratch256, (short)100);
-//            // Clear the private key
-//            Util.arrayFillNonAtomic(scratch256, (short)0, (short)64, (byte)0x00);
-//            buffer[(short)0] = (byte)0x00;
-//            TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x01;
-//            apdu.setOutgoingAndSend((short)0, (short)1);
-//        }
-//        else
-//        if (buffer[ISO7816.OFFSET_P1] == P1_SIGN_MESSAGE) {
-//            if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != (byte)0x01) {
-//                ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//            }
-//            TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x00;
-//            short signatureSize = (short)((short)(scratch256[(short)101] & 0xff) + 2);
-//            Util.arrayCopyNonAtomic(scratch256, (short)100, buffer, (short)0, signatureSize);
-//            apdu.setOutgoingAndSend((short)0, signatureSize);
-//        }
-//        else {
-//            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
-//        }
-//    }
+    private static void handleSignMessage(APDU apdu) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+        // Is preparing the message to be signed
+        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
+            // Check derivation address - only allow derived signature without user confirmation
+            byte derivationSize = buffer[offset++];
+            boolean addressVerified = false;
+            if (Util.arrayCompare(buffer, offset, SLIP13_HEAD, (short)0, (short)SLIP13_HEAD.length) == (short)0) {
+                addressVerified = true;
+            }
+            else {
+                for (byte i=0; i<derivationSize; i++) {
+                    if ((Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE, (short)0, (short)BITID_DERIVE.length) == (short)0) ||
+                            (Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE_MULTIPLE, (short)0, (short)BITID_DERIVE_MULTIPLE.length) == (short)0)) {
+                        addressVerified = true;
+                        break;
+                    }
+                    offset += 4;
+                }
+            }
+            if (!addressVerified) {
+                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+            }
+            offset = (short)(ISO7816.OFFSET_CDATA + 1 + 4 * derivationSize);
+            short messageLength = (short)(buffer[offset++] & 0xff);
+            Crypto.digestFull.reset();
+            Crypto.digestFull.update(SIGNMAGIC, (short)0, (short)SIGNMAGIC.length);
+            scratch256[(short)100] = (byte)messageLength;
+            Crypto.digestFull.update(scratch256, (short)100, (short)1);
+            Crypto.digestFull.doFinal(buffer, offset, messageLength, scratch256, (short)32);
+            signTransientPrivate(scratch256, (short)0, scratch256, (short)32, scratch256, (short)100);
+            // Clear the private key
+            Util.arrayFillNonAtomic(scratch256, (short)0, (short)64, (byte)0x00);
+            buffer[(short)0] = (byte)0x00;
+            TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x01;
+            apdu.setOutgoingAndSend((short)0, (short)1);
+        }
+        else
+        if (buffer[ISO7816.OFFSET_P1] == P1_SIGN_MESSAGE) {
+            if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != (byte)0x01) {
+                ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+            }
+            TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x00;
+            short signatureSize = (short)((short)(scratch256[(short)101] & 0xff) + 2);
+            Util.arrayCopyNonAtomic(scratch256, (short)100, buffer, (short)0, signatureSize);
+            apdu.setOutgoingAndSend((short)0, signatureSize);
+        }
+        else {
+            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
+        }
+    }
 //
 //    private static void handleSetUserKeycard(APDU apdu, boolean airgap) throws ISOException {
 //        byte[] buffer = apdu.getBuffer();
@@ -1139,7 +1139,7 @@ public class LedgerWalletApplet extends Applet {
                             handleVerifyPin(apdu);
                             break;
                         case INS_GET_WALLET_PUBLIC_KEY:
-                            checkAccess(false);
+                            checkAccess();
                             handleGetWalletPublicKey(apdu);
                             break;
 //                        case INS_SET_USER_KEYCARD:
@@ -1173,13 +1173,14 @@ public class LedgerWalletApplet extends Applet {
     //                        handleHashSignDerive(apdu, true);
     //                        handleHashSign(apdu);
     //                        break;
-    //                    case INS_SIGN_MESSAGE:
-    //                        // Split to avoid a stack overflow on JCOP
-    //                        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
-    //                            handleHashSignDerive(apdu, false);
-    //                        }
-    //                        handleSignMessage(apdu);
-    //                        break;
+                        case INS_SIGN_MESSAGE:
+                            checkAccess();
+                            // Split to avoid a stack overflow on JCOP
+                            if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
+                                handleHashSignDerive(apdu, false);
+                            }
+                            handleSignMessage(apdu);
+                            break;
     //                    case INS_GET_FIRMWARE_VERSION:
     //                        handleGetFirmwareVersion(apdu);
     //                        break;
@@ -1391,7 +1392,7 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte INS_UNTRUSTED_HASH_FINALIZE = (byte)0x46;
 //    private static final byte INS_UNTRUSTED_HASH_SIGN = (byte)0x48;
 //    private static final byte INS_UNTRUSTED_HASH_FINALIZE_FULL = (byte)0x4A;
-//    private static final byte INS_SIGN_MESSAGE = (byte)0x4E;
+    private static final byte INS_SIGN_MESSAGE = (byte)0x4E;
 //    private static final byte INS_IMPORT_PRIVATE_KEY = (byte)0xB0;
 //    private static final byte INS_GET_PUBLIC_KEY = (byte)0xB2;
 //    private static final byte INS_DERIVE_BIP32_KEY = (byte)0xB4;
@@ -1430,12 +1431,12 @@ public class LedgerWalletApplet extends Applet {
 //    private static final byte P1_FINALIZE_LAST = (byte)0x80;
 //    private static final byte P1_FINALIZE_CHANGEINFO = (byte)0xFF;
 //
-//    private static final byte[] SLIP13_HEAD = { (byte)0x80, (byte)0x00, (byte)0x00, (byte)0x0D };
-//    private static final byte[] BITID_DERIVE = { (byte)0xB1, (byte)0x1D };
-//    private static final byte[] BITID_DERIVE_MULTIPLE = { (byte)0xB1, (byte)0x1E };
-//    private static final byte[] SIGNMAGIC = { (byte)0x18, (byte)'B', (byte)'i', (byte)'t', (byte)'c', (byte)'o', (byte)'i', (byte)'n', (byte)' ', (byte)'S', (byte)'i', (byte)'g', (byte)'n', (byte)'e', (byte)'d', (byte)' ', (byte)'M', (byte)'e', (byte)'s', (byte)'s', (byte)'a', (byte)'g', (byte)'e', (byte)':', (byte)'\n' };
-//    private static final byte P1_PREPARE_MESSAGE = (byte)0x00;
-//    private static final byte P1_SIGN_MESSAGE = (byte)0x80;
+    private static final byte[] SLIP13_HEAD = { (byte)0x80, (byte)0x00, (byte)0x00, (byte)0x0D };
+    private static final byte[] BITID_DERIVE = { (byte)0xB1, (byte)0x1D };
+    private static final byte[] BITID_DERIVE_MULTIPLE = { (byte)0xB1, (byte)0x1E };
+    private static final byte[] SIGNMAGIC = { (byte)0x18, (byte)'B', (byte)'i', (byte)'t', (byte)'c', (byte)'o', (byte)'i', (byte)'n', (byte)' ', (byte)'S', (byte)'i', (byte)'g', (byte)'n', (byte)'e', (byte)'d', (byte)' ', (byte)'M', (byte)'e', (byte)'s', (byte)'s', (byte)'a', (byte)'g', (byte)'e', (byte)':', (byte)'\n' };
+    private static final byte P1_PREPARE_MESSAGE = (byte)0x00;
+    private static final byte P1_SIGN_MESSAGE = (byte)0x80;
 //
     private static final byte P1_GET_REMAINING_ATTEMPTS = (byte)0x80;
 //

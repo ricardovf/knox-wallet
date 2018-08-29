@@ -42,22 +42,5 @@ public class Bip32Tests extends AbstractJavaCardTest {
         assertTrue(Arrays.equals(publicKeyChange.getChainCode(), EXPECTED_CHAINCODE_1_CHANGE));
     }
 
-    @Test
-    public void generateAddress() throws UnreadableWalletException {
-        NetworkParameters params = TestNet3Params.get();
 
-        DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
-
-//        Wallet wallet = Wallet.fromSeed(params, seed);
-
-        DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
-        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 44 | ChildNumber.HARDENED_BIT);
-        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 0 | ChildNumber.HARDENED_BIT);
-        DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
-        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 1);
-        DeterministicKey dk44H0H0H042 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 42);
-
-        System.out.println(dk44H0H0H042.toAddress(params));
-        System.out.println(dk44H0H0H042.getPubKeyPoint());
-    }
 }
