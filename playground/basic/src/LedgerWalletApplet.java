@@ -101,7 +101,7 @@ public class LedgerWalletApplet extends Applet {
         if ((setup == TC.FALSE) || (setup != TC.TRUE)) {
             ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
         }
-        if (!isContactless() && !walletPin.isValidated()) {
+        if (!walletPin.isValidated()) {
             ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
         }
     }

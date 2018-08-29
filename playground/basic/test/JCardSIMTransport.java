@@ -25,11 +25,11 @@ public class JCardSIMTransport implements BTChipTransport {
     public ResponseAPDU exchange(byte[] command) throws BTChipException {
         try {
             if (debug) {
-                System.out.println("=> ".concat(ByteUtil.hexString(command)));
+                System.out.println("SENT =>     ".concat(ByteUtil.hexString(command)));
             }
             ResponseAPDU result = simulator.transmitCommand(new CommandAPDU(command));
             if (debug) {
-                System.out.println("<= ".concat(ByteUtil.hexString(result.getBytes())));
+                System.out.println("RECEIVED <= ".concat(ByteUtil.hexString(result.getBytes())));
             }
             return result;
         }
