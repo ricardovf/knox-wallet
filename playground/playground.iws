@@ -13,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SignMessageTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SignMessageTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/test/SignMessageTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="39" column="26" lean-forward="true" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
+            <state relative-caret-position="284">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -25,7 +25,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BTChipDongle.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TransactionTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/test/TransactionTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1144">
+              <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BTChipDongle.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dongle/src/BTChipDongle.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
@@ -38,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/basic/src/LedgerWalletApplet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="1179" column="46" lean-forward="true" selection-start-line="1179" selection-start-column="46" selection-end-line="1179" selection-end-column="46" />
+              <caret line="1179" column="46" selection-start-line="1179" selection-start-column="46" selection-end-line="1179" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,8 +103,8 @@
       <find>checkAccess</find>
     </findStrings>
     <replaceStrings>
-      <replace />
-      <replace />
+      <replace>package com.knox.playground.basic.btchip;</replace>
+      <replace>package com.knox.playground.basic.btchip.utils;</replace>
       <replace>com.knox.playground.basic.btchip.</replace>
       <replace>com.knox.playground.basic</replace>
     </replaceStrings>
@@ -193,6 +205,17 @@
               <item name="playground" type="b2602c69:ProjectViewProjectNode" />
               <item name="playground" type="462c0819:PsiDirectoryNode" />
               <item name="dongle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="ant" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -369,21 +392,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 01m 12s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 01m 36s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 01m 48s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 02m 04s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 02m 06s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 02m 17s.xml">
       <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
     </history-entry>
@@ -399,10 +407,24 @@
     <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 03m 14s.xml">
       <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 56m 53s.xml">
+      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_knox_playground_basic_in_basic - 2018.08.29 at 19h 57m 02s.xml">
+      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SignMessageTest_testSignMessage - 2018.08.29 at 19h 57m 21s.xml">
+      <configuration name="SignMessageTest.testSignMessage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SignMessageTest_testSignMessage - 2018.08.29 at 19h 57m 25s.xml">
+      <configuration name="SignMessageTest.testSignMessage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SignMessageTest_testSignMessage - 2018.08.29 at 19h 57m 27s.xml">
+      <configuration name="SignMessageTest.testSignMessage" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="206" y="58" width="2190" height="951" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Tool Output" order="12" />
@@ -806,16 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/TransactionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="956">
-          <caret line="60" selection-start-line="60" selection-end-line="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/test/AbstractJavaCardTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -836,20 +848,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/SignMessageTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="39" column="26" lean-forward="true" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/LedgerWalletApplet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="1179" column="46" lean-forward="true" selection-start-line="1179" selection-start-column="46" selection-end-line="1179" selection-end-column="46" />
+          <caret line="1179" column="46" selection-start-line="1179" selection-start-column="46" selection-end-line="1179" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -860,6 +862,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="652" column="19" selection-start-line="652" selection-start-column="19" selection-end-line="652" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/TransactionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1144">
+          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/SignMessageTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
