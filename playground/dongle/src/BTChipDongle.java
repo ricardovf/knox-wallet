@@ -656,19 +656,11 @@ public class BTChipDongle implements BTChipConstants {
 		data.write((byte)message.length);
 		BufferUtils.writeBuffer(data, message);
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_MESSAGE, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
-		return (response[0] == (byte)0x01);
+		return (response[0] == (byte)0x00);
 	}
 	
-	public BTChipSignature signMessageSign(byte[] pin) throws BTChipException {
-		ByteArrayOutputStream data = new ByteArrayOutputStream();
-		if (pin == null) {
-			data.write((byte)0);
-		}
-		else {
-			data.write((byte)pin.length);
-			BufferUtils.writeBuffer(data, pin);
-		}
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_MESSAGE, (byte)0x80, (byte)0x00, data.toByteArray(), OK);
+	public BTChipSignature signMessageSign() throws BTChipException {
+		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_MESSAGE, (byte)0x80, (byte)0x00, 0x00, OK);
 		int yParity = (response[0] & 0x0F);
 		response[0] = (byte)0x30;
 		return new BTChipSignature(response, yParity);
@@ -715,13 +707,6 @@ public class BTChipDongle implements BTChipConstants {
 
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 		return (response[0] == (byte)0x01);
-	}
-
-	public void setKeycardSeed(byte addressDigits, byte[] key) throws BTChipException {
-		ByteArrayOutputStream data = new ByteArrayOutputStream();
-		data.write((short)(addressDigits & 0xff));
-		BufferUtils.writeBuffer(data, key);
-		exchangeApdu(BTCHIP_ADM_CLA, BTCHIP_INS_ADM_SET_KEYCARD_SEED, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 	}
 
 	public ResponseAPDU sendRawAPDU(byte[] cmd, byte[] data) throws BTChipException {

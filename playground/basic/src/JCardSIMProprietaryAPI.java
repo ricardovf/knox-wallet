@@ -1,8 +1,5 @@
 package com.knox.playground.basic;
 
-import com.licel.jcardsim.crypto.AsymmetricSignatureImpl;
-import com.licel.jcardsim.crypto.KeyAgreementImpl;
-import com.licel.jcardsim.utils.ByteUtil;
 import javacard.security.ECPrivateKey;
 import javacard.security.KeyAgreement;
 import javacard.security.KeyBuilder;

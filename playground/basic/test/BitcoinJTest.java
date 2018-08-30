@@ -21,6 +21,7 @@
 package com.knox.playground.basic;
 
 import com.knox.playground.dongle.BTChipException;
+import com.licel.jcardsim.utils.ByteUtil;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Utils;
 import org.bitcoinj.crypto.ChildNumber;
@@ -71,6 +72,27 @@ public class BitcoinJTest extends AbstractJavaCardTest {
 
         System.out.println(dk44H0H0H042.toAddress(params));
         System.out.println(dk44H0H0H042.getPubKeyPoint());
+    }
+
+    @Test
+    public void generateAddress13() throws UnreadableWalletException {
+        NetworkParameters params = TestNet3Params.get();
+
+        DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
+
+//        Wallet wallet = Wallet.fromSeed(params, seed);
+
+        // "13'/0'/0'/0/42"
+        DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
+        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 13 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 0 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 0);
+        DeterministicKey dk44H0H0H042 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 42);
+
+        System.out.println(dk44H0H0H042.toAddress(params));
+        System.out.println(dk44H0H0H042.getPubKeyPoint());
+        System.out.println(ByteUtil.hexString(dk44H0H0H042.getChainCode()));
     }
 
 

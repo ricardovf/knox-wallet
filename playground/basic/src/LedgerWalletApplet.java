@@ -850,7 +850,7 @@ public class LedgerWalletApplet extends Applet {
         short offset = ISO7816.OFFSET_CDATA;
         // Is preparing the message to be signed
         if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
-            // Check derivation address - only allow derived signature without user confirmation
+            // Check derivation address
             byte derivationSize = buffer[offset++];
             boolean addressVerified = false;
             if (Util.arrayCompare(buffer, offset, SLIP13_HEAD, (short)0, (short)SLIP13_HEAD.length) == (short)0) {
@@ -890,6 +890,7 @@ public class LedgerWalletApplet extends Applet {
             }
             TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x00;
             short signatureSize = (short)((short)(scratch256[(short)101] & 0xff) + 2);
+
             Util.arrayCopyNonAtomic(scratch256, (short)100, buffer, (short)0, signatureSize);
             apdu.setOutgoingAndSend((short)0, signatureSize);
         }

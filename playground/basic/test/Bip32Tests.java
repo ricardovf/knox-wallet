@@ -27,6 +27,10 @@ public class Bip32Tests extends AbstractJavaCardTest {
     public static final byte[] EXPECTED_PUBLIC_KEY_1_CHANGE = ByteUtil.byteArray("047e6d32f58015e5867c65f5ff2bf7ba8a8124bc9109aa6e8bac4ccd051dadae19455e274a6887f779c177b1d7478eb6398dbbc1105f4db67a5811799e4f0710bd");
     public static final byte[] EXPECTED_CHAINCODE_1_CHANGE = ByteUtil.byteArray("28556239ec3cfa333f997561a602577dc26105b214d7d8458633b72063811487");
 
+    public static final String EXPECTED_ADDRESS_3 = "mgabwKoR9rVX6dpHtZ2itJtR1RjEbpNDPc";
+    public static final byte[] EXPECTED_PUBLIC_KEY_3 = ByteUtil.byteArray("041f8865f174b8b0ba6c8b4c44838d8d9317f70a12bd4771088d82a98b89a687fc90b4b1944d49618e28f9ea5b03129683214021956f96752b10fb7dab3e99e392");
+    public static final byte[] EXPECTED_CHAINCODE_3 = ByteUtil.byteArray("db373baab99826d6d6918ba781065614dc19dcc1c878b180fb72231e34abaee2");
+
     @Test
     public void fullPathBip32Bip44Test() throws BTChipException {
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
@@ -42,5 +46,14 @@ public class Bip32Tests extends AbstractJavaCardTest {
         assertTrue(Arrays.equals(publicKeyChange.getChainCode(), EXPECTED_CHAINCODE_1_CHANGE));
     }
 
+    @Test
+    public void fullPathBip32SignTest() throws BTChipException {
+        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
+        dongle.verifyPin(DEFAULT_PIN);
 
+        BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("13'/0'/0'/0/42");
+        assertEquals(publicKey.getAddress(), EXPECTED_ADDRESS_3);
+        assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_3));
+        assertTrue(Arrays.equals(publicKey.getChainCode(), EXPECTED_CHAINCODE_3));
+    }
 }

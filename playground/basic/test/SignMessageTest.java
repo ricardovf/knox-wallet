@@ -36,9 +36,13 @@ public class SignMessageTest extends AbstractJavaCardTest {
     @Test
     public void testSignMessage() throws BTChipException {
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
+        System.out.println("Vai autenticar com PIN...");
         dongle.verifyPin(DEFAULT_PIN);
-        dongle.signMessagePrepare("13'/0'/0'/0/42", MSG.getBytes());
-        BTChipDongle.BTChipSignature signature = dongle.signMessageSign(null);
+        System.out.println("Vai preparar...");
+        assertTrue(dongle.signMessagePrepare("13'/0'/0'/0/42", MSG.getBytes()));
+        System.out.println("Vai assinar...");
+        BTChipDongle.BTChipSignature signature = dongle.signMessageSign();
+        System.out.println(ByteUtil.hexString(signature.getSignature()));
         assertTrue(Arrays.equals(canonicalizeSignature(signature.getSignature()), EXPECTED_SIGNATURE));
     }
 }
