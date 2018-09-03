@@ -499,42 +499,35 @@ public class BTChipDongle implements BTChipConstants {
 		if (userConfirmationValue == UserConfirmation.NONE.getValue()) {
 			result = new BTChipOutput(value, UserConfirmation.NONE);
 		}
-		else
-		if (userConfirmationValue == UserConfirmation.KEYBOARD.getValue()) {
-			result = new BTChipOutput(value, UserConfirmation.KEYBOARD);
-		}
-		else
-		if (userConfirmationValue == UserConfirmation.KEYCARD_DEPRECATED.getValue()) {
-			byte[] keycardIndexes = new byte[response.length - 2 - value.length];
-			System.arraycopy(response, 2 + value.length, keycardIndexes, 0, keycardIndexes.length);
-			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD_DEPRECATED, keycardIndexes);
-		}
-		else
-		if (userConfirmationValue == UserConfirmation.KEYCARD.getValue()) {
-			byte keycardIndexesLength = response[2 + value.length];
-			byte[] keycardIndexes = new byte[keycardIndexesLength];
-			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
-			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD, keycardIndexes);
-		}			
-		else
-		if (userConfirmationValue == UserConfirmation.KEYCARD_NFC.getValue()) {
-			byte keycardIndexesLength = response[2 + value.length];
-			byte[] keycardIndexes = new byte[keycardIndexesLength];
-			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
-			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD_NFC, keycardIndexes);
-		}					
-		else
-		if (userConfirmationValue == UserConfirmation.KEYCARD_SCREEN.getValue()) {
-			byte keycardIndexesLength = response[2 + value.length];
-			byte[] keycardIndexes = new byte[keycardIndexesLength];
-			byte[] screenInfo = new byte[response.length - 3 - value.length - keycardIndexes.length];
-			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
-			System.arraycopy(response, 3 + value.length + keycardIndexes.length, screenInfo, 0, screenInfo.length);
-			result = new BTChipOutputKeycardScreen(value, UserConfirmation.KEYCARD_SCREEN, keycardIndexes, screenInfo);
-		}
+//		else if (userConfirmationValue == UserConfirmation.KEYBOARD.getValue()) {
+//			result = new BTChipOutput(value, UserConfirmation.KEYBOARD);
+//		} else if (userConfirmationValue == UserConfirmation.KEYCARD_DEPRECATED.getValue()) {
+//			byte[] keycardIndexes = new byte[response.length - 2 - value.length];
+//			System.arraycopy(response, 2 + value.length, keycardIndexes, 0, keycardIndexes.length);
+//			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD_DEPRECATED, keycardIndexes);
+//		} else if (userConfirmationValue == UserConfirmation.KEYCARD.getValue()) {
+//			byte keycardIndexesLength = response[2 + value.length];
+//			byte[] keycardIndexes = new byte[keycardIndexesLength];
+//			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
+//			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD, keycardIndexes);
+//		} else if (userConfirmationValue == UserConfirmation.KEYCARD_NFC.getValue()) {
+//			byte keycardIndexesLength = response[2 + value.length];
+//			byte[] keycardIndexes = new byte[keycardIndexesLength];
+//			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
+//			result = new BTChipOutputKeycard(value, UserConfirmation.KEYCARD_NFC, keycardIndexes);
+//		} else if (userConfirmationValue == UserConfirmation.KEYCARD_SCREEN.getValue()) {
+//			byte keycardIndexesLength = response[2 + value.length];
+//			byte[] keycardIndexes = new byte[keycardIndexesLength];
+//			byte[] screenInfo = new byte[response.length - 3 - value.length - keycardIndexes.length];
+//			System.arraycopy(response, 3 + value.length, keycardIndexes, 0, keycardIndexes.length);
+//			System.arraycopy(response, 3 + value.length + keycardIndexes.length, screenInfo, 0, screenInfo.length);
+//			result = new BTChipOutputKeycardScreen(value, UserConfirmation.KEYCARD_SCREEN, keycardIndexes, screenInfo);
+//		}
+
 		if (result == null) {
 			throw new BTChipException("Unsupported user confirmation method");
 		}
+
 		return result;		
 	}
 	
@@ -628,13 +621,14 @@ public class BTChipDongle implements BTChipConstants {
 			return finalizeInputFull(outputScript, null, true);
 		}		
 	}	
-	
+
+	// @todo remove pin
 	public byte[] untrustedHashSign(String privateKeyPath, byte[] pin, long lockTime, byte sigHashType) throws BTChipException {
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		byte path[] = BIP32Utils.splitPath(privateKeyPath);
 		BufferUtils.writeBuffer(data, path);
-		data.write(pin.length);
-		BufferUtils.writeBuffer(data, pin);
+//		data.write(pin.length);
+//		BufferUtils.writeBuffer(data, pin);
 		BufferUtils.writeUint32BE(data, lockTime);
 		data.write(sigHashType);
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_HASH_SIGN, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
@@ -642,12 +636,8 @@ public class BTChipDongle implements BTChipConstants {
 		return response;
 	}
 	
-	public byte[] untrustedHashSign(String privateKeyPath, String pin) throws BTChipException {
-		return untrustedHashSign(privateKeyPath, pin.getBytes(), 0, (byte)0x01);
-	}
-
-	public byte[] untrustedHashSign(String privateKeyPath, byte[] pin) throws BTChipException {
-		return untrustedHashSign(privateKeyPath, pin, 0, (byte)0x01);
+	public byte[] untrustedHashSign(String privateKeyPath) throws BTChipException {
+		return untrustedHashSign(privateKeyPath, null, 0, (byte)0x01);
 	}
 
 	public boolean signMessagePrepare(String path, byte[] message) throws BTChipException {

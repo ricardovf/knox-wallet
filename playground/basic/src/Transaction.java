@@ -126,22 +126,22 @@ public class Transaction {
                     }
                     trustedInputFlag = buffer[h[CURRENT]];
                     short trustedInputLength = (short)(buffer[(short)(h[CURRENT] + 1)] & 0xff);
-                    if (trustedInputLength > LedgerWalletApplet.scratch256.length) {
+                    if (trustedInputLength > BasicWalletApplet.scratch256.length) {
                         return RESULT_ERROR;
                     }
                     switch(trustedInputFlag) {
                         case (byte)0x00:
-                            switch(LedgerWalletApplet.currentMode) {
-                                case LedgerWalletApplet.MODE_WALLET:
-                                    if ((LedgerWalletApplet.features & LedgerWalletApplet.FEATURE_NO_2FA_P2SH) == (byte)0x00) {
+                            switch(BasicWalletApplet.currentMode) {
+                                case BasicWalletApplet.MODE_WALLET:
+                                    if ((BasicWalletApplet.features & BasicWalletApplet.FEATURE_NO_2FA_P2SH) == (byte)0x00) {
                                         return RESULT_ERROR;
                                     }
                                     break;
                                 // Relaxed mode needs additional checks
                                 // (f.e. mandated NFC validation for a USB initiated transaction)
                                 // so disable for the time being
-                                //case LedgerWalletApplet.MODE_RELAXED_WALLET: 
-                                case LedgerWalletApplet.MODE_SERVER:
+                                //case BasicWalletApplet.MODE_RELAXED_WALLET:
+                                case BasicWalletApplet.MODE_SERVER:
                                     break;
                             }
                             break;
@@ -154,18 +154,18 @@ public class Transaction {
                         if (h[REMAINING] < (short)(2 + trustedInputLength)) {
                             return RESULT_ERROR;
                         }
-                        if (buffer[(short)(h[CURRENT] + 2)] != LedgerWalletApplet.BLOB_MAGIC_TRUSTED_INPUT) {
+                        if (buffer[(short)(h[CURRENT] + 2)] != BasicWalletApplet.BLOB_MAGIC_TRUSTED_INPUT) {
                             return RESULT_ERROR;
                         }                          
                         // Check the "signature"
-                        Crypto.initCipher(LedgerWalletApplet.trustedInputKey, true);                    
-                        Crypto.blobEncryptDecrypt.doFinal(buffer, (short)(h[CURRENT] + 2), (short)(trustedInputLength - 8), LedgerWalletApplet.scratch256, (short)0);
-                        if (Util.arrayCompare(buffer, (short)(h[CURRENT] + 2 + trustedInputLength - 8), LedgerWalletApplet.scratch256, (short)(trustedInputLength - 16), (short)8) != 0) {
+                        Crypto.initCipher(BasicWalletApplet.trustedInputKey, true);
+                        Crypto.blobEncryptDecrypt.doFinal(buffer, (short)(h[CURRENT] + 2), (short)(trustedInputLength - 8), BasicWalletApplet.scratch256, (short)0);
+                        if (Util.arrayCompare(buffer, (short)(h[CURRENT] + 2 + trustedInputLength - 8), BasicWalletApplet.scratch256, (short)(trustedInputLength - 16), (short)8) != 0) {
                             return RESULT_ERROR;
                         }
                         // Update the amount
-                        Uint64Helper.swap(LedgerWalletApplet.scratch256, (short)0, buffer, (short)(h[CURRENT] + 2 + 40)); 
-                        Uint64Helper.add(TC.ctx, TC.TX_A_TRANSACTION_AMOUNT, LedgerWalletApplet.scratch256, (short)0);                    
+                        Uint64Helper.swap(BasicWalletApplet.scratch256, (short)0, buffer, (short)(h[CURRENT] + 2 + 40));
+                        Uint64Helper.add(TC.ctx, TC.TX_A_TRANSACTION_AMOUNT, BasicWalletApplet.scratch256, (short)0);
                         // Update the hash with prevout data
                         short savedCurrent = h[CURRENT];
                         short savedRemaining = h[REMAINING];
@@ -200,7 +200,7 @@ public class Transaction {
                 // Scan for P2SH consumption - huge shortcut, but fine enough
                 if (Uint32Helper.isEqualByte(TC.ctx,TC.TX_I_SCRIPT_REMAINING, (byte)1)) {
                     if (buffer[h[CURRENT]] == OP_CHECKMULTISIG) {
-                        if ((LedgerWalletApplet.features & LedgerWalletApplet.FEATURE_NO_2FA_P2SH) != (byte)0x00) {
+                        if ((BasicWalletApplet.features & BasicWalletApplet.FEATURE_NO_2FA_P2SH) != (byte)0x00) {
                             TC.ctxP[TC.P_TX_Z_CONSUME_P2SH] = TC.TRUE;
                         }
                     }
@@ -239,8 +239,8 @@ public class Transaction {
                     return RESULT_MORE;
                 }
                 consumeTransaction(buffer, dataAvailable);
-                Uint32Helper.setByte(LedgerWalletApplet.scratch256, (short)0, (byte)dataAvailable);
-                Uint32Helper.sub(TC.ctx, TC.TX_I_SCRIPT_REMAINING, LedgerWalletApplet.scratch256, (short)0);
+                Uint32Helper.setByte(BasicWalletApplet.scratch256, (short)0, (byte)dataAvailable);
+                Uint32Helper.sub(TC.ctx, TC.TX_I_SCRIPT_REMAINING, BasicWalletApplet.scratch256, (short)0);
             }
             if (TC.ctx[TC.TX_B_TRANSACTION_STATE] == STATE_INPUT_HASHING_DONE) {
                 if (parseMode == PARSE_SIGNATURE) {
@@ -304,8 +304,8 @@ public class Transaction {
                     return RESULT_MORE;
                 }
                 consumeTransaction(buffer, dataAvailable);
-                Uint32Helper.setByte(LedgerWalletApplet.scratch256, (short)0, (byte)dataAvailable);
-                Uint32Helper.sub(TC.ctx, TC.TX_I_SCRIPT_REMAINING, LedgerWalletApplet.scratch256, (short)0);
+                Uint32Helper.setByte(BasicWalletApplet.scratch256, (short)0, (byte)dataAvailable);
+                Uint32Helper.sub(TC.ctx, TC.TX_I_SCRIPT_REMAINING, BasicWalletApplet.scratch256, (short)0);
             }
             if (TC.ctx[TC.TX_B_TRANSACTION_STATE] == STATE_OUTPUT_HASHING_DONE) {
                 if (h[REMAINING] < (short)1) {

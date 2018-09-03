@@ -102,7 +102,7 @@ public class Bip32Cache {
 				cache.pathLength = pathLength;
 				Util.arrayCopy(path, pathOffset, cache.path, (short)0, (short)(pathLength * 4));				
 			}
-	        Crypto.initCipher(LedgerWalletApplet.chipKey, true);			
+	        Crypto.initCipher(BasicWalletApplet.chipKey, true);
 	        Crypto.blobEncryptDecrypt.doFinal(privateComponent, (short)0, (short)64, cache.privateComponent, (short)0);			
 			cache.hasPrivate = true;		
 		}
@@ -125,7 +125,7 @@ public class Bip32Cache {
 		for (byte i=pathLength; i>0; i--) {
 			Bip32Cache cache = findPath(path, pathOffset, i, false);
 			if ((cache != null) && (cache.hasPrivate)) {
-		        Crypto.initCipher(LedgerWalletApplet.chipKey, false);			
+		        Crypto.initCipher(BasicWalletApplet.chipKey, false);
 		        Crypto.blobEncryptDecrypt.doFinal(cache.privateComponent, (short)0, (short)64, target, targetOffset);			
 				return i;
 			}					

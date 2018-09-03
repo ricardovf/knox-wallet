@@ -48,80 +48,30 @@ public class TransactionTest extends AbstractJavaCardTest {
     public static byte[] EXPECTED_PUBLIC_KEY_1 = ByteUtil.byteArray("04a44e52606aaafa575c3d9c2d09819ce885ab4066bb7d1e8d61acae24986ab4579b9fb5742b49fa3dcf508242ba31f01ee889072159cd6aff27048d7ba4e9e3f0");
     public static byte[] EXPECTED_CHAINCODE_1 = ByteUtil.byteArray("80ecfe04ceeabc5745b0eeeb5b5f36d0f40119e18c865cf8d5a407bcb6e8b88c");
 
-
     @Test
-    public void testTX1ContactlessSticky() throws BTChipException {
-//        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-//        dongle.verifyPin(DEFAULT_PIN);
-//
-//        BitcoinTransaction txin_1 = new BitcoinTransaction(new ByteArrayInputStream(TXIN_1));
-//
-//        System.out.println(txin_1);
-//        BitcoinTransaction txout_1 = new BitcoinTransaction(new ByteArrayInputStream(TXOUT_1));
+    public void testTX1() throws BTChipException {
+        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
+        dongle.verifyPin(DEFAULT_PIN);
 
-//        BTChipDongle.BTChipInput input1 = dongle.getTrustedInput(txin_1, 1);
-//
-//        dongle.startUntrustedTransaction(
-//                true,
-//                0,
-//                new BTChipDongle.BTChipInput[]{input1},
-//                txin_1.getOutputs().get(1).getScript());
-//        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
-//        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
-//        // Keycard validation is done while still in the field
-//        byte[] keycardIndexes = ((BTChipDongle.BTChipOutputKeycard) output).getKeycardIndexes();
-//        assertEquals(keycardIndexes.length, DEFAULT_KEYCARD_ADDRESS_SIZE);
-//        byte[] pin = keycardHelper.getPIN(TXOUT_1_ADDRESS, keycardIndexes);
-//        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/0", pin);
-//        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 1, 1 + signature.length);
+        BitcoinTransaction txin_1 = new BitcoinTransaction(new ByteArrayInputStream(TXIN_1));
+        BitcoinTransaction txout_1 = new BitcoinTransaction(new ByteArrayInputStream(TXOUT_1));
+
+        BTChipDongle.BTChipInput input1 = dongle.getTrustedInput(txin_1, 1);
+        dongle.startUntrustedTransaction(
+                true,
+                0,
+                new BTChipDongle.BTChipInput[]{input1},
+                txin_1.getOutputs().elementAt(1).getScript());
+        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
+        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.NONE);
+
+        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/0");
+        signature = canonicalizeSignature(signature);
+        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(0).getScript(), 1, 1 + signature.length);
+        System.out.println(ByteUtil.hexString(signature));
+        System.out.println(ByteUtil.hexString(originalSignature));
 //        assertTrue(Arrays.equals(signature, originalSignature));
     }
-
-//    public void testTX1ContactlessSticky() throws BTChipException {
-//        KeycardHelper keycardHelper = new KeycardHelper(DEFAULT_KEYCARD);
-//        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-//        simulator.changeProtocol("T=CL,TYPE_A,T1");
-//        dongle.verifyPin(DEFAULT_PIN);
-//        BitcoinTransaction txin_1 = new BitcoinTransaction(new ByteArrayInputStream(TXIN_1));
-//        BitcoinTransaction txout_1 = new BitcoinTransaction(new ByteArrayInputStream(TXOUT_1));
-//        BTChipDongle.BTChipInput input1 = dongle.getTrustedInput(txin_1, 1);
-//        dongle.startUntrustedTransaction(
-//                true,
-//                0,
-//                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
-//        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
-//        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
-//        // Keycard validation is done while still in the field
-//        byte[] keycardIndexes = ((BTChipDongle.BTChipOutputKeycard)output).getKeycardIndexes();
-//        assertEquals(keycardIndexes.length, DEFAULT_KEYCARD_ADDRESS_SIZE);
-//        byte[] pin = keycardHelper.getPIN(TXOUT_1_ADDRESS, keycardIndexes);
-//        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/0", pin);
-//        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 1, 1 + signature.length);
-//        assertTrue(Arrays.equals(signature, originalSignature));
-//    }
-//
-//    public void testTX1ContactlessNoPIN() throws BTChipException {
-//        KeycardHelper keycardHelper = new KeycardHelper(DEFAULT_KEYCARD);
-//        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-//        simulator.changeProtocol("T=CL,TYPE_A,T1");
-//        BitcoinTransaction txin_1 = new BitcoinTransaction(new ByteArrayInputStream(TXIN_1));
-//        BitcoinTransaction txout_1 = new BitcoinTransaction(new ByteArrayInputStream(TXOUT_1));
-//        BTChipDongle.BTChipInput input1 = dongle.getTrustedInput(txin_1, 1);
-//        try {
-//            dongle.startUntrustedTransaction(
-//                    true,
-//                    0,
-//                    new BTChipDongle.BTChipInput[] { input1 },
-//                    txin_1.getOutputs().get(1).getScript());
-//            fail();
-//        }
-//        catch(BTChipException e) {
-//            assertEquals(e.getSW(), ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
-//        }
-//    }
 //
 //    public void testTX1ContactlessUntrustedInput() throws BTChipException {
 //        KeycardHelper keycardHelper = new KeycardHelper(DEFAULT_KEYCARD);
@@ -138,7 +88,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                    true,
 //                    0,
 //                    new BTChipDongle.BTChipInput[] { input1 },
-//                    txin_1.getOutputs().get(1).getScript());
+//                    txin_1.getOutputs().elementAt(1).getScript());
 //            fail();
 //        }
 //        catch(BTChipException e) {
@@ -158,7 +108,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        reset();
@@ -188,7 +138,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        reset();
@@ -201,11 +151,11 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                false,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        dongle.finalizeInputFull(txout_1.serializeOutputs());
 //        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/0", pin);
 //        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 1, 1 + signature.length);
+//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(0).getScript(), 1, 1 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //    }
 //
@@ -221,7 +171,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        reset();
@@ -234,7 +184,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                false,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        byte[] fullOutput = txout_1.serializeOutputs();
 //        fullOutput[4]++;
 //        try {
@@ -258,7 +208,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs());
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        reset();
@@ -271,7 +221,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                false,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        byte[] fullOutput = txout_1.serializeOutputs();
 //        fullOutput[fullOutput.length - 5] ^= (byte)0x42;
 //        try {
@@ -297,7 +247,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        // Keycard validation is done while still in the field
@@ -306,18 +256,18 @@ public class TransactionTest extends AbstractJavaCardTest {
 //        byte[] pin = keycardHelper.getPIN(TXOUT_2_ADDRESS, keycardIndexes);
 //        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/1", pin);
 //        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 1, 1 + signature.length);
+//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(0).getScript(), 1, 1 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //        // Process second input
 //        dongle.startUntrustedTransaction(
 //                false,
 //                1,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_2.getOutputs().get(0).getScript());
+//                txin_2.getOutputs().elementAt(0).getScript());
 //        dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        signature = dongle.untrustedHashSign("44'/0'/0'/0/1", pin);
 //        signature = canonicalizeSignature(signature);
-//        originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(1).getScript(), 1, 1 + signature.length);
+//        originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(1).getScript(), 1, 1 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //    }
 //
@@ -335,7 +285,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        byte[] keycardIndexes = ((BTChipDongle.BTChipOutputKeycard)output).getKeycardIndexes();
@@ -366,7 +316,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        // Keycard validation is done while still in the field
@@ -379,23 +329,23 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                false,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        byte[] pin = keycardHelper.getPIN(TXOUT_2_ADDRESS, keycardIndexes);
 //        byte[] signature = dongle.untrustedHashSign("44'/0'/0'/0/1", pin);
 //        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 1, 1 + signature.length);
+//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(0).getScript(), 1, 1 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //        // Process second input
 //        dongle.startUntrustedTransaction(
 //                false,
 //                1,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_2.getOutputs().get(0).getScript());
+//                txin_2.getOutputs().elementAt(0).getScript());
 //        dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        signature = dongle.untrustedHashSign("44'/0'/0'/0/1", pin);
 //        signature = canonicalizeSignature(signature);
-//        originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(1).getScript(), 1, 1 + signature.length);
+//        originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(1).getScript(), 1, 1 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //    }
 //
@@ -413,7 +363,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        BTChipDongle.BTChipOutput output = dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.KEYCARD);
 //        // Keycard validation is done while still in the field
@@ -426,7 +376,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                false,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input2, input1 },
-//                txin_2.getOutputs().get(0).getScript());
+//                txin_2.getOutputs().elementAt(0).getScript());
 //        try {
 //            dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/0");
 //            fail();
@@ -450,7 +400,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        try {
 //            dongle.finalizeInputFull(txout_1.serializeOutputs());
 //            fail();
@@ -474,7 +424,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //                true,
 //                0,
 //                new BTChipDongle.BTChipInput[] { input1, input2 },
-//                txin_1.getOutputs().get(1).getScript());
+//                txin_1.getOutputs().elementAt(1).getScript());
 //        try {
 //            dongle.finalizeInputFull(txout_1.serializeOutputs(), "44'/0'/0'/1/1");
 //            fail();
@@ -503,7 +453,7 @@ public class TransactionTest extends AbstractJavaCardTest {
 //        assertEquals(output.getUserConfirmation(), BTChipDongle.UserConfirmation.NONE);
 //        byte[] signature = dongle.untrustedHashSign("45'/2147483647/0/0", new byte[0]);
 //        signature = canonicalizeSignature(signature);
-//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().get(0).getScript(), 2, 2 + signature.length);
+//        byte[] originalSignature = Arrays.copyOfRange(txout_1.getInputs().elementAt(0).getScript(), 2, 2 + signature.length);
 //        assertTrue(Arrays.equals(signature, originalSignature));
 //    }
 }

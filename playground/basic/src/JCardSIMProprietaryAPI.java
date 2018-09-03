@@ -1,5 +1,7 @@
 package com.knox.playground.basic;
 
+import com.knox.playground.basic.ProprietaryAPI;
+import com.knox.playground.basic.Secp256k1;
 import javacard.security.ECPrivateKey;
 import javacard.security.KeyAgreement;
 import javacard.security.KeyBuilder;
@@ -59,7 +61,6 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
         return true;
     }
 
-//    @Override
     public boolean getUncompressedPublicPoint(byte[] privateKey,
                                               short privateKeyOffset, byte[] publicPoint, short publicPointOffset) {
         if ((privateKey != null) && (keyAgreement != null)) {
@@ -75,28 +76,23 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
             catch(Exception e) {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-//    @Override
     public boolean hasHmacSHA512() {
         return false;
     }
 
 
-//    @Override
     public void hmacSHA512(Key key, byte[] in, short inBuffer, short inLength, byte[] out, short outOffset) {
     }
 
-//    @Override
     public boolean hasDeterministicECDSASHA256() {
         return false;
     }
 
-//    @Override
     public void signDeterministicECDSASHA256(Key key, byte[] in, short inBuffer, short inLength, byte[] out, short outOffset) {
         signature.init(key, Signature.MODE_SIGN);
         signature.sign(in, inBuffer, inLength, out, outOffset);

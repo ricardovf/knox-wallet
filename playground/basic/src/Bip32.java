@@ -43,16 +43,16 @@ public class Bip32 {
 	public static void deriveSeed(byte seedLength) {
 		if (Crypto.signatureHmac != null) {
 			Crypto.keyHmac2.setKey(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length);
-			if ((LedgerWalletApplet.proprietaryAPI != null) && (LedgerWalletApplet.proprietaryAPI.hasHmacSHA512())) {
-				LedgerWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac2, LedgerWalletApplet.scratch256, (short)0, seedLength, LedgerWalletApplet.masterDerived, (short)0);
+			if ((BasicWalletApplet.proprietaryAPI != null) && (BasicWalletApplet.proprietaryAPI.hasHmacSHA512())) {
+				BasicWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac2, BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0);
 			}
 			else {
 				Crypto.signatureHmac.init(Crypto.keyHmac2, Signature.MODE_SIGN);
-				Crypto.signatureHmac.sign(LedgerWalletApplet.scratch256, (short)0, seedLength, LedgerWalletApplet.masterDerived, (short)0);
+				Crypto.signatureHmac.sign(BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0);
 			}
 		}
 		else {
-			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, LedgerWalletApplet.scratch256, (short)0, seedLength, LedgerWalletApplet.masterDerived, (short)0, LedgerWalletApplet.scratch256, (short)64);
+			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0, BasicWalletApplet.scratch256, (short)64);
 		}
 	}
 	
@@ -62,41 +62,41 @@ public class Bip32 {
 	public static boolean derive(byte[] apduBuffer) {
 		boolean isZero = true;
 		byte i;
-		if ((LedgerWalletApplet.scratch256[OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0) {
-			if (LedgerWalletApplet.proprietaryAPI != null) {
-				LedgerWalletApplet.proprietaryAPI.getUncompressedPublicPoint(LedgerWalletApplet.scratch256, (short)0, LedgerWalletApplet.scratch256, OFFSET_TMP);				
+		if ((BasicWalletApplet.scratch256[OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0) {
+			if (BasicWalletApplet.proprietaryAPI != null) {
+				BasicWalletApplet.proprietaryAPI.getUncompressedPublicPoint(BasicWalletApplet.scratch256, (short)0, BasicWalletApplet.scratch256, OFFSET_TMP);
 			}
 			else {				
-				if (!Bip32Cache.copyLastPublic(LedgerWalletApplet.scratch256, OFFSET_TMP)) {
+				if (!Bip32Cache.copyLastPublic(BasicWalletApplet.scratch256, OFFSET_TMP)) {
 					return false;
 				}
 			}
-			AddressUtils.compressPublicKey(LedgerWalletApplet.scratch256, OFFSET_TMP);
+			AddressUtils.compressPublicKey(BasicWalletApplet.scratch256, OFFSET_TMP);
 		}
 		else {
-			LedgerWalletApplet.scratch256[OFFSET_TMP] = 0;
-			Util.arrayCopyNonAtomic(LedgerWalletApplet.scratch256, (short)0, LedgerWalletApplet.scratch256, (short)(OFFSET_TMP + 1), (short)32);
+			BasicWalletApplet.scratch256[OFFSET_TMP] = 0;
+			Util.arrayCopyNonAtomic(BasicWalletApplet.scratch256, (short)0, BasicWalletApplet.scratch256, (short)(OFFSET_TMP + 1), (short)32);
 		}
-		Util.arrayCopyNonAtomic(LedgerWalletApplet.scratch256, OFFSET_DERIVATION_INDEX, LedgerWalletApplet.scratch256, (short)(OFFSET_TMP + 33), (short)4);
+		Util.arrayCopyNonAtomic(BasicWalletApplet.scratch256, OFFSET_DERIVATION_INDEX, BasicWalletApplet.scratch256, (short)(OFFSET_TMP + 33), (short)4);
 		if (Crypto.signatureHmac != null) {
-			Crypto.keyHmac.setKey(LedgerWalletApplet.scratch256, (short)32, (short)32);
-			if ((LedgerWalletApplet.proprietaryAPI != null) && (LedgerWalletApplet.proprietaryAPI.hasHmacSHA512())) {
-				LedgerWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac, LedgerWalletApplet.scratch256, OFFSET_TMP, (short)37, LedgerWalletApplet.scratch256, OFFSET_TMP);
+			Crypto.keyHmac.setKey(BasicWalletApplet.scratch256, (short)32, (short)32);
+			if ((BasicWalletApplet.proprietaryAPI != null) && (BasicWalletApplet.proprietaryAPI.hasHmacSHA512())) {
+				BasicWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac, BasicWalletApplet.scratch256, OFFSET_TMP, (short)37, BasicWalletApplet.scratch256, OFFSET_TMP);
 			}
 			else {
 				Crypto.signatureHmac.init(Crypto.keyHmac, Signature.MODE_SIGN);
-				Crypto.signatureHmac.sign(LedgerWalletApplet.scratch256, OFFSET_TMP, (short)37, LedgerWalletApplet.scratch256, OFFSET_TMP);
+				Crypto.signatureHmac.sign(BasicWalletApplet.scratch256, OFFSET_TMP, (short)37, BasicWalletApplet.scratch256, OFFSET_TMP);
 			}
 		}
 		else {
-			HmacSha512.hmac(LedgerWalletApplet.scratch256, (short)32, (short)32, LedgerWalletApplet.scratch256, OFFSET_TMP, (short)37, LedgerWalletApplet.scratch256, OFFSET_TMP, apduBuffer, OFFSET_BLOCK);
+			HmacSha512.hmac(BasicWalletApplet.scratch256, (short)32, (short)32, BasicWalletApplet.scratch256, OFFSET_TMP, (short)37, BasicWalletApplet.scratch256, OFFSET_TMP, apduBuffer, OFFSET_BLOCK);
 		}
-		if (MathMod256.ucmp(LedgerWalletApplet.scratch256, OFFSET_TMP, Secp256k1.SECP256K1_R, (short)0) >= 0) {
+		if (MathMod256.ucmp(BasicWalletApplet.scratch256, OFFSET_TMP, Secp256k1.SECP256K1_R, (short)0) >= 0) {
 			return false;
 		}
-		MathMod256.addm(LedgerWalletApplet.scratch256, (short)0, LedgerWalletApplet.scratch256, OFFSET_TMP, LedgerWalletApplet.scratch256, (short)0, Secp256k1.SECP256K1_R, (short)0);
+		MathMod256.addm(BasicWalletApplet.scratch256, (short)0, BasicWalletApplet.scratch256, OFFSET_TMP, BasicWalletApplet.scratch256, (short)0, Secp256k1.SECP256K1_R, (short)0);
 		for (i=0; i<(byte)32; i++) {
-			if (LedgerWalletApplet.scratch256[i] != 0) {
+			if (BasicWalletApplet.scratch256[i] != 0) {
 				isZero = false;
 				break;
 			}
@@ -104,7 +104,7 @@ public class Bip32 {
 		if (isZero) {
 			return false;
 		}
-		Util.arrayCopyNonAtomic(LedgerWalletApplet.scratch256, (short)(OFFSET_TMP + 32), LedgerWalletApplet.scratch256, (short)32, (short)32);		
+		Util.arrayCopyNonAtomic(BasicWalletApplet.scratch256, (short)(OFFSET_TMP + 32), BasicWalletApplet.scratch256, (short)32, (short)32);
 		return true;
 	}
 

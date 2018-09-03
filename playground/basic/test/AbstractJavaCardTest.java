@@ -58,8 +58,8 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
 //        parameters[0] = (byte)INSTANCE_AID_DATA.length;
 //        System.arraycopy(INSTANCE_AID_DATA, 0, parameters, 1, INSTANCE_AID_DATA.length);
         CardSimulator tmpSimulator = new CardSimulator();
-        tmpSimulator.installApplet(LOAD_FILE_AID, LedgerWalletApplet.class);
-//        tmpSimulator.installApplet(LOAD_FILE_AID, LedgerWalletApplet.class, parameters, (short)0, (byte)parameters.length);
+        tmpSimulator.installApplet(LOAD_FILE_AID, BasicWalletApplet.class);
+//        tmpSimulator.installApplet(LOAD_FILE_AID, BasicWalletApplet.class, parameters, (short)0, (byte)parameters.length);
         return tmpSimulator;
     }
 
