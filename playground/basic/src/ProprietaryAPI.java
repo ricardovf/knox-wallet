@@ -43,6 +43,8 @@ public interface ProprietaryAPI {
 	 * @return true if it's present, otherwise false
 	 */
 	public boolean hasHmacSHA512();
+
+	public boolean isSimulator();
 	/**
 	 * Perform an optimized HMAC SHA512 operation
 	 * @param key HMAC key object provisioned with the HMAC key

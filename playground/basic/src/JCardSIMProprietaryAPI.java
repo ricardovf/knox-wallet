@@ -55,6 +55,10 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
         }
     }
 
+    public boolean isSimulator() {
+        return true;
+    }
+
 //    @Override
     public boolean getUncompressedPublicPoint(byte[] privateKey,
                                               short privateKeyOffset, byte[] publicPoint, short publicPointOffset) {
@@ -89,7 +93,7 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
 
 //    @Override
     public boolean hasDeterministicECDSASHA256() {
-        return true;
+        return false;
     }
 
 //    @Override

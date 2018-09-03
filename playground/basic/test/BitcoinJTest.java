@@ -22,7 +22,9 @@ package com.knox.playground.basic;
 
 import com.knox.playground.dongle.BTChipException;
 import com.licel.jcardsim.utils.ByteUtil;
+import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
+import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.core.Utils;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -33,6 +35,8 @@ import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class BitcoinJTest extends AbstractJavaCardTest {
 //    @Test
@@ -93,6 +97,22 @@ public class BitcoinJTest extends AbstractJavaCardTest {
         System.out.println(dk44H0H0H042.toAddress(params));
         System.out.println(dk44H0H0H042.getPubKeyPoint());
         System.out.println(ByteUtil.hexString(dk44H0H0H042.getChainCode()));
+
+//        Sha256Hash hash = Sha256Hash.wrap("9566fb3aee440cf853372f2ed1f287d7c7e01717f22f6427056efa0cae52252c");
+//        // Sign
+//        ECKey.ECDSASignature signature = dk44H0H0H042.sign(hash);
+//        System.out.println(signature.isCanonical());
+//        System.out.println(signature.r);
+//        System.out.println(signature.s);
+//        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
+//        assertTrue(dk44H0H0H042.verify(hash, signature));
+//
+//        signature = ECKey.ECDSASignature.decodeFromDER(ByteUtil.byteArray("304402205eabeefae7d20bfe0e6c43012cd2348598cae7b052f6df0add9fd70161941c8802200f9520b90f46d39265a75f652d2741cd3130989017795213b6decde30ed543ca"));
+//        System.out.println(signature.isCanonical());
+//        System.out.println(signature.r);
+//        System.out.println(signature.s);
+//        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
+//        assertTrue(dk44H0H0H042.verify(hash, signature));
     }
 
 

@@ -23,6 +23,7 @@
 
 package com.knox.playground.basic;
 
+import com.licel.jcardsim.utils.ByteUtil;
 import javacard.framework.*;
 import javacard.security.DESKey;
 import javacard.security.KeyBuilder;
@@ -142,8 +143,7 @@ public class LedgerWalletApplet extends Applet {
     private static void signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
         if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
             Crypto.signTransientPrivate(keyBuffer, keyOffset, dataBuffer, dataOffset, targetBuffer, targetOffset);
-        }
-        else {
+        } else {
             Crypto.initTransientPrivate(keyBuffer, keyOffset);
             proprietaryAPI.signDeterministicECDSASHA256(Crypto.transientPrivate, dataBuffer, dataOffset, (short)32, targetBuffer, targetOffset);
             if (Crypto.transientPrivateTransient) {
@@ -368,8 +368,7 @@ public class LedgerWalletApplet extends Applet {
         buffer[offset++] = (short)65;
         if (proprietaryAPI == null) {
             Bip32Cache.copyLastPublic(buffer, offset);
-        }
-        else {
+        } else {
             proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, buffer, offset);
         }
         // Save the chaincode
@@ -755,42 +754,6 @@ public class LedgerWalletApplet extends Applet {
 //        TC.ctx[TC.TX_B_TRANSACTION_STATE] = Transaction.STATE_SIGN_READY;
 //        apdu.setOutgoingAndSend((short)0, outOffset);
 //    }
-
-    private static void handleHashSignDerive(APDU apdu, boolean checkStage) throws ISOException {
-        byte[] buffer = apdu.getBuffer();
-        short offset = ISO7816.OFFSET_CDATA;
-        byte i;
-        apdu.setIncomingAndReceive();
-        if (checkStage) {
-            checkInterfaceConsistency();
-            if (TC.ctx[TC.TX_B_TRANSACTION_STATE] != Transaction.STATE_SIGN_READY) {
-                ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-            }
-        }
-        byte derivationSize = buffer[offset++];
-        if (derivationSize > MAX_DERIVATION_PATH) {
-            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-        }
-        // Unwrap the initial seed
-        Crypto.initCipher(chipKey, false);
-        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
-        // Derive all components
-        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
-        offset += (short)(i * 4);
-        for (; i<derivationSize; i++) {
-            Util.arrayCopyNonAtomic(buffer, offset, scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
-            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
-                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
-                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-                }
-            }
-            if (!Bip32.derive(buffer)) {
-                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-            }
-            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
-            offset += (short)4;
-        }
-    }
 //
 //    private static void handleHashSign(APDU apdu) throws ISOException {
 //        byte[] buffer = apdu.getBuffer();
@@ -845,6 +808,37 @@ public class LedgerWalletApplet extends Applet {
 //        apdu.setOutgoingAndSend((short)0, (short)(signatureSize + 1));
 //    }
 //
+
+    private static void handleHashSignDerive(APDU apdu) throws ISOException {
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+        byte i;
+        apdu.setIncomingAndReceive();
+        byte derivationSize = buffer[offset++];
+        if (derivationSize > MAX_DERIVATION_PATH) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
+        // Unwrap the initial seed
+        Crypto.initCipher(chipKey, false);
+        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
+        // Derive all components
+        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
+        offset += (short)(i * 4);
+        for (; i<derivationSize; i++) {
+            Util.arrayCopyNonAtomic(buffer, offset, scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
+            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
+                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
+                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
+                }
+            }
+            if (!Bip32.derive(buffer)) {
+                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+            }
+            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
+            offset += (short)4;
+        }
+    }
+
     private static void handleSignMessage(APDU apdu) throws ISOException {
         byte[] buffer = apdu.getBuffer();
         short offset = ISO7816.OFFSET_CDATA;
@@ -855,8 +849,7 @@ public class LedgerWalletApplet extends Applet {
             boolean addressVerified = false;
             if (Util.arrayCompare(buffer, offset, SLIP13_HEAD, (short)0, (short)SLIP13_HEAD.length) == (short)0) {
                 addressVerified = true;
-            }
-            else {
+            } else {
                 for (byte i=0; i<derivationSize; i++) {
                     if ((Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE, (short)0, (short)BITID_DERIVE.length) == (short)0) ||
                             (Util.arrayCompare(buffer, (short)(offset + 2), BITID_DERIVE_MULTIPLE, (short)0, (short)BITID_DERIVE_MULTIPLE.length) == (short)0)) {
@@ -876,15 +869,29 @@ public class LedgerWalletApplet extends Applet {
             scratch256[(short)100] = (byte)messageLength;
             Crypto.digestFull.update(scratch256, (short)100, (short)1);
             Crypto.digestFull.doFinal(buffer, offset, messageLength, scratch256, (short)32);
+
+            // Copy the public key
+            proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, scratch256, (short) 180);
+
+            // Sign the data SHA-256 hash
             signTransientPrivate(scratch256, (short)0, scratch256, (short)32, scratch256, (short)100);
+
+            buffer[(short)0] = (byte)0x00;
+
+            // Check the signature is valid
+            if (!Crypto.verifyPublic(scratch256, (short)180, scratch256, (short)32, scratch256, (short)100)) {
+                buffer[(short)0] = (byte)0x02;
+            }
+
             // Clear the private key
             Util.arrayFillNonAtomic(scratch256, (short)0, (short)64, (byte)0x00);
-            buffer[(short)0] = (byte)0x00;
+            if (buffer[(short)0] != (byte)0x00) {
+                TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x00;
+                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+            }
             TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] = (byte)0x01;
             apdu.setOutgoingAndSend((short)0, (short)1);
-        }
-        else
-        if (buffer[ISO7816.OFFSET_P1] == P1_SIGN_MESSAGE) {
+        } else if (buffer[ISO7816.OFFSET_P1] == P1_SIGN_MESSAGE) {
             if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != (byte)0x01) {
                 ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
             }
@@ -1171,14 +1178,14 @@ public class LedgerWalletApplet extends Applet {
     //                        break;
     //                    case INS_UNTRUSTED_HASH_SIGN:
     //                        // Split to avoid a stack overflow on JCOP
-    //                        handleHashSignDerive(apdu, true);
+    //                        handleHashSignDerive(apdu);
     //                        handleHashSign(apdu);
     //                        break;
                         case INS_SIGN_MESSAGE:
                             checkAccess();
                             // Split to avoid a stack overflow on JCOP
                             if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_MESSAGE) {
-                                handleHashSignDerive(apdu, false);
+                                handleHashSignDerive(apdu);
                             }
                             handleSignMessage(apdu);
                             break;
@@ -1192,7 +1199,7 @@ public class LedgerWalletApplet extends Applet {
                         ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
                 }
             } catch(Exception e) {
-                if (PROPRIETARY_API_SIM) {
+                if (proprietaryAPI.isSimulator()) {
                     System.out.println("Erro na execução de comando no cartão: ");
                     System.out.println(e);
                 }
