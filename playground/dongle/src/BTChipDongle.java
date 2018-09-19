@@ -32,8 +32,6 @@ public class BTChipDongle implements BTChipConstants {
 	
 	public enum OperationMode {
 		WALLET(0x01),
-		RELAXED_WALLET(0x02),
-		SERVER(0x04),
 		DEVELOPER(0x08);
 		
 		private int value;
@@ -148,13 +146,11 @@ public class BTChipDongle implements BTChipConstants {
 		private int major;
 		private int minor;
 		private int patch;
-		private boolean compressedKeys;
-		
-		public BTChipFirmware(int major, int minor, int patch, boolean compressedKeys) {
+
+		public BTChipFirmware(int major, int minor, int patch) {
 			this.major = major;
 			this.minor = minor;
 			this.patch = patch;
-			this.compressedKeys = compressedKeys;
 		}
 		
 		public int getMajor() {
@@ -166,16 +162,11 @@ public class BTChipDongle implements BTChipConstants {
 		public int getPatch() {
 			return patch;
 		}
-		public boolean isCompressedKey() {
-			return compressedKeys;
-		}
-		
+
 		@Override
 		public String toString() {
 			StringBuffer buffer = new StringBuffer();
 			buffer.append(major).append('.').append(minor).append('.').append(patch);
-			buffer.append(" compressed keys ");
-			buffer.append(compressedKeys);
 			return buffer.toString();
 		}
 	}
@@ -383,6 +374,10 @@ public class BTChipDongle implements BTChipConstants {
 		}
 		return result;
 	}
+
+	public void changePin(byte[] pin) throws BTChipException {
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_CHANGE_PIN, (byte)0x00, (byte)0x00, pin, OK);
+	}
 	
 	public void verifyPin(byte[] pin) throws BTChipException {
 		verifyPin(pin, OK);
@@ -394,12 +389,8 @@ public class BTChipDongle implements BTChipConstants {
 	
 	public int getVerifyPinRemainingAttempts() throws BTChipException {
 		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x80, (byte)0x00, DUMMY, null);
-		System.out.println("Yo: ");
-		System.out.println(Integer.toHexString(lastSW));
 
 		if (response.length == 1) {
-			System.out.println(response[0]);
-
 			return (int) response[0];
 		}
 
@@ -640,63 +631,71 @@ public class BTChipDongle implements BTChipConstants {
 		return untrustedHashSign(privateKeyPath, null, 0, (byte)0x01);
 	}
 
-	public boolean signMessagePrepare(String path, byte[] message) throws BTChipException {
+	public boolean signTransactionPrepare(String path, byte[] message) throws BTChipException {
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		BufferUtils.writeBuffer(data, BIP32Utils.splitPath(path));
 		data.write((byte)message.length);
 		BufferUtils.writeBuffer(data, message);
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_MESSAGE, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
-		return (response[0] == (byte)0x00);
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_TRANSACTION, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		return true;
 	}
 	
-	public BTChipSignature signMessageSign() throws BTChipException {
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_MESSAGE, (byte)0x80, (byte)0x00, 0x00, OK);
-		int yParity = (response[0] & 0x0F);
+	public byte[] signTransaction() throws BTChipException {
+		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_TRANSACTION, (byte)0x80, (byte)0x00, 0x00, OK);
 		response[0] = (byte)0x30;
-		return new BTChipSignature(response, yParity);
+		return response;
 	}
 	
 	public BTChipFirmware getFirmwareVersion() throws BTChipException {
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_FIRMWARE_VERSION, (byte)0x00, (byte)0x00, 0x00, OK);
-		boolean compressedKeys = (response[0] == (byte)0x01);
-		int major = ((int)(response[1] & 0xff) << 8) | ((int)(response[2] & 0xff));
-		int minor = (int)(response[3] & 0xff);
-		int patch = (int)(response[4] & 0xff);
-		return new BTChipFirmware(major, minor, patch, compressedKeys);
-	}		
-	
-	public boolean setup(OperationMode supportedOperationModes[], Feature features[], int keyVersion, int keyVersionP2SH, byte[] userPin, byte[] wipePin, byte[] keymapEncoding, byte[] seed, byte[] developerKey) throws BTChipException {
+		int major = (int)(response[0] & 0xff);
+		int minor = (int)(response[1] & 0xff);
+		int patch = (int)(response[2] & 0xff);
+		return new BTChipFirmware(major, minor, patch);
+	}
+
+	public byte getState() throws BTChipException {
+		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_STATE, (byte)0x00, (byte)0x00, 0x00, OK);
+		return response[0];
+	}
+
+	public byte getCurrentMode() throws BTChipException {
+		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_MODE, (byte)0x00, (byte)0x00, 0x00, OK);
+		return response[0];
+	}
+
+	public boolean setup(OperationMode supportedOperationModes[], int keyVersion, int keyVersionP2SH) throws BTChipException {
+		return setup(supportedOperationModes, keyVersion, keyVersionP2SH, null, null);
+	}
+
+	public boolean setup(OperationMode supportedOperationModes[], int keyVersion, int keyVersionP2SH, byte[] userPin, byte[] seed) throws BTChipException {
 		int operationModeFlags = 0;
-		int featuresFlags = 0;
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		for (OperationMode currentOperationMode : supportedOperationModes) {
 			operationModeFlags |= currentOperationMode.getValue();
 		}
-		for (Feature currentFeature : features) {
-			featuresFlags |= currentFeature.getValue();
-		}
 		data.write(operationModeFlags);
-		data.write(featuresFlags);
 		data.write(keyVersion);
 		data.write(keyVersionP2SH);
-		if ((userPin.length < 0x04) || (userPin.length > 0x20)) {
-			throw new BTChipException("Invalid user PIN length");
-		}
-		data.write(userPin.length);
-		BufferUtils.writeBuffer(data, userPin);
 
-		if (seed != null) {
-			if ((seed.length < 32) || (seed.length > 64)) {
+		if (operationModeFlags == 0x08) {
+			// PIN
+			if (userPin == null || (userPin.length < 0x04) || (userPin.length > 0x20)) {
+				throw new BTChipException("Invalid user PIN length");
+			}
+			data.write(userPin.length);
+			BufferUtils.writeBuffer(data, userPin);
+
+			// SEED
+			if (seed == null || (seed.length < 32) || (seed.length > 64)) {
 				throw new BTChipException("Invalid seed length");
 			}
 			data.write(seed.length);
 			BufferUtils.writeBuffer(data, seed);
-		} else {
-			data.write(0);
 		}
 
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
-		return (response[0] == (byte)0x01);
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		return true;
 	}
 
 	public ResponseAPDU sendRawAPDU(byte[] cmd, byte[] data) throws BTChipException {

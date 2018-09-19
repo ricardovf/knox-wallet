@@ -24,15 +24,20 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
     protected BTChipDongle prepareDongleRestoreTestnet(boolean debug) throws BTChipException {
         BTChipDongle dongle = getDongle(debug);
         dongle.setup(
+            new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.DEVELOPER},
+            TESTNET_VERSION,
+            TESTNET_P2SH_VERSION,
+            DEFAULT_PIN,
+            DEFAULT_SEED);
+        return dongle;
+    }
+
+    protected BTChipDongle prepareDongle(boolean debug) throws BTChipException {
+        BTChipDongle dongle = getDongle(debug);
+        dongle.setup(
                 new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.WALLET},
-                new BTChipDongle.Feature[]{BTChipDongle.Feature.RFC6979, BTChipDongle.Feature.NO_2FA_P2SH},
                 TESTNET_VERSION,
-                TESTNET_P2SH_VERSION,
-                DEFAULT_PIN,
-                null,
-                BTChipConstants.QWERTY_KEYMAP,
-                DEFAULT_SEED,
-                null);
+                TESTNET_P2SH_VERSION);
         return dongle;
     }
 
@@ -89,8 +94,7 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
             BigInteger s = ((DERInteger)seq.getObjectAt(1)).getValue();
             if (s.compareTo(HALF_ORDER) > 0) {
                 s = ORDER.subtract(s);
-            }
-            else {
+            } else {
                 return signature;
             }
             ASN1EncodableVector v = new ASN1EncodableVector();
@@ -103,8 +107,8 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
         }
     }
 
-    private static final BigInteger HALF_ORDER = new BigInteger(ByteUtil.byteArray("7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0"));
-    private static final BigInteger ORDER = new BigInteger(1, ByteUtil.byteArray("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141"));
+    protected static final BigInteger HALF_ORDER = new BigInteger(ByteUtil.byteArray("7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0"));
+    protected static final BigInteger ORDER = new BigInteger(1, ByteUtil.byteArray("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141"));
 
     public static final AID LOAD_FILE_AID = AIDUtil.create("f276a288bcfba69d34f310");
 //    public static final byte[] INSTANCE_AID_DATA = ByteUtil.byteArray("FF4C4547522E57414C5430312E493031");
@@ -113,6 +117,7 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
     public static final int TESTNET_VERSION = 111;
     public static final int TESTNET_P2SH_VERSION = 196;
     public static final byte[] DEFAULT_PIN = "1234".getBytes();
+    public static final byte[] ALTERNATIVE_PIN = "567898765".getBytes();
     public static final byte[] DEFAULT_SEED_WORDS = "release afford clump fury license speak hungry remain crouch exile basic choose bar client own clip like armor forum fossil energy eight seven sausage".getBytes();
     public static final byte[] DEFAULT_SEED = ByteUtil.byteArray("d3c9b5146da60ebb8216ced62ecfc3a7dd3c7dc98f41a35e841cd5a659f0991bb7562be0d1138b2a5df2512004c8374162a2970d2a1277001f6614172e44f033");
     public static final byte DEFAULT_KEYCARD_ADDRESS_SIZE = (byte) 4;

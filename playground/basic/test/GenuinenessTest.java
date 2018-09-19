@@ -1,46 +1,29 @@
 package com.knox.playground.basic;//package com.knox.playground.basic;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Arrays;
-
+import com.knox.playground.dongle.BTChipDongle;
+import com.knox.playground.dongle.BTChipException;
 import com.licel.jcardsim.bouncycastle.asn1.ASN1Sequence;
 import com.licel.jcardsim.bouncycastle.asn1.DERInteger;
-import junit.framework.TestCase;
-import com.licel.jcardsim.base.Simulator;
-import com.licel.jcardsim.utils.AIDUtil;
 import com.licel.jcardsim.utils.ByteUtil;
-import javacard.framework.AID;
-import javacard.framework.ISO7816;
-import com.knox.playground.dongle.BTChipDongle;
-import com.knox.playground.dongle.BTChipConstants;
-import com.knox.playground.dongle.BTChipException;
-import com.knox.playground.dongle.BitcoinTransaction;
-
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.Transaction;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.crypto.TransactionSignature;
 import org.bitcoinj.params.TestNet3Params;
-import org.bitcoinj.script.Script;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.junit.Test;
-import org.spongycastle.crypto.params.ECPublicKeyParameters;
-import org.spongycastle.crypto.signers.ECDSASigner;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.math.BigInteger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class TransactionTest extends AbstractJavaCardTest {
+public class GenuinenessTest extends AbstractJavaCardTest {
     @Test
-    public void testSign() throws BTChipException, UnreadableWalletException, IOException {
+    public void testGetPublicKey() throws BTChipException, UnreadableWalletException, IOException {
         Sha256Hash hash = Sha256Hash.wrap(ByteUtil.byteArray("edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9"));
 
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
