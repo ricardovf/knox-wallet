@@ -116,12 +116,26 @@ abstract public class AbstractJavaCardTest implements BTChipConstants {
 
     public static final int TESTNET_VERSION = 111;
     public static final int TESTNET_P2SH_VERSION = 196;
+
     public static final byte[] DEFAULT_PIN = "1234".getBytes();
     public static final byte[] ALTERNATIVE_PIN = "567898765".getBytes();
-    public static final byte[] DEFAULT_SEED_WORDS = "release afford clump fury license speak hungry remain crouch exile basic choose bar client own clip like armor forum fossil energy eight seven sausage".getBytes();
-    public static final byte[] DEFAULT_SEED = ByteUtil.byteArray("d3c9b5146da60ebb8216ced62ecfc3a7dd3c7dc98f41a35e841cd5a659f0991bb7562be0d1138b2a5df2512004c8374162a2970d2a1277001f6614172e44f033");
-    public static final byte DEFAULT_KEYCARD_ADDRESS_SIZE = (byte) 4;
-    public static final byte[] DEFAULT_KEYCARD = ByteUtil.byteArray("f27c395759a14d3aec2135188d670d8e");
+
+    // 1964, 368, 565, 1733, 262, 1749, 1978, 851, 1588, 1365, 356, 424, 1241, 62, 1548, 1289, 823, 1666, 1338, 1783, 638, 1634, 945, 1897
+    public static final byte[] DEFAULT_SEED_WORDS = "void come effort suffer camp survey warrior heavy shoot primary clutch crush open amazing screen patrol group space point ten exist slush involve unfold".getBytes();
+    public static final byte[] DEFAULT_SEED_ENTROPY = ByteUtil.byteArray("f585c11aec520db57dd353c69554b21a89b20fb0650966fa0a9d6f74fd989d8f");
+    public static final byte[] DEFAULT_SEED = ByteUtil.byteArray("b873212f885ccffbf4692afcb84bc2e55886de2dfa07d90f5c3c239abc31c0a6ce047e30fd8bf6a281e71389aa82d73df74c7bbfb3b06b4639a5cee775cccd3c");
 
     protected CardSimulator simulator;
+
+    public static boolean[] bytesToBits(byte[] data) {
+        boolean[] bits = new boolean[data.length * 8];
+
+        for(int i = 0; i < data.length; ++i) {
+            for(int j = 0; j < 8; ++j) {
+                bits[i * 8 + j] = (data[i] & 1 << 7 - j) != 0;
+            }
+        }
+
+        return bits;
+    }
 }

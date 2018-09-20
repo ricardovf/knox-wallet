@@ -8,6 +8,7 @@ import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
@@ -19,41 +20,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class Bip32Tests extends AbstractJavaCardTest {
-    public static final String EXPECTED_ADDRESS_1 = "mtVeEwnNwH23GuURg2MzPmzKPGzzgTe4vx";
-    public static final byte[] EXPECTED_PUBLIC_KEY_1 = ByteUtil.byteArray("0475e55e9edef059e186c27610c15c611921ebe82306013519c227c114a3baca01921e222b8bba28c142480edba7efd19e7d8e58140e1b0b358dcf1bb7e5ef7129");
-    public static final byte[] EXPECTED_CHAINCODE_1 = ByteUtil.byteArray("363e279a6f13e362bdceb6bcd4335b687cc6fdd5a31b3513afe45381af745348");
-
-    public static final String EXPECTED_ADDRESS_1_CHANGE = "mgteEzPS6zEDpjNZAW84dCtatVLBiPNLYw";
-    public static final byte[] EXPECTED_PUBLIC_KEY_1_CHANGE = ByteUtil.byteArray("047e6d32f58015e5867c65f5ff2bf7ba8a8124bc9109aa6e8bac4ccd051dadae19455e274a6887f779c177b1d7478eb6398dbbc1105f4db67a5811799e4f0710bd");
-    public static final byte[] EXPECTED_CHAINCODE_1_CHANGE = ByteUtil.byteArray("28556239ec3cfa333f997561a602577dc26105b214d7d8458633b72063811487");
-
-    public static final String EXPECTED_ADDRESS_3 = "mgabwKoR9rVX6dpHtZ2itJtR1RjEbpNDPc";
-    public static final byte[] EXPECTED_PUBLIC_KEY_3 = ByteUtil.byteArray("041f8865f174b8b0ba6c8b4c44838d8d9317f70a12bd4771088d82a98b89a687fc90b4b1944d49618e28f9ea5b03129683214021956f96752b10fb7dab3e99e392");
-    public static final byte[] EXPECTED_CHAINCODE_3 = ByteUtil.byteArray("db373baab99826d6d6918ba781065614dc19dcc1c878b180fb72231e34abaee2");
-
     @Test
-    public void fullPathBip32Bip44Test() throws BTChipException {
+    public void fullPathBip32Bip44Test() throws BTChipException, UnreadableWalletException {
+        NetworkParameters params = TestNet3Params.get();
+//        NetworkParameters paramsBtc = MainNetParams.get();
+
+        DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
+
+        DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
+        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 44 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 1 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 0);
+        DeterministicKey dk44H0H0H00 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 0);
+
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
         dongle.verifyPin(DEFAULT_PIN);
-        BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("44'/0'/0'/0/42");
-        assertEquals(publicKey.getAddress(), EXPECTED_ADDRESS_1);
-        assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_1));
-        assertTrue(Arrays.equals(publicKey.getChainCode(), EXPECTED_CHAINCODE_1));
+        BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("44'/1'/0'/0/0");
 
-        BTChipDongle.BTChipPublicKey publicKeyChange = dongle.getWalletPublicKey("44'/0'/0'/1/42");
-        assertEquals(publicKeyChange.getAddress(), EXPECTED_ADDRESS_1_CHANGE);
-        assertTrue(Arrays.equals(publicKeyChange.getPublicKey(), EXPECTED_PUBLIC_KEY_1_CHANGE));
-        assertTrue(Arrays.equals(publicKeyChange.getChainCode(), EXPECTED_CHAINCODE_1_CHANGE));
-    }
-
-    @Test
-    public void fullPathBip32SignTest() throws BTChipException {
-        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-        dongle.verifyPin(DEFAULT_PIN);
-
-        BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("13'/0'/0'/0/42");
-        assertEquals(publicKey.getAddress(), EXPECTED_ADDRESS_3);
-        assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_3));
-        assertTrue(Arrays.equals(publicKey.getChainCode(), EXPECTED_CHAINCODE_3));
+        assertEquals(dk44H0H0H00.toAddress(params).toString(), publicKey.getAddress());
+//        assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_1));
+        assertTrue(Arrays.equals(publicKey.getChainCode(), dk44H0H0H00.getChainCode()));
     }
 }

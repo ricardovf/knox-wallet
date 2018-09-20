@@ -687,15 +687,29 @@ public class BTChipDongle implements BTChipConstants {
 			BufferUtils.writeBuffer(data, userPin);
 
 			// SEED
-			if (seed == null || (seed.length < 32) || (seed.length > 64)) {
+			if (seed == null || (seed.length != 64)) {
 				throw new BTChipException("Invalid seed length");
 			}
-			data.write(seed.length);
 			BufferUtils.writeBuffer(data, seed);
 		}
 
 		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 		return true;
+	}
+
+	public byte[] randomSeedWords() throws BTChipException {
+		return exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x00, (byte)0x00, DUMMY, OK);
+	}
+
+	public void prepareSeed(byte[] seed) throws BTChipException {
+		ByteArrayOutputStream data = new ByteArrayOutputStream();
+
+		if ((seed.length != 64)) {
+			throw new BTChipException("Invalid seed length");
+		}
+		BufferUtils.writeBuffer(data, seed);
+
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x80, (byte)0x00, data.toByteArray(), OK);
 	}
 
 	public ResponseAPDU sendRawAPDU(byte[] cmd, byte[] data) throws BTChipException {

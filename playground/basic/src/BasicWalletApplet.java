@@ -23,6 +23,7 @@
 
 package com.knox.playground.basic;
 
+import com.licel.jcardsim.utils.ByteUtil;
 import javacard.framework.*;
 import javacard.security.DESKey;
 import javacard.security.KeyBuilder;
@@ -40,7 +41,8 @@ public class BasicWalletApplet extends Applet {
         Bip32Cache.init();
         scratch256 = JCSystem.makeTransientByteArray((short) 256, JCSystem.CLEAR_ON_DESELECT);
         walletPin = new OwnerPIN(WALLET_PIN_ATTEMPTS, WALLET_PIN_SIZE);
-        masterDerived = new byte[64];
+        entropyKeyLength = MAX_ENTROPY_LENGTH;
+        masterDerived = new byte[(short) (MAX_ENTROPY_LENGTH << 1)];
         genuinenessPrivateKey = new byte[32];
 
         // Chip Key is unique for a device and is used to encrypt memory
@@ -102,7 +104,7 @@ public class BasicWalletApplet extends Applet {
     private static void handleSetup(APDU apdu) throws ISOException {
         byte[] buffer = apdu.getBuffer();
         short offset = ISO7816.OFFSET_CDATA;
-        byte keyLength;
+        byte entropyLength;
         apdu.setIncomingAndReceive();
 
         if (buffer[ISO7816.OFFSET_P1] != P1_REGULAR_SETUP) {
@@ -138,23 +140,14 @@ public class BasicWalletApplet extends Applet {
             walletPin.resetAndUnblock();
             offset += walletPinSize;
 
-            // Setup SEED
-            keyLength = buffer[offset++];
-            // We have a seed, lets setup it
-            if ((keyLength < 0) || (keyLength > DEFAULT_SEED_LENGTH)) {
-                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-            }
-            // Store the seed on the scratch memory and encrypt it
-            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, keyLength);
-            _makeSeed(keyLength);
+            // Setup seed (using provided BIP39 seed)
+            // Store the seed on the scratch memory, derive the seed and encrypt it
+            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, (short)64);
+            _makeBIP32Seed();
 
             // Go direct to ready state
             state = STATE_READY;
         } else {
-            // If we do not have a SEED yet, lets generate a random one
-            _makeRandomSeed();
-
-            // Set the wallet state
             state = STATE_SETUP_DONE;
         }
 
@@ -165,27 +158,75 @@ public class BasicWalletApplet extends Applet {
      * Derives a random seed
      */
     private static void _makeRandomSeed() {
-        // If we do not have a SEED yet, lets generate a random one
-        byte keyLength = DEFAULT_SEED_LENGTH;
-        Crypto.random.generateData(scratch256, (short) 0, keyLength);
+        // Lets generate a random entropy with the maximum size
+        Crypto.random.generateData(scratch256, (short)0, (short)64);
 
-        _makeSeed(keyLength);
+        _makeBIP32Seed();
     }
 
     /**
-     * Derive the seed that is expected to be in the scratch memory
-     * @param keyLength
+     * Derive the seed from the entropy that is expected to be in the scratch memory (position 0)
      */
-    private static void _makeSeed(byte keyLength) {
+    private static void _makeBIP32Seed() {
         // Derive the seed from the scratch memory
-        Bip32.deriveSeed(keyLength);
+        Bip32.deriveSeed();
+        System.out.println("MASTER: ");
+        System.out.println(ByteUtil.hexString(masterDerived));
 
         // Encrypt the seed using the chipkey
         Crypto.initCipher(chipKey, true);
         Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short) 0, (short) DEFAULT_SEED_LENGTH, masterDerived, (short) 0);
 
         // Clears scratch with random data
-        Crypto.random.generateData(scratch256, (short) 0, (short) 16);
+        Crypto.random.generateData(scratch256, (short) 0, (short) 64);
+    }
+
+    /**
+     * This method generates the seed words (BIP39) and puts in the scratch memory position 0.
+     * The data returned is actually a sequence of 24 16-bit big-endian integers with values ranging from 0 to 2047.
+     * CS = ENT / 32
+     * MS = (ENT + CS) / 11
+     *
+     * |  ENT  | CS | ENT+CS |  MS  | entropyKeyLength
+     * +-------+----+--------+------+----+
+     * |  256  |  8 |   264  |  24  | 64
+     */
+    private static short _generateSeedWordsIndexes() {
+        short CS = (short)8;
+
+        // Generate random entropy
+        Crypto.random.generateData(scratch256, (short)0, (short)64);
+
+        // Calculate the checksum (sha256) of the master key
+        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)64, scratch256, (short)64);
+
+//        System.out.println(ByteUtil.hexString(scratch256));
+
+        // Prepare to extract the 16 bit integers
+        short entLen = (short) (CS * 3);
+
+        short outOff = 0;
+        short rShift = 0;
+        short vp = 0;
+
+        for (short i = 0; i < entLen; i += 2) {
+            short w = Util.getShort(scratch256, i);
+            Util.setShort(scratch256, outOff, logicrShift((short) (vp | logicrShift(w, rShift)), (short) 5));
+            outOff += 2;
+            rShift += 5;
+            vp = (short) (w << (16 - rShift));
+
+            if (rShift >= 11) {
+                Util.setShort(scratch256, outOff, logicrShift(vp, (short) 5));
+                outOff += 2;
+                rShift = (short) (rShift - 11);
+                vp = (short) (w << (16 - rShift));
+            }
+        }
+
+        System.out.println(ByteUtil.hexString(scratch256));
+
+        return outOff;
     }
 
     // Compressed public key in scratch256, 0
@@ -216,76 +257,6 @@ public class BasicWalletApplet extends Applet {
     }
 
     private static void handleChangeNetwork(APDU apdu) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte keyLength;
-//        apdu.setIncomingAndReceive();
-//        // If already initialized, throw error
-//        if ((setup == TC.TRUE) || (setup != TC.FALSE)) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//        if (buffer[ISO7816.OFFSET_P1] != P1_REGULAR_SETUP) {
-//            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
-//        }
-//        Bip32Cache.reset();
-//        // Setup supported mode
-//        supportedModes = buffer[offset++];
-//        for (byte i = 0; i < (byte) AVAILABLE_MODES.length; i++) {
-//            if ((supportedModes & AVAILABLE_MODES[i]) != 0) {
-//                currentMode = AVAILABLE_MODES[i];
-//                break;
-//            }
-//        }
-//        // Setup features
-//        features = buffer[offset++];
-//        if ((features & FEATURE_UNCOMPRESSED_KEYS) != 0) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//
-//        // Setup Bitcoin version
-//        stdVersion = buffer[offset++];
-//
-//        // Setup P2SH version
-//        p2shVersion = buffer[offset++];
-//
-//        // Setup wallet PIN
-//        walletPinSize = buffer[offset++];
-//        if (walletPinSize < 4) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        Util.arrayFillNonAtomic(scratch256, (short) 0, WALLET_PIN_SIZE, (byte) 0xff);
-//        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, walletPinSize);
-//        walletPin.update(scratch256, (short) 0, WALLET_PIN_SIZE);
-//        walletPin.resetAndUnblock();
-//        offset += walletPinSize;
-//
-//        // Setup SEED
-//        keyLength = buffer[offset++];
-//        if (keyLength == 0) {
-//            // If we do not have a SEED yet, lets generate one
-//            keyLength = DEFAULT_SEED_LENGTH;
-//            Crypto.random.generateData(scratch256, (short) 0, keyLength);
-//        } else {
-//            // We have a seed, lets setup it
-//            if ((keyLength < 0) || (keyLength > DEFAULT_SEED_LENGTH)) {
-//                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//            }
-//            // Store the seed on the scratch memory
-//            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, keyLength);
-//        }
-//        // Derive the seed from the scratch memory
-//        Bip32.deriveSeed(keyLength);
-//
-//        // Encrypt the seed using the chipkey
-//        Crypto.initCipher(chipKey, true);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short) 0, (short) DEFAULT_SEED_LENGTH, masterDerived, (short) 0);
-//
-//        Crypto.random.generateData(scratch256, (short) 0, (short) 16);
-//        offset = 0;
-//        buffer[offset++] = SEED_NOT_TYPED;
-//
-//        apdu.setOutgoingAndSend((short) 0, offset);
-//        setup = TC.TRUE;
     }
 
     /**
@@ -303,78 +274,38 @@ public class BasicWalletApplet extends Applet {
         //@todo
     }
 
-    // @todo
+    /**
+     * Handles the prepare seed command, generating a new seed or recovering from backup words
+     *
+     * @param apdu
+     * @throws ISOException
+     */
     private static void handlePrepareSeed(APDU apdu) throws ISOException {
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte keyLength;
-//        apdu.setIncomingAndReceive();
-//        // If already initialized, throw error
-//        if ((setup == TC.TRUE) || (setup != TC.FALSE)) {
-//            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
-//        }
-//        if (buffer[ISO7816.OFFSET_P1] != P1_REGULAR_SETUP) {
-//            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
-//        }
-//        Bip32Cache.reset();
-//        // Setup supported mode
-//        supportedModes = buffer[offset++];
-//        for (byte i = 0; i < (byte) AVAILABLE_MODES.length; i++) {
-//            if ((supportedModes & AVAILABLE_MODES[i]) != 0) {
-//                currentMode = AVAILABLE_MODES[i];
-//                break;
-//            }
-//        }
-//        // Setup features
-//        features = buffer[offset++];
-//        if ((features & FEATURE_UNCOMPRESSED_KEYS) != 0) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//
-//        // Setup Bitcoin version
-//        stdVersion = buffer[offset++];
-//
-//        // Setup P2SH version
-//        p2shVersion = buffer[offset++];
-//
-//        // Setup wallet PIN
-//        walletPinSize = buffer[offset++];
-//        if (walletPinSize < 4) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        Util.arrayFillNonAtomic(scratch256, (short) 0, WALLET_PIN_SIZE, (byte) 0xff);
-//        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, walletPinSize);
-//        walletPin.update(scratch256, (short) 0, WALLET_PIN_SIZE);
-//        walletPin.resetAndUnblock();
-//        offset += walletPinSize;
-//
-//        // Setup SEED
-//        keyLength = buffer[offset++];
-//        if (keyLength == 0) {
-//            // If we do not have a SEED yet, lets generate one
-//            keyLength = DEFAULT_SEED_LENGTH;
-//            Crypto.random.generateData(scratch256, (short) 0, keyLength);
-//        } else {
-//            // We have a seed, lets setup it
-//            if ((keyLength < 0) || (keyLength > DEFAULT_SEED_LENGTH)) {
-//                ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//            }
-//            // Store the seed on the scratch memory
-//            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, keyLength);
-//        }
-//        // Derive the seed from the scratch memory
-//        Bip32.deriveSeed(keyLength);
-//
-//        // Encrypt the seed using the chipkey
-//        Crypto.initCipher(chipKey, true);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short) 0, (short) DEFAULT_SEED_LENGTH, masterDerived, (short) 0);
-//
-//        Crypto.random.generateData(scratch256, (short) 0, (short) 16);
-//        offset = 0;
-//        buffer[offset++] = SEED_NOT_TYPED;
-//
-//        apdu.setOutgoingAndSend((short) 0, offset);
-//        setup = TC.TRUE;
+        // Prepare seed can only be called on normal Wallet mode
+        if (currentMode == MODE_DEVELOPMENT) {
+            ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
+        }
+
+        byte[] buffer = apdu.getBuffer();
+        short offset = ISO7816.OFFSET_CDATA;
+
+        if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_SEED_GENERATE_WORDS) {
+            // Put the random seed words on the scratch memory
+            short outOff = _generateSeedWordsIndexes();
+            Util.arrayCopyNonAtomic(scratch256, (short)0, buffer, (short)0, outOff);
+            apdu.setOutgoingAndSend((short) 0, outOff);
+        } else if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_SEED) {
+            Bip32Cache.reset();
+            apdu.setIncomingAndReceive();
+            Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short) 0, (short)64);
+            _makeBIP32Seed();
+
+            // Go to ready state
+            state = STATE_READY;
+            apdu.setOutgoingAndSend((short) 0, (short)0);
+        } else {
+            ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
+        }
     }
 
 
@@ -519,55 +450,6 @@ public class BasicWalletApplet extends Applet {
     }
     private static void handleGetGenuinenessKey(APDU apdu) throws ISOException {
         // @todo
-//        byte[] buffer = apdu.getBuffer();
-//        short offset = ISO7816.OFFSET_CDATA;
-//        byte derivationSize = buffer[offset++];
-//        byte i;
-//        if (derivationSize > MAX_DERIVATION_PATH) {
-//            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
-//        }
-//        // Unwrap the initial seed
-//        Crypto.initCipher(chipKey, false);
-//        Crypto.blobEncryptDecrypt.doFinal(masterDerived, (short)0, (short)DEFAULT_SEED_LENGTH, scratch256, (short)0);
-//        // Derive all components
-//        i = Bip32Cache.copyPrivateBest(buffer, (short)(ISO7816.OFFSET_CDATA + 1), derivationSize, scratch256, (short)0);
-//        for (; i<derivationSize; i++) {
-//            Util.arrayCopyNonAtomic(buffer, (short)(offset + 4 * i), scratch256, Bip32.OFFSET_DERIVATION_INDEX, (short)4);
-//            if ((proprietaryAPI == null) && ((scratch256[Bip32.OFFSET_DERIVATION_INDEX] & (byte)0x80) == 0)) {
-//                if (!Bip32Cache.setPublicIndex(buffer, (short)(ISO7816.OFFSET_CDATA + 1), i)) {
-//                    ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-//                }
-//            }
-//            if (!Bip32.derive(buffer)) {
-//                ISOException.throwIt(ISO7816.SW_WRONG_DATA);
-//            }
-//            Bip32Cache.storePrivate(buffer, (short)(ISO7816.OFFSET_CDATA + 1), (byte)(i + 1), scratch256);
-//        }
-//        if (proprietaryAPI == null) {
-//            if (!Bip32Cache.setPublicIndex(buffer, offset, derivationSize)) {
-//                ISOException.throwIt(SW_PUBLIC_POINT_NOT_AVAILABLE);
-//            }
-//        }
-//        // Finally output
-//        offset = 0;
-//        buffer[offset++] = (short)65;
-//        if (proprietaryAPI == null) {
-//            Bip32Cache.copyLastPublic(buffer, offset);
-//        } else {
-//            proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, buffer, offset);
-//        }
-//        // Save the chaincode
-//        Util.arrayCopyNonAtomic(scratch256, (short)32, buffer, (short)200, (short)32);
-//        // Get the encoded address
-//        Util.arrayCopyNonAtomic(buffer, offset, scratch256, (short)0, (short)65);
-//        AddressUtils.compressPublicKey(scratch256, (short)0);
-//        offset += (short)65;
-//        buffer[offset] = (byte)(_publicKeyToAddress(buffer, (short)(offset + 1)) - (short)(offset + 1));
-//        offset += (short)(buffer[offset] + 1);
-//        // Add the chaincode
-//        Util.arrayCopyNonAtomic(buffer, (short)200, buffer, offset, (short)32);
-//        offset += 32;
-//        apdu.setOutgoingAndSend((short)0, offset);
     }
 
     private static void handleVerifyPin(APDU apdu) throws ISOException {
@@ -837,19 +719,9 @@ public class BasicWalletApplet extends Applet {
     private static final byte P1_PREPARE_TRANSACTION = (byte)0x00;
     private static final byte P1_SIGN_TRANSACTION = (byte)0x80;
     private static final byte P1_GET_REMAINING_ATTEMPTS = (byte)0x80;
-//
-//    private static final byte P1_GET_OPERATION_MODE = (byte)0x00;
-//    private static final byte P1_GET_OPERATION_MODE_2FA = (byte)0x01;
-//
-//    private static final byte P1_INITIATE_PAIRING = (byte)0x01;
-//    private static final byte P1_CONFIRM_PAIRING = (byte)0x02;
-//
-//    private static final byte P1_SET_KEYCARD = (byte)0x01;
-//    private static final byte P1_CONFIRM_KEYCARD = (byte)0x02;
-//    private static final byte CONFIRM_PREVIOUS_KEYCARD = (byte)0x02;
+    private static final byte P1_PREPARE_SEED_GENERATE_WORDS = (byte)0x00;
+    private static final byte P1_PREPARE_SEED = (byte)0x80;
 
-    public static final byte BLOB_MAGIC_TRUSTED_INPUT = (byte)0x32;
-//
     private static final byte LIMIT_GLOBAL_AMOUNT = (byte)0;
     private static final byte LIMIT_MAX_FEES = (byte)(LIMIT_GLOBAL_AMOUNT + TC.SIZEOF_AMOUNT);
     private static final byte LIMIT_MAX_CHANGE = (byte)(LIMIT_MAX_FEES + TC.SIZEOF_AMOUNT);
@@ -864,8 +736,14 @@ public class BasicWalletApplet extends Applet {
     protected static final byte STATE_READY = (byte)0x33;
 
     private static final byte DEFAULT_SEED_LENGTH = (byte) 64;
+    private static final byte MIN_ENTROPY_LENGTH = (byte) 16;
+    private static final byte MAX_ENTROPY_LENGTH = (byte) 32;
+
     private static final byte MAX_DERIVATION_PATH = (byte)10;
     private static final byte AVAILABLE_MODES[] = {MODE_WALLET, MODE_DEVELOPMENT};
+
+    public static final byte GENERATE_MNEMONIC_CS_MIN = 4;
+    public static final byte GENERATE_MNEMONIC_CS_MAX = 8;
 
     public static byte state;
     public static byte[] scratch256;
@@ -877,7 +755,33 @@ public class BasicWalletApplet extends Applet {
     protected static byte currentMode;
     private static byte stdVersion;
     private static byte p2shVersion;
+    protected static byte entropyKeyLength;
     protected static byte[] masterDerived;
     protected static byte[] genuinenessPrivateKey;
     protected static ProprietaryAPI proprietaryAPI;
+
+    /**
+     * Logically shifts the given short to the right. Used internally by the generateMnemonic method. This method exists
+     * because a simple logical right shift using shorts would most likely work on the actual target (which does math on
+     * shorts) but not on the simulator since a negative short would first be extended to 32-bit, shifted and then cut
+     * back to 16-bit, doing the equivalent of an arithmetic shift. Simply masking by 0x0000FFFF before shifting is not an
+     * option because the code would not convert to CAP file (because of int usage). Since this method works on both
+     * JavaCard and simulator and it is not invoked very often, the performance hit is non-existent.
+     *
+     * @param v value to shift
+     * @param amount amount
+     * @return logically right shifted value
+     */
+    private static short logicrShift(short v, short amount) {
+        if (amount == 0) return v; // short circuit on 0
+        short tmp = (short) (v & 0x7fff);
+
+        if (tmp == v) {
+            return (short) (v >>> amount);
+        }
+
+        tmp = (short) (tmp >>> amount);
+
+        return (short) ((short)((short) 0x4000 >>> (short) (amount - 1)) | tmp);
+    }
 }

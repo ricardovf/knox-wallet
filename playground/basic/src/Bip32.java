@@ -27,32 +27,30 @@ public class Bip32 {
 	
 	protected static final short OFFSET_DERIVATION_INDEX = (short)64;
 	
-	private static final byte BITCOIN_SEED[] = {
-		'B', 'i', 't', 'c', 'o', 'i', 'n', ' ', 's', 'e', 'e', 'd'
-	};		
+	private static final byte BITCOIN_SEED[] = {'B', 'i', 't', 'c', 'o', 'i', 'n', ' ', 's', 'e', 'e', 'd'};
+	private static final byte BIP39_PASSWORD[] = {
+		'm', 'n', 'e', 'm', 'o', 'n', 'i', 'c'
+	};
 	
 	private static final short OFFSET_TMP = (short)100;	
 	private static final short OFFSET_BLOCK = (short)127;
-	    
-    // seed : scratch, offset 0 -> result in masterDerived 
-    // keyHmac was duplicated because
-	// depending on the implementation, if a native transient HMAC is used, the key size might be fixed
-	// on the first call
-	// if that's the case, power cycle / deselect between initial seed derivation and all other key derivations
-	// would solve it
-	public static void deriveSeed(byte seedLength) {
+
+	/**
+	 * Derive the master key from the BIP39 seed (that should be located at the scratch memory, position 0)
+	 */
+	public static void deriveSeed() {
 		if (Crypto.signatureHmac != null) {
 			Crypto.keyHmac2.setKey(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length);
+
 			if ((BasicWalletApplet.proprietaryAPI != null) && (BasicWalletApplet.proprietaryAPI.hasHmacSHA512())) {
-				BasicWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac2, BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0);
-			}
-			else {
+				BasicWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac2, BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.masterDerived, (short)0);
+			} else {
 				Crypto.signatureHmac.init(Crypto.keyHmac2, Signature.MODE_SIGN);
-				Crypto.signatureHmac.sign(BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0);
+				Crypto.signatureHmac.sign(BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.masterDerived, (short)0);
 			}
 		}
 		else {
-			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, BasicWalletApplet.scratch256, (short)0, seedLength, BasicWalletApplet.masterDerived, (short)0, BasicWalletApplet.scratch256, (short)64);
+			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.masterDerived, (short)0, BasicWalletApplet.scratch256, (short)64);
 		}
 	}
 	
