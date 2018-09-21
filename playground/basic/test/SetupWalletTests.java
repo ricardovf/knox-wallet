@@ -2,7 +2,10 @@ package com.knox.playground.basic;
 
 import com.knox.playground.dongle.BTChipDongle;
 import com.knox.playground.dongle.BTChipException;
+import com.licel.jcardsim.utils.ByteUtil;
 import javacard.framework.Util;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
@@ -150,22 +153,8 @@ public class SetupWalletTests extends AbstractJavaCardTest {
 
         // Get a random new seed words
         byte[] seedWordsIndex = dongle.randomSeedWords();
-        List<String> words = new ArrayList<String>();
-        assertEquals(34, seedWordsIndex.length);
 
-        for (int i = 0; i < seedWordsIndex.length; i += 2) {
-            ByteBuffer bb = ByteBuffer.allocate(2);
-            bb.order(ByteOrder.BIG_ENDIAN);
-            bb.put(seedWordsIndex[i]);
-            bb.put(seedWordsIndex[i+1]);
-            short shortVal = bb.getShort(0);
-            String word = MnemonicCode.INSTANCE.getWordList().get(shortVal);
-            words.add(word);
-        }
-
-        DeterministicSeed seed = new DeterministicSeed(words, null, "", 1409478661L);
-
-        System.out.println(ByteUtils.toHexString(seed.getSeedBytes()));
+        DeterministicSeed seed = new DeterministicSeed(getWordsFromIndexes(seedWordsIndex), null, "", 1409478661L);
 
         // Set the new seed
         dongle.prepareSeed(seed.getSeedBytes());
@@ -229,5 +218,96 @@ public class SetupWalletTests extends AbstractJavaCardTest {
             dongle.prepareSeed(DEFAULT_SEED);
             fail();
         } catch (BTChipException e) {}
+    }
+
+    @Test
+    public void canValidateTheSeedTest() throws BTChipException, UnreadableWalletException, MnemonicException.MnemonicLengthException {
+        BTChipDongle dongle = getDongle(true);
+        dongle.setup(
+                new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.WALLET},
+                TESTNET_VERSION,
+                TESTNET_P2SH_VERSION);
+
+        dongle.changePin(DEFAULT_PIN);
+        dongle.verifyPin(DEFAULT_PIN);
+
+        // Can't validate the seed cause its not set
+        try {
+            dongle.validateSeed(DEFAULT_SEED);
+            fail();
+        } catch (BTChipException e) {}
+
+        // Set the new seed
+        dongle.prepareSeed(DEFAULT_SEED);
+
+        // Invalid seed should throw
+        try {
+            dongle.validateSeed(ByteUtil.byteArray("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+            fail();
+        } catch (BTChipException e) {}
+
+        // Validate the seed should not throw
+        dongle.validateSeed(DEFAULT_SEED);
+    }
+
+    static protected List<String> getWordsFromIndexes(byte[] seedWordsIndex) {
+        List<String> words = new ArrayList<String>();
+        assertEquals(34, seedWordsIndex.length);
+
+        for (int i = 0; i < seedWordsIndex.length; i += 2) {
+            ByteBuffer bb = ByteBuffer.allocate(2);
+            bb.order(ByteOrder.BIG_ENDIAN);
+            bb.put(seedWordsIndex[i]);
+            bb.put(seedWordsIndex[i+1]);
+            short shortVal = bb.getShort(0);
+            String word = MnemonicCode.INSTANCE.getWordList().get(shortVal);
+            words.add(word);
+        }
+
+        return words;
+    }
+
+    @Test
+    public void eraseTest() throws BTChipException {
+        BTChipDongle dongle = getDongle(true);
+        dongle.setup(
+                new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.WALLET},
+                TESTNET_VERSION,
+                TESTNET_P2SH_VERSION);
+
+        // Can't erase if not in ready state
+        try {
+            dongle.erase();
+            fail();
+        } catch (BTChipException e) {}
+
+        // Should be on wallet mode and waiting for PIN setting
+        assertEquals(BasicWalletApplet.MODE_WALLET, dongle.getCurrentMode());
+        assertEquals(BasicWalletApplet.STATE_SETUP_DONE, dongle.getState());
+
+        dongle = getDongle(true);
+        dongle.setup(
+                new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.DEVELOPER},
+                TESTNET_VERSION,
+                TESTNET_P2SH_VERSION,
+                DEFAULT_PIN,
+                DEFAULT_SEED);
+
+        // Should be on development mode and ready state
+        assertEquals(BasicWalletApplet.MODE_DEVELOPMENT, dongle.getCurrentMode());
+        assertEquals(BasicWalletApplet.STATE_READY, dongle.getState());
+
+        // Can't erase if not no correct PIN set
+        try {
+            dongle.erase();
+            fail();
+        } catch (BTChipException e) {}
+
+        dongle.verifyPin(DEFAULT_PIN);
+
+        // Can erase now
+        dongle.erase();
+
+        assertEquals(BasicWalletApplet.STATE_INSTALLED, dongle.getState());
     }
 }

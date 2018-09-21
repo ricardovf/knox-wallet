@@ -50,7 +50,7 @@ public class Crypto {
     
     public static void init() {
         scratch = JCSystem.makeTransientByteArray((short)1, JCSystem.CLEAR_ON_DESELECT);
-        random = RandomData.getInstance(RandomData.ALG_SECURE_RANDOM);
+        random = RandomData.getInstance(RandomData.ALG_KEYGENERATION);
         try {
             // ok, let's save RAM
             transientPrivate = (ECPrivateKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PRIVATE_TRANSIENT_DESELECT, KeyBuilder.LENGTH_EC_FP_256, false);
@@ -147,17 +147,11 @@ public class Crypto {
     }
     
     public static void signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
-//        System.out.println("PRIVATE START");
-//        byte[] tmp = JCSystem.makeTransientByteArray((short)32, JCSystem.CLEAR_ON_DESELECT);
-//        Util.arrayCopyNonAtomic(keyBuffer, (short)0, tmp, (short)0, (short)32);
-//        System.out.println(ByteUtil.hexString(tmp));
-//        System.out.println("PRIVATE END");
         initTransientPrivate(keyBuffer, keyOffset);
         Util.arrayFillNonAtomic(keyBuffer, keyOffset, (short)32, (byte)0x00);
         // recheck with the target platform, initializing once instead might be possible and save a few flash write
         // (this part is unspecified in the Java Card API)
         signature.init(transientPrivate, Signature.MODE_SIGN);
-//        System.out.println(ByteUtil.hexString(dataBuffer));
         signature.sign(dataBuffer, dataOffset, (short)32, targetBuffer, targetOffset);
         if (transientPrivateTransient) {
             transientPrivate.clearKey();

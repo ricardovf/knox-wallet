@@ -13,6 +13,7 @@ import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.junit.Test;
+import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
 
 import java.util.Arrays;
 
@@ -39,7 +40,12 @@ public class Bip32Tests extends AbstractJavaCardTest {
         BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("44'/1'/0'/0/0");
 
         assertEquals(dk44H0H0H00.toAddress(params).toString(), publicKey.getAddress());
-//        assertTrue(Arrays.equals(publicKey.getPublicKey(), EXPECTED_PUBLIC_KEY_1));
+        assertEquals(ByteUtils.toHexString(publicKey.getPublicKey()), ByteUtils.toHexString(dk44H0H0H00.getPubKeyPoint().getEncoded(false)));
         assertTrue(Arrays.equals(publicKey.getChainCode(), dk44H0H0H00.getChainCode()));
+        System.out.println(ByteUtils.toHexString(publicKey.getPublicKey()));
+
+        System.out.println("PRIVATE");
+        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());
+        System.out.println(ByteUtils.toHexString(dk44H0H0H00.serializePrivate(params)));
     }
 }

@@ -414,6 +414,16 @@ public class BTChipDongle implements BTChipConstants {
 		offset += address.length;		
 		return new BTChipPublicKey(publicKey, new String(address), chainCode);
 	}
+
+	public byte[] getGenuinenessKey() throws BTChipException {
+		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_GENUINENESS_KEY, (byte)0x00, (byte)0x00, DUMMY, OK);
+		return response;
+	}
+
+	public byte[] proveGenuineness(byte[] challenge) throws BTChipException {
+		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PROVE_GENUINENESS, (byte)0x00, (byte)0x00, challenge, OK);
+		return response;
+	}
 	
 	public BTChipInput getTrustedInput(BitcoinTransaction transaction, long index) throws BTChipException {
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
@@ -642,7 +652,7 @@ public class BTChipDongle implements BTChipConstants {
 	
 	public byte[] signTransaction() throws BTChipException {
 		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_TRANSACTION, (byte)0x80, (byte)0x00, 0x00, OK);
-		response[0] = (byte)0x30;
+//		response[0] = (byte)0x30;
 		return response;
 	}
 	
@@ -697,8 +707,21 @@ public class BTChipDongle implements BTChipConstants {
 		return true;
 	}
 
+	public boolean changeNetwork(int keyVersion, int keyVersionP2SH) throws BTChipException {
+		ByteArrayOutputStream data = new ByteArrayOutputStream();
+		data.write(keyVersion);
+		data.write(keyVersionP2SH);
+
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_CHANGE_NETWORK, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		return true;
+	}
+
 	public byte[] randomSeedWords() throws BTChipException {
 		return exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x00, (byte)0x00, DUMMY, OK);
+	}
+
+	public void erase() throws BTChipException {
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_ERASE, (byte)0x00, (byte)0x00, DUMMY, OK);
 	}
 
 	public void prepareSeed(byte[] seed) throws BTChipException {
@@ -710,6 +733,17 @@ public class BTChipDongle implements BTChipConstants {
 		BufferUtils.writeBuffer(data, seed);
 
 		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x80, (byte)0x00, data.toByteArray(), OK);
+	}
+
+	public void validateSeed(byte[] seed) throws BTChipException {
+		ByteArrayOutputStream data = new ByteArrayOutputStream();
+
+		if ((seed.length != 64)) {
+			throw new BTChipException("Invalid seed length");
+		}
+		BufferUtils.writeBuffer(data, seed);
+
+		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VALIDATE_SEED_BACKUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 	}
 
 	public ResponseAPDU sendRawAPDU(byte[] cmd, byte[] data) throws BTChipException {

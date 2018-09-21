@@ -53,6 +53,25 @@ public class Bip32 {
 			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.masterDerived, (short)0, BasicWalletApplet.scratch256, (short)64);
 		}
 	}
+
+	/**
+	 * Same as deriveSeed but will save into the end of the scratch memory
+	 */
+	public static void deriveSeedToEndOfScratchMemory() {
+		if (Crypto.signatureHmac != null) {
+			Crypto.keyHmac2.setKey(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length);
+
+			if ((BasicWalletApplet.proprietaryAPI != null) && (BasicWalletApplet.proprietaryAPI.hasHmacSHA512())) {
+				BasicWalletApplet.proprietaryAPI.hmacSHA512(Crypto.keyHmac2, BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.scratch256, (short)(256-BasicWalletApplet.DEFAULT_SEED_LENGTH));
+			} else {
+				Crypto.signatureHmac.init(Crypto.keyHmac2, Signature.MODE_SIGN);
+				Crypto.signatureHmac.sign(BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.scratch256, (short)(256-BasicWalletApplet.DEFAULT_SEED_LENGTH));
+			}
+		}
+		else {
+			HmacSha512.hmac(BITCOIN_SEED, (short)0, (short)BITCOIN_SEED.length, BasicWalletApplet.scratch256, (short)0, (short)64, BasicWalletApplet.scratch256, (short)(256-BasicWalletApplet.DEFAULT_SEED_LENGTH), BasicWalletApplet.scratch256, (short)64);
+		}
+	}
 	
 	// scratch255 : 0-64 : key + chain / 64-67 : derivation index / 100-165 : tmp
 	// apduBuffer : block (128, starting at 127)
