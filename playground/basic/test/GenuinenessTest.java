@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import javacard.security.ECPublicKey;
 
 import static junit.framework.TestCase.fail;
+import static org.bitcoinj.core.ECKey.CURVE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -48,19 +49,26 @@ public class GenuinenessTest extends AbstractJavaCardTest {
         System.out.println(ByteUtil.hexString(publicKey));
 
         byte[] signature = dongle.proveGenuineness(challengeBytes);
+        signature = canonicalizeSignature(signature);
 
         System.out.println("SIGNATURE:");
         System.out.println(ByteUtil.hexString(signature));
 
         ECPublicKey publicKeyEC = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
-        Secp256k1.setCommonCurveParameters(publicKeyEC);
+        assertTrue(Secp256k1.setCommonCurveParameters(publicKeyEC));
 
         Signature signatureEC = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
 
         publicKeyEC.setW(publicKey, (short)0, (short)65);
         signatureEC.init(publicKeyEC, Signature.MODE_VERIFY);
         try {
-            assertTrue(signatureEC.verify(challengeBytes, (short)0, (short)32, signature, (short)0, (short)(signature[(short)1] + 2)));
+//            ECKey.ECDSASignature signatureDecoded = ECKey.ECDSASignature.decodeFromDER(signature);
+//            ECDSASigner signer = new ECDSASigner();
+//            ECPublicKeyParameters params = new ECPublicKeyParameters(CURVE.getCurve().decodePoint(publicKey), CURVE);
+//            signer.init(false, params);
+//            assertTrue(signer.verifySignature(challengeBytes, signatureDecoded.r, signatureDecoded.s));
+
+            assertTrue(signatureEC.verify(challengeBytes, (short)0, (short)32, signature, (short)0, (short)signature.length));
         } catch(Exception e) {
             fail();
         }

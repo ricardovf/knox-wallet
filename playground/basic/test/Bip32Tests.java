@@ -44,8 +44,8 @@ public class Bip32Tests extends AbstractJavaCardTest {
         assertTrue(Arrays.equals(publicKey.getChainCode(), dk44H0H0H00.getChainCode()));
         System.out.println(ByteUtils.toHexString(publicKey.getPublicKey()));
 
-        System.out.println("PRIVATE");
-        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());
-        System.out.println(ByteUtils.toHexString(dk44H0H0H00.serializePrivate(params)));
+//        System.out.println("PRIVATE");
+//        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());
+//        System.out.println(ByteUtils.toHexString(dk44H0H0H00.serializePrivate(params)));
     }
 }

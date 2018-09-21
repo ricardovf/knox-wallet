@@ -378,8 +378,6 @@ public class BasicWalletApplet extends Applet {
 //        if (proprietaryAPI == null) {
 //            Bip32Cache.copyLastPublic(buffer, offset);
 //        } else {
-            System.out.println("PRIVATE CARD (GET PUBLIC)");
-            System.out.println(ByteUtils.toHexString(scratch256));
             proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, buffer, offset);
 //        }
         // Save the chaincode
@@ -435,17 +433,11 @@ public class BasicWalletApplet extends Applet {
             byte derivationSize = buffer[offset++];
             offset += (short)(4 * derivationSize);
 
-            System.out.println("PRIVATE CARD");
-            System.out.println(ByteUtils.toHexString(scratch256));
-
             // Copy the public key to verify the signature
             proprietaryAPI.getUncompressedPublicPoint(scratch256, (short)0, scratch256, (short) 180);
-            System.out.println("UNCOMPRESSED PUBLIC POINT: ");
-            System.out.println(ByteUtils.toHexString(scratch256));
 
             // Sign the data SHA-256 hash
             _signTransientPrivate(scratch256, (short)0, buffer, offset, scratch256, (short)100);
-            System.out.println(ByteUtils.toHexString(scratch256));
 
             buffer[(short)0] = TC.TRUE;
 
@@ -470,8 +462,7 @@ public class BasicWalletApplet extends Applet {
             short signatureSize = (short)((short)(scratch256[(short)101] & 0xff) + 2);
 
             Util.arrayCopyNonAtomic(scratch256, (short)100, buffer, (short)0, signatureSize);
-            System.out.println(ByteUtils.toHexString(scratch256));
-            System.out.println(ByteUtils.toHexString(buffer));
+//            System.out.println(ByteUtils.toHexString(scratch256));
             apdu.setOutgoingAndSend((short)0, signatureSize);
         } else {
             ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);

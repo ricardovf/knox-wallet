@@ -20,7 +20,11 @@
 
 package com.knox.playground.basic;
 
+import com.knox.playground.dongle.BTChipException;
 import com.licel.jcardsim.utils.ByteUtil;
+import javacard.security.ECPublicKey;
+import javacard.security.KeyBuilder;
+import javacard.security.Signature;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Sha256Hash;
@@ -31,7 +35,10 @@ import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
 
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class BitcoinJTest extends AbstractJavaCardTest {
@@ -96,42 +103,92 @@ public class BitcoinJTest extends AbstractJavaCardTest {
     }
 
     @Test
-    public void generateAddress13() throws UnreadableWalletException {
+    public void signTest() throws UnreadableWalletException, BTChipException {
+        String hash = "edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9";
+        byte[] challengeBytes = ByteUtil.byteArray(hash);
+
         NetworkParameters params = TestNet3Params.get();
 
         DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
 
 //        Wallet wallet = Wallet.fromSeed(params, seed);
 
-        // "13'/0'/0'/0/42"
         DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
-        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 13 | ChildNumber.HARDENED_BIT);
-        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 0 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 44 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 1 | ChildNumber.HARDENED_BIT);
         DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
         DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 0);
-        DeterministicKey dk44H0H0H042 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 42);
+        DeterministicKey dk44H0H0H00 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 0);
 
-//        System.out.println(dk44H0H0H042.toAddress(params));
-//        System.out.println(dk44H0H0H042.getPubKeyPoint());
-//        System.out.println(ByteUtil.hexString(dk44H0H0H042.getChainCode()));
+        System.out.println("ADDRESS");
+        System.out.println(dk44H0H0H00.toAddress(params));
+//        System.out.println(ByteUtil.hexString(dk44H0H0H00.getChainCode()));
+//        System.out.println(ByteUtil.hexString(dk44H0H0H00.getPubKeyPoint().getEncoded()));
+        System.out.println("PUBLIC");
+        System.out.println(ByteUtils.toHexString(dk44H0H0H00.getPubKeyPoint().getEncoded(false)));
+        System.out.println("PUBLIC POINT");
+        System.out.println(dk44H0H0H00.getPubKeyPoint());
+        System.out.println("PRIVATE");
+        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());
 
-        Sha256Hash hash = Sha256Hash.wrap("9566fb3aee440cf853372f2ed1f287d7c7e01717f22f6427056efa0cae52252c");
-        // Sign
-        ECKey.ECDSASignature signature = dk44H0H0H042.sign(hash);
-//        System.out.println(signature.isCanonical());
-//        System.out.println(signature.r);
-//        System.out.println(signature.s);
-//        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
-        assertTrue(dk44H0H0H042.verify(hash, signature));
-//
-//        signature = ECKey.ECDSASignature.decodeFromDER(ByteUtil.byteArray("304402205eabeefae7d20bfe0e6c43012cd2348598cae7b052f6df0add9fd70161941c8802200f9520b90f46d39265a75f652d2741cd3130989017795213b6decde30ed543ca"));
-//        System.out.println(signature.isCanonical());
-//        System.out.println(signature.r);
-//        System.out.println(signature.s);
-//        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
-//        assertTrue(dk44H0H0H042.verify(hash, signature));
+        byte[] publicKey = dk44H0H0H00.getPubKeyPoint().getEncoded(false);
+        byte[] signature = dk44H0H0H00.sign(Sha256Hash.wrap(challengeBytes)).encodeToDER();
+        System.out.println("SIGNATURE");
+        System.out.println(ByteUtils.toHexString(signature));
+        signature = canonicalizeSignature(signature);
+
+        System.out.println("SIGNATURE CANONICALIZED");
+        System.out.println(ByteUtils.toHexString(signature));
+
+        ECPublicKey publicKeyEC = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
+        Secp256k1.setCommonCurveParameters(publicKeyEC);
+        publicKeyEC.setW(publicKey, (short)0, (short)65);
+
+        Signature signatureEC = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
+        signatureEC.init(publicKeyEC, Signature.MODE_VERIFY);
+        try {
+            assertTrue(dk44H0H0H00.verify(challengeBytes, signature, publicKey));
+//            assertTrue(signatureEC.verify(challengeBytes, (short)0, (short)32, signature, (short)0, (short)signature.length));
+        } catch(Exception e) {
+            fail();
+        }
     }
 
-
+//    @Test
+//    public void generateAddress13() throws UnreadableWalletException {
+//        NetworkParameters params = TestNet3Params.get();
+//
+//        DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
+//
+////        Wallet wallet = Wallet.fromSeed(params, seed);
+//
+//        // "13'/0'/0'/0/42"
+//        DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
+//        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 13 | ChildNumber.HARDENED_BIT);
+//        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 0 | ChildNumber.HARDENED_BIT);
+//        DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
+//        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 0);
+//        DeterministicKey dk44H0H0H042 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 42);
+//
+////        System.out.println(dk44H0H0H042.toAddress(params));
+////        System.out.println(dk44H0H0H042.getPubKeyPoint());
+////        System.out.println(ByteUtil.hexString(dk44H0H0H042.getChainCode()));
+//
+//        Sha256Hash hash = Sha256Hash.wrap("9566fb3aee440cf853372f2ed1f287d7c7e01717f22f6427056efa0cae52252c");
+//        // Sign
+//        ECKey.ECDSASignature signature = dk44H0H0H042.sign(hash);
+////        System.out.println(signature.isCanonical());
+////        System.out.println(signature.r);
+////        System.out.println(signature.s);
+////        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
+//        assertTrue(dk44H0H0H042.verify(hash, signature));
+////
+////        signature = ECKey.ECDSASignature.decodeFromDER(ByteUtil.byteArray("304402205eabeefae7d20bfe0e6c43012cd2348598cae7b052f6df0add9fd70161941c8802200f9520b90f46d39265a75f652d2741cd3130989017795213b6decde30ed543ca"));
+////        System.out.println(signature.isCanonical());
+////        System.out.println(signature.r);
+////        System.out.println(signature.s);
+////        System.out.println(ByteUtil.hexString(signature.encodeToDER()));
+////        assertTrue(dk44H0H0H042.verify(hash, signature));
+//    }
 }
 
