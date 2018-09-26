@@ -19,22 +19,9 @@
 */    
 package com.knox.playground.basic;
 
-import com.licel.jcardsim.utils.ByteUtil;
 import javacard.framework.JCSystem;
 import javacard.framework.Util;
-import javacard.security.CryptoException;
-import javacard.security.DESKey;
-import javacard.security.AESKey;
-import javacard.security.ECKey;
-import javacard.security.ECPrivateKey;
-import javacard.security.ECPublicKey;
-import javacard.security.HMACKey;
-import javacard.security.KeyAgreement;
-import javacard.security.KeyBuilder;
-import javacard.security.KeyPair;
-import javacard.security.MessageDigest;
-import javacard.security.RandomData;
-import javacard.security.Signature;
+import javacard.security.*;
 import javacardx.crypto.Cipher;
 
 /**

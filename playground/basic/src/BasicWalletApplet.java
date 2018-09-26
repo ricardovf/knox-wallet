@@ -26,7 +26,6 @@ package com.knox.playground.basic;
 import javacard.framework.*;
 import javacard.security.DESKey;
 import javacard.security.KeyBuilder;
-import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
 
 public class BasicWalletApplet extends Applet {
     /**
@@ -58,7 +57,7 @@ public class BasicWalletApplet extends Applet {
         erase();
 
         // Uncomment to make the real Applet.cap
-        proprietaryAPI = new JCardSIMProprietaryAPI();
+        proprietaryAPI = new JCOPProprietaryAPI();
 
         register();
     }

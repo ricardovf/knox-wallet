@@ -2,13 +2,10 @@ package com.knox.playground.basic;
 
 import com.knox.playground.dongle.BTChipDongle;
 import com.knox.playground.dongle.BTChipException;
-import com.licel.jcardsim.utils.ByteUtil;
-import javacard.framework.CardException;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
