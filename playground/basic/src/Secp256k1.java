@@ -75,6 +75,5 @@ public class Secp256k1 {
     	catch(Exception e) {
     		return false;
     	}
-    	
     }
 }

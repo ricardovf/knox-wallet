@@ -1,4 +1,4 @@
-package com.knox.playground.basic;
+package com.knox.playground.basic.server;
 
 import com.knox.playground.dongle.BTChipException;
 import com.knox.playground.dongle.comm.BTChipTransport;

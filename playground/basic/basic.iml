@@ -8,12 +8,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="com.knox.playground.basic" />
+      <sourceFolder url="file://$MODULE_DIR$/server" isTestSource="false" packagePrefix="com.knox.playground.basic.server" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="library" name="jcardsim-3.0.5-SNAPSHOT" level="application" />
     <orderEntry type="library" name="jc305u2" level="application" />
     <orderEntry type="library" name="slf4j-jdk14-1.7.25" level="application" />
-    <orderEntry type="module" module-name="dongle" scope="TEST" />
+    <orderEntry type="module" module-name="dongle" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit4">

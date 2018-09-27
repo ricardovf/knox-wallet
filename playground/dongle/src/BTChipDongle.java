@@ -236,11 +236,11 @@ public class BTChipDongle implements BTChipConstants {
 		this.transport = transport;
 	}
 
-	private byte[] exchange(byte[] apdu) throws BTChipException {
+	public byte[] exchange(byte[] apdu) throws BTChipException {
 		return exchange(apdu, false);
 	}
 
-	private byte[] exchange(byte[] apdu, boolean rawResponse) throws BTChipException {
+	public byte[] exchange(byte[] apdu, boolean rawResponse) throws BTChipException {
 		ResponseAPDU responseAPDU = transport.exchange(apdu);
 		byte[] response = responseAPDU.getBytes();
 
@@ -256,7 +256,7 @@ public class BTChipDongle implements BTChipConstants {
 		return result;
 	}
 	
-	private byte[] exchangeCheck(byte[] apdu, int acceptedSW[]) throws BTChipException {
+	public byte[] exchangeCheck(byte[] apdu, int acceptedSW[]) throws BTChipException {
 		byte[] response = exchange(apdu);
 		if (acceptedSW == null) {
 			return response;
@@ -268,8 +268,8 @@ public class BTChipDongle implements BTChipConstants {
 		}
 		throw new BTChipException("Invalid status", lastSW);
 	}
-	
-	private byte[] exchangeApdu(byte cla, byte ins, byte p1, byte p2, byte[] data, int acceptedSW[]) throws BTChipException {
+
+	public byte[] exchangeApdu(byte cla, byte ins, byte p1, byte p2, byte[] data, int acceptedSW[]) throws BTChipException {
 		byte[] apdu = new byte[data.length + 5];
 		apdu[0] = cla;
 		apdu[1] = ins;
@@ -279,8 +279,8 @@ public class BTChipDongle implements BTChipConstants {
 		System.arraycopy(data, 0, apdu, 5, data.length);
 		return exchangeCheck(apdu, acceptedSW);
 	}
-	
-	private byte[] exchangeApdu(byte cla, byte ins, byte p1, byte p2, int length, int acceptedSW[]) throws BTChipException {
+
+	public byte[] exchangeApdu(byte cla, byte ins, byte p1, byte p2, int length, int acceptedSW[]) throws BTChipException {
 		byte[] apdu = new byte[5];
 		apdu[0] = cla;
 		apdu[1] = ins;
@@ -290,7 +290,7 @@ public class BTChipDongle implements BTChipConstants {
 		return exchangeCheck(apdu, acceptedSW);
 	}
 
-	private byte[] exchangeApduSplit(byte cla, byte ins, byte p1, byte p2, byte[] data, int acceptedSW[]) throws BTChipException {
+	public byte[] exchangeApduSplit(byte cla, byte ins, byte p1, byte p2, byte[] data, int acceptedSW[]) throws BTChipException {
 		int offset = 0;
 		byte[] result = null;
 		while (offset < data.length) {
@@ -308,7 +308,7 @@ public class BTChipDongle implements BTChipConstants {
 		return result;
 	}
 
-    private byte[] exchangeApduSplit2(byte cla, byte ins, byte p1, byte p2, byte[] data, byte[] data2, int acceptedSW[]) throws BTChipException {
+	public byte[] exchangeApduSplit2(byte cla, byte ins, byte p1, byte p2, byte[] data, byte[] data2, int acceptedSW[]) throws BTChipException {
 		int offset = 0;
 		byte[] result = null;
 		int maxBlockSize = 255 - data2.length;

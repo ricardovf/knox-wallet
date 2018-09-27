@@ -57,7 +57,7 @@ public class BasicWalletApplet extends Applet {
         erase();
 
         // Uncomment to make the real Applet.cap
-        proprietaryAPI = new JCOPProprietaryAPI();
+        proprietaryAPI = new JCardSIMProprietaryAPI();
 
         register();
     }
@@ -594,6 +594,11 @@ public class BasicWalletApplet extends Applet {
         if (TC.ctx[TC.TX_B_MESSAGE_SIGN_READY] != TC.TRUE) {
             Util.arrayFillNonAtomic(scratch256, (short)0, (short)scratch256.length, (byte)0x00);
         }
+    }
+
+    public boolean select() {
+//        proprietaryAPI.ecc.refreshAfterReset();
+        return true;
     }
 
     /**
