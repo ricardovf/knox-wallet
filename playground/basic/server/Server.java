@@ -24,6 +24,7 @@ public class Server {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(28281), 0);
         server.createContext("/call", new CallHandler());
+        server.createContext("/reset", new ResetHandler());
         server.setExecutor(null);
         server.start();
     }
@@ -54,6 +55,28 @@ public class Server {
 
                 responseBytes = dongle.exchange(command, true);
                 response = ByteUtils.toHexString(responseBytes);
+            } catch (BTChipException e) {
+                response = e.toString();
+                code = 500;
+            } catch (Exception e) {
+                response = "An unknown Exception happened!";
+                code = 500;
+            }
+
+            t.sendResponseHeaders(code, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class ResetHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            String response;
+            int code = 200;
+            try {
+                dongle = interaction.prepareDongle(true);
+                response = "OK";
             } catch (BTChipException e) {
                 response = e.toString();
                 code = 500;
