@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class NumericKeyboard extends React.Component {
   render() {
     const { classes } = this.props;

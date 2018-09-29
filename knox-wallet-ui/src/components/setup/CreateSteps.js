@@ -40,7 +40,7 @@ function getStepContent(step) {
   }
 }
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class HorizontalLinearStepper extends React.Component {
   state = {
     activeStep: 0,

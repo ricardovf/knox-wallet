@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './media/img/logo-knox-horizontal-blue-bg.png';
 import { hot } from 'react-hot-loader';
 // import ErrorBoundary from './ErrorBoundary';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';

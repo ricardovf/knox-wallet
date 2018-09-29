@@ -25,12 +25,22 @@ public class Server {
         HttpServer server = HttpServer.create(new InetSocketAddress(28281), 0);
         server.createContext("/call", new CallHandler());
         server.createContext("/reset", new ResetHandler());
+        server.createContext("/ping", new PingHandler());
         server.setExecutor(null);
         server.start();
     }
 
     static class CallHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+
+            if (t.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+                t.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+                t.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+                t.sendResponseHeaders(204, -1);
+                return;
+            }
+
             String response;
             byte responseBytes[];
             int code = 200;
@@ -84,6 +94,18 @@ public class Server {
                 response = "An unknown Exception happened!";
                 code = 500;
             }
+
+            t.sendResponseHeaders(code, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class PingHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            String response = "knox";
+            int code = 200;
 
             t.sendResponseHeaders(code, response.length());
             OutputStream os = t.getResponseBody();

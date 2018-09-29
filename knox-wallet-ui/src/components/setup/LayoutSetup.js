@@ -12,6 +12,10 @@ import CreateOrRecovery from './CreateOrRecovery';
 import CreateSetName from './CreateSetName';
 import CreateSetPIN from './CreateSetPIN';
 import CreateRecovery from './CreateRecovery';
+import { observer, inject } from 'mobx-react';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme();
 
 const NotFound = () => 'Page not found';
 
@@ -58,13 +62,15 @@ const styles = theme => ({
   },
 });
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
+@inject('deviceStore')
+@observer
 export default class LayoutSetup extends React.Component {
   render() {
-    const { classes, theme } = this.props;
+    const { classes, deviceStore } = this.props;
 
     return (
-      <React.Fragment>
+      <MuiThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar className={classes.toolbar}>
             <img src={logo} height={65} className={classes.logo} />
@@ -89,13 +95,12 @@ export default class LayoutSetup extends React.Component {
           <Typography variant="caption" color="textSecondary">
             Ricardo Vieira Fritsche © 2018
           </Typography>
+
+          <Typography variant="caption" color="textSecondary">
+            Firmware version: {deviceStore.firmwareVersion}
+          </Typography>
         </div>
-      </React.Fragment>
+      </MuiThemeProvider>
     );
   }
 }
-
-LayoutSetup.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};

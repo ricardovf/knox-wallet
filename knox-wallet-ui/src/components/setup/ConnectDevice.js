@@ -14,7 +14,7 @@ const styles = theme => {
   };
 };
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class InstallConnector extends BasePaper {
   constructor(props) {
     super(props);

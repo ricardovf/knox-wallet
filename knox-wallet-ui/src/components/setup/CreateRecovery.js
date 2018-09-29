@@ -7,6 +7,7 @@ import CreateSteps from './CreateSteps';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { inject, observer } from 'mobx-react';
 
 const styles = theme => {
   return {
@@ -29,7 +30,9 @@ const styles = theme => {
   };
 };
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
+@inject('deviceStore')
+@observer
 export default class CreateRecovery extends BasePaper {
   constructor(props) {
     super(props);
@@ -77,7 +80,6 @@ export default class CreateRecovery extends BasePaper {
             variant="contained"
             color="primary"
             className={classes.button}
-            href="/create-recovery"
           >
             Continue
           </Button>

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BasePaper, { styles } from './BasePaper';
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class InstallConnector extends BasePaper {
   render() {
     const { classes } = this.props;

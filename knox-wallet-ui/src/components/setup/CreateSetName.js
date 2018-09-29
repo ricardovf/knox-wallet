@@ -28,7 +28,7 @@ const styles = theme => {
   };
 };
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class CreateSetName extends BasePaper {
   constructor(props) {
     super(props);

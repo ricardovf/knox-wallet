@@ -29,7 +29,7 @@ const styles = theme => {
   };
 };
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class CreateSetPIN extends BasePaper {
   constructor(props) {
     super(props);
@@ -57,7 +57,6 @@ export default class CreateSetPIN extends BasePaper {
 
             <TextField
               fullWidth
-              autoComplete={false}
               type="password"
               helperText="Choose between 4 and 8 digits"
               inputProps={{

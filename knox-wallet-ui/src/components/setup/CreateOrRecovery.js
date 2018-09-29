@@ -27,7 +27,7 @@ const styles = theme => {
   };
 };
 
-@withStyles(styles, { withTheme: true })
+@withStyles(styles)
 export default class CreateOrRecovery extends BasePaper {
   render() {
     const { classes } = this.props;

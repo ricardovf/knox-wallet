@@ -66,8 +66,3 @@ export default class BasePaper extends React.Component {
     );
   }
 }
-
-BasePaper.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
