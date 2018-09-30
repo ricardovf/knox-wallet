@@ -332,7 +332,7 @@ public class BTChipDongle implements BTChipConstants {
 	}
 
 	public void changePin(byte[] pin) throws BTChipException {
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_CHANGE_PIN, (byte)0x00, (byte)0x00, pin, OK);
+		exchangeApdu(CLA, INS_CHANGE_PIN, (byte)0x00, (byte)0x00, pin, OK);
 	}
 	
 	public void verifyPin(byte[] pin) throws BTChipException {
@@ -340,11 +340,11 @@ public class BTChipDongle implements BTChipConstants {
 	}
 
 	public void verifyPin(byte[] pin, int acceptedSW[]) throws BTChipException {
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x00, (byte)0x00, pin, acceptedSW);
+		exchangeApdu(CLA, INS_VERIFY_PIN, (byte)0x00, (byte)0x00, pin, acceptedSW);
 	}
 	
 	public int getVerifyPinRemainingAttempts() throws BTChipException {
-		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VERIFY_PIN, (byte)0x80, (byte)0x00, DUMMY, null);
+		byte response[] = exchangeApdu(CLA, INS_VERIFY_PIN, (byte)0x80, (byte)0x00, DUMMY, null);
 
 		if (response.length == 1) {
 			return (int) response[0];
@@ -355,7 +355,7 @@ public class BTChipDongle implements BTChipConstants {
 	
 	public BTChipPublicKey getWalletPublicKey(String keyPath) throws BTChipException {
 		byte data[] = BIP32Utils.splitPath(keyPath);
-		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_WALLET_PUBLIC_KEY, (byte)0x00, (byte)0x00, data, OK);
+		byte response[] = exchangeApdu(CLA, INS_GET_WALLET_PUBLIC_KEY, (byte)0x00, (byte)0x00, data, OK);
 		int offset = 0;
 		byte publicKey[] = new byte[response[offset]];
 		offset++;
@@ -372,12 +372,12 @@ public class BTChipDongle implements BTChipConstants {
 	}
 
 	public byte[] getGenuinenessKey() throws BTChipException {
-		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_GENUINENESS_KEY, (byte)0x00, (byte)0x00, DUMMY, OK);
+		byte response[] = exchangeApdu(CLA, INS_GET_GENUINENESS_KEY, (byte)0x00, (byte)0x00, DUMMY, OK);
 		return response;
 	}
 
 	public byte[] proveGenuineness(byte[] challenge) throws BTChipException {
-		byte response[] = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PROVE_GENUINENESS, (byte)0x00, (byte)0x00, challenge, OK);
+		byte response[] = exchangeApdu(CLA, INS_PROVE_GENUINENESS, (byte)0x00, (byte)0x00, challenge, OK);
 		response[0] = (byte)0x30;
 		return response;
 	}
@@ -386,18 +386,18 @@ public class BTChipDongle implements BTChipConstants {
 		ByteArrayOutputStream data = new ByteArrayOutputStream();
 		BufferUtils.writeBuffer(data, BIP32Utils.splitPath(path));
 		BufferUtils.writeBuffer(data, hash);
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_TRANSACTION, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		exchangeApdu(CLA, INS_SIGN_TRANSACTION, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 		return true;
 	}
 	
 	public byte[] signTransaction() throws BTChipException {
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SIGN_TRANSACTION, (byte)0x80, (byte)0x00, 0x00, OK);
+		byte[] response = exchangeApdu(CLA, INS_SIGN_TRANSACTION, (byte)0x80, (byte)0x00, 0x00, OK);
 		response[0] = (byte)0x30;
 		return response;
 	}
 	
 	public BTChipFirmware getFirmwareVersion() throws BTChipException {
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_FIRMWARE_VERSION, (byte)0x00, (byte)0x00, 0x00, OK);
+		byte[] response = exchangeApdu(CLA, INS_GET_FIRMWARE_VERSION, (byte)0x00, (byte)0x00, 0x00, OK);
 		int major = (int)(response[0] & 0xff);
 		int minor = (int)(response[1] & 0xff);
 		int patch = (int)(response[2] & 0xff);
@@ -405,12 +405,12 @@ public class BTChipDongle implements BTChipConstants {
 	}
 
 	public byte getState() throws BTChipException {
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_STATE, (byte)0x00, (byte)0x00, 0x00, OK);
+		byte[] response = exchangeApdu(CLA, INS_GET_STATE, (byte)0x00, (byte)0x00, 0x00, OK);
 		return response[0];
 	}
 
 	public byte getCurrentMode() throws BTChipException {
-		byte[] response = exchangeApdu(BTCHIP_CLA, BTCHIP_INS_GET_MODE, (byte)0x00, (byte)0x00, 0x00, OK);
+		byte[] response = exchangeApdu(CLA, INS_GET_MODE, (byte)0x00, (byte)0x00, 0x00, OK);
 		return response[0];
 	}
 
@@ -443,7 +443,7 @@ public class BTChipDongle implements BTChipConstants {
 			BufferUtils.writeBuffer(data, seed);
 		}
 
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		exchangeApdu(CLA, INS_SETUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 		return true;
 	}
 
@@ -452,16 +452,16 @@ public class BTChipDongle implements BTChipConstants {
 		data.write(keyVersion);
 		data.write(keyVersionP2SH);
 
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_CHANGE_NETWORK, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		exchangeApdu(CLA, INS_CHANGE_NETWORK, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 		return true;
 	}
 
 	public byte[] randomSeedWords() throws BTChipException {
-		return exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x00, (byte)0x00, DUMMY, OK);
+		return exchangeApdu(CLA, INS_PREPARE_SEED, (byte)0x00, (byte)0x00, DUMMY, OK);
 	}
 
 	public void erase() throws BTChipException {
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_ERASE, (byte)0x00, (byte)0x00, DUMMY, OK);
+		exchangeApdu(CLA, INS_ERASE, (byte)0x00, (byte)0x00, DUMMY, OK);
 	}
 
 	public void prepareSeed(byte[] seed) throws BTChipException {
@@ -472,7 +472,7 @@ public class BTChipDongle implements BTChipConstants {
 		}
 		BufferUtils.writeBuffer(data, seed);
 
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_PREPARE_SEED, (byte)0x80, (byte)0x00, data.toByteArray(), OK);
+		exchangeApdu(CLA, INS_PREPARE_SEED, (byte)0x80, (byte)0x00, data.toByteArray(), OK);
 	}
 
 	public void validateSeed(byte[] seed) throws BTChipException {
@@ -483,7 +483,7 @@ public class BTChipDongle implements BTChipConstants {
 		}
 		BufferUtils.writeBuffer(data, seed);
 
-		exchangeApdu(BTCHIP_CLA, BTCHIP_INS_VALIDATE_SEED_BACKUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
+		exchangeApdu(CLA, INS_VALIDATE_SEED_BACKUP, (byte)0x00, (byte)0x00, data.toByteArray(), OK);
 	}
 
 	public ResponseAPDU sendRawAPDU(byte[] cmd, byte[] data) throws BTChipException {

@@ -20,21 +20,21 @@
 package com.knox.playground.dongle;
 
 public interface BTChipConstants {
-    byte BTCHIP_CLA = (byte) 0xE0;
-    byte BTCHIP_INS_SETUP = (byte) 0x20;
-    byte BTCHIP_INS_VERIFY_PIN = (byte) 0x22;
-    byte BTCHIP_INS_CHANGE_PIN = (byte) 0x4B;
-    byte BTCHIP_INS_PREPARE_SEED = (byte) 0x4C;
-    byte BTCHIP_INS_GET_GENUINENESS_KEY = (byte) 0x4D;
-    byte BTCHIP_INS_PROVE_GENUINENESS = (byte) 0x4F;
-    byte BTCHIP_INS_CHANGE_NETWORK = (byte) 0x50;
-    byte BTCHIP_INS_VALIDATE_SEED_BACKUP = (byte) 0x52;
-    byte BTCHIP_INS_SIGN_TRANSACTION = (byte) 0x54;
-    byte BTCHIP_INS_GET_STATE = (byte) 0x56;
-    byte BTCHIP_INS_GET_MODE = (byte) 0x60;
-    byte BTCHIP_INS_ERASE = (byte) 0x58;
-    byte BTCHIP_INS_GET_WALLET_PUBLIC_KEY = (byte) 0x40;
-    byte BTCHIP_INS_GET_FIRMWARE_VERSION = (byte) 0xC4;
+    byte CLA = (byte) 0xE0;
+    byte INS_SETUP = (byte) 0x20;
+    byte INS_VERIFY_PIN = (byte) 0x22;
+    byte INS_CHANGE_PIN = (byte) 0x4B;
+    byte INS_PREPARE_SEED = (byte) 0x4C;
+    byte INS_GET_GENUINENESS_KEY = (byte) 0x4D;
+    byte INS_PROVE_GENUINENESS = (byte) 0x4F;
+    byte INS_CHANGE_NETWORK = (byte) 0x50;
+    byte INS_VALIDATE_SEED_BACKUP = (byte) 0x52;
+    byte INS_SIGN_TRANSACTION = (byte) 0x54;
+    byte INS_GET_STATE = (byte) 0x56;
+    byte INS_GET_MODE = (byte) 0x60;
+    byte INS_ERASE = (byte) 0x58;
+    byte INS_GET_WALLET_PUBLIC_KEY = (byte) 0x40;
+    byte INS_GET_FIRMWARE_VERSION = (byte) 0xC4;
 
     int SW_OK = 0x9000;
 }
