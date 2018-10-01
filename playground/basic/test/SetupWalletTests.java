@@ -285,7 +285,23 @@ public class SetupWalletTests extends AbstractJavaCardTest {
         assertEquals(BasicWalletApplet.MODE_WALLET, dongle.getCurrentMode());
         assertEquals(BasicWalletApplet.STATE_SETUP_DONE, dongle.getState());
 
-        dongle = getDongle(true);
+        dongle.changePin(DEFAULT_PIN);
+        dongle.verifyPin(DEFAULT_PIN);
+        dongle.prepareSeed(DEFAULT_SEED);
+
+        assertEquals(BasicWalletApplet.MODE_WALLET, dongle.getCurrentMode());
+        assertEquals(BasicWalletApplet.STATE_READY, dongle.getState());
+
+        // Can erase now
+        dongle.erase();
+
+        assertEquals(BasicWalletApplet.MODE_WALLET, dongle.getCurrentMode());
+        assertEquals(BasicWalletApplet.STATE_SETUP_DONE, dongle.getState());
+    }
+
+    @Test
+    public void eraseTestDevelopment() throws BTChipException {
+        BTChipDongle dongle = getDongle(true);
         dongle.setup(
                 new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.DEVELOPER},
                 TESTNET_VERSION,
@@ -308,6 +324,31 @@ public class SetupWalletTests extends AbstractJavaCardTest {
         // Can erase now
         dongle.erase();
 
+        // Can't get current mode cause its on installed state
+        try {
+            dongle.getCurrentMode();
+            fail();
+        } catch (BTChipException e) {}
+
         assertEquals(BasicWalletApplet.STATE_INSTALLED, dongle.getState());
+    }
+
+    @Test
+    public void changeNetwork() throws BTChipException {
+        BTChipDongle dongle = getDongle(true);
+        dongle.setup(
+                new BTChipDongle.OperationMode[]{BTChipDongle.OperationMode.DEVELOPER},
+                TESTNET_VERSION,
+                TESTNET_P2SH_VERSION,
+                DEFAULT_PIN,
+                DEFAULT_SEED);
+
+        // Cant change network without pin
+        try {
+            dongle.changeNetwork(0, 0);
+            fail();
+        } catch (BTChipException e) {}
+        dongle.verifyPin(DEFAULT_PIN);
+        dongle.changeNetwork(0, 0);
     }
 }

@@ -10,6 +10,17 @@ export default class Transport {
    * @return {Promise<any>}
    */
   exchange(command) {}
+
+  /**
+   * @return {Promise<any>}
+   */
+  ping() {}
+
+  /**
+   * @return {Promise<any>}
+   */
+  reset() {}
+
   close() {}
   setDebug(debug) {
     this.debug = debug;

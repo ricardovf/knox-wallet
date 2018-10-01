@@ -2,6 +2,7 @@ package com.knox.playground.basic;
 
 import com.knox.playground.dongle.BTChipDongle;
 import com.knox.playground.dongle.BTChipException;
+import com.knox.playground.dongle.utils.BIP32Utils;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -34,12 +35,19 @@ public class Bip32Tests extends AbstractJavaCardTest {
 
         BTChipDongle dongle = prepareDongleRestoreTestnet(true);
         dongle.verifyPin(DEFAULT_PIN);
+        byte pathSplit[] = BIP32Utils.splitPath("44'/1'/0'/0/0");
+        System.out.println(ByteUtils.toHexString(pathSplit));
         BTChipDongle.BTChipPublicKey publicKey = dongle.getWalletPublicKey("44'/1'/0'/0/0");
+
+        System.out.println("PUBLIC:");
+        System.out.println(ByteUtils.toHexString(publicKey.getPublicKey()));
+        System.out.println(publicKey.getAddress());
+        System.out.println(ByteUtils.toHexString(publicKey.getChainCode()));
 
         assertEquals(dk44H0H0H00.toAddress(params).toString(), publicKey.getAddress());
         assertEquals(ByteUtils.toHexString(publicKey.getPublicKey()), ByteUtils.toHexString(dk44H0H0H00.getPubKeyPoint().getEncoded(false)));
         assertTrue(Arrays.equals(publicKey.getChainCode(), dk44H0H0H00.getChainCode()));
-        System.out.println(ByteUtils.toHexString(publicKey.getPublicKey()));
+//        System.out.println(ByteUtils.toHexString(publicKey.getPublicKey()));
 
 //        System.out.println("PRIVATE");
 //        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());

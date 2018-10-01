@@ -16,6 +16,6 @@ export default class DeviceException {
   }
 
   toString() {
-    return this.message;
+    return this.message + (this.sw ? ` ${this.sw}` : '');
   }
 }

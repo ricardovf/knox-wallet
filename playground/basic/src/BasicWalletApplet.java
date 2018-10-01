@@ -278,7 +278,14 @@ public class BasicWalletApplet extends Applet {
      * @throws ISOException
      */
     private static void handleErase(APDU apdu) throws ISOException {
-        erase();
+        if (currentMode == MODE_DEVELOPMENT) {
+            erase();
+        } else {
+            erase();
+            currentMode = MODE_WALLET;
+            state = STATE_SETUP_DONE;
+        }
+
         apdu.setOutgoingAndSend((short) 0, (short) 0);
     }
 

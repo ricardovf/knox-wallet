@@ -1,3 +1,4 @@
+// Commands
 export const CLA = 0xe0;
 export const INS_SETUP = 0x20;
 export const INS_VERIFY_PIN = 0x22;
@@ -15,9 +16,17 @@ export const INS_GET_WALLET_PUBLIC_KEY = 0x40;
 export const INS_GET_FIRMWARE_VERSION = 0xc4;
 export const SW_OK = 0x9000;
 
+// Wallet states
+export const STATE_INSTALLED = 0x00;
+export const STATE_SETUP_DONE = 0x11;
+export const STATE_PIN_SET = 0x22;
+export const STATE_READY = 0x33;
+
+// Wallet modes
 export const MODE_WALLET = 0x01;
-export const MODE_DEVELOPER = 0x08;
+export const MODE_DEVELOPMENT = 0x08;
 export const USER_CONFIRMATION_NONE = 0x00;
 
+// Bitcoin network
 export const BITCOIN_TESTNET_VERSION = 111;
 export const BITCOIN_TESTNET_P2SH_VERSION = 196;

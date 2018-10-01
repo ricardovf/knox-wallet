@@ -1,4 +1,5 @@
-import ByteUtil from '../util/ByteUtil';
+import { Buffer } from 'buffer';
+import DeviceException from '../DeviceException';
 
 export const statusCodes = {
   '^9000$': 'Normal processing',
@@ -39,57 +40,51 @@ export const statusCodes = {
   '^6f(.{2})$': 'Checking error: no precise diagnosis',
 };
 
-export default class Response {
-  constructor(buffer) {
-    this.data = buffer;
-  }
+export function statusWordToMessage(statusCode) {
+  let buf = new Buffer(2);
+  buf.writeUInt16BE(statusCode, 0);
+  statusCode = buf.toString('hex');
 
-  meaning() {
-    const statusCode = this.getStatusCode();
-    for (let prop in statusCodes) {
-      if (statusCodes.hasOwnProperty(prop)) {
-        let result = statusCodes[prop];
-        if (statusCode.match(prop)) {
-          return result;
-        }
+  for (let prop in statusCodes) {
+    if (statusCodes.hasOwnProperty(prop)) {
+      let result = statusCodes[prop];
+      if (statusCode.match(prop)) {
+        return result;
       }
     }
-    return 'Unknown';
   }
-  getDataOnly() {
-    return this.data.substr(0, this.data.length - 4);
+  return 'Unknown';
+}
+
+export default class Response {
+  /**
+   * @param buffer {Buffer}
+   */
+  constructor(buffer) {
+    if (!Buffer.isBuffer(buffer)) {
+      throw new DeviceException('Data must be a Buffer object');
+    }
+    this.buffer = buffer;
   }
+
+  /**
+   * @return {number}
+   */
   getStatusCode() {
-    return this.data.substr(-4);
+    return (
+      ((this.buffer[this.buffer.length - 2] & 0xff) << 8) |
+      (this.buffer[this.buffer.length - 1] & 0xff)
+    );
   }
 
-  isOk() {
-    return this.getStatusCode() === '9000';
-  }
-
-  getBytes() {
-    return this.data;
-  }
-
-  hasMoreBytesAvailable() {
-    return this.data.substr(-4, 2) === '61';
-  }
-
-  numberOfBytesAvailable() {
-    let hexLength = this.data.substr(-2, 2);
-    return parseInt(hexLength, 16);
-  }
-
-  isWrongLength() {
-    return this.data.substr(-4, 2) === '6c';
-  }
-
-  correctLength() {
-    let hexLength = this.data.substr(-2, 2);
-    return parseInt(hexLength, 16);
+  /**
+   * @return {Buffer}
+   */
+  getBuffer() {
+    return this.buffer;
   }
 
   toString() {
-    return ByteUtil.toHexString(this.data);
+    return this.buffer.toString('hex');
   }
 }

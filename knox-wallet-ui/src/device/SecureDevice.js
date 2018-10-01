@@ -14,19 +14,20 @@ import {
   INS_SIGN_TRANSACTION,
   INS_VALIDATE_SEED_BACKUP,
   INS_VERIFY_PIN,
-  MODE_DEVELOPER,
+  MODE_DEVELOPMENT,
   MODE_WALLET,
   SW_OK,
 } from './Constants';
 import DeviceException from './DeviceException';
-import Command from './APDU/Command';
 import BIP32Util from './util/BIP32Util';
 import { Buffer } from 'buffer';
 import ByteUtil from './util/ByteUtil';
+import { statusWordToMessage } from './APDU/Response';
 
 export default class SecureDevice {
   transport = null;
   lastSW = null;
+  lastSWMessage = null;
 
   OK = [SW_OK];
   DUMMY = [0x00];
@@ -36,12 +37,19 @@ export default class SecureDevice {
   }
 
   async exchange(apdu, rawResponse = false) {
+    if (!Buffer.isBuffer(apdu)) {
+      throw new DeviceException('APDU must be a Buffer object');
+    }
+
     try {
       /**
        * @type {Response}
        */
       let responseAPDU = await this.transport.exchange(apdu);
-      let response = responseAPDU.getBytes();
+      let response = responseAPDU.getBuffer();
+
+      this.lastSWMessage = statusWordToMessage(responseAPDU.getStatusCode());
+      this.lastSW = responseAPDU.getStatusCode();
 
       if (rawResponse) return response;
 
@@ -49,9 +57,6 @@ export default class SecureDevice {
         throw new DeviceException('Truncated response');
       }
 
-      this.lastSW =
-        ((response[response.length - 2] & 0xff) << 8) |
-        (response[response.length - 1] & 0xff);
       let result = [...response];
       result.pop();
       result.pop();
@@ -64,44 +69,88 @@ export default class SecureDevice {
   async exchangeCheck(apdu, acceptedSW) {
     const response = await this.exchange(apdu);
 
-    if (!acceptedSW) {
-      return response;
-    }
+    if (!acceptedSW) return response;
+
     for (let SW of acceptedSW) {
       if (this.lastSW === SW) {
         return response;
       }
     }
-    throw new DeviceException('Invalid status', this.lastSW);
+    throw new DeviceException(
+      this.lastSWMessage ? this.lastSWMessage : 'Invalid status',
+      this.lastSW
+    );
   }
 
+  /**
+   * @param cla
+   * @param ins
+   * @param p1
+   * @param p2
+   * @param dataOrLength
+   * @param acceptedSW
+   * @return {Promise<Response>}
+   */
   async exchangeApdu(cla, ins, p1, p2, dataOrLength, acceptedSW) {
-    let apdu = [];
-    apdu[0] = cla;
-    apdu[1] = ins;
-    apdu[2] = p1;
-    apdu[3] = p2;
-
-    if (Array.isArray(dataOrLength)) {
+    let apdu;
+    if (Buffer.isBuffer(dataOrLength) || Array.isArray(dataOrLength)) {
+      apdu = new Buffer(5 + dataOrLength.length);
+      apdu[0] = cla;
+      apdu[1] = ins;
+      apdu[2] = p1;
+      apdu[3] = p2;
       apdu[4] = dataOrLength.length;
-
-      let offset = 5;
-      for (let d of dataOrLength) apdu[offset++] = d;
+      apdu.set(dataOrLength, 5);
+    } else if (!isNaN(dataOrLength)) {
+      // No data, just the expected length of the response
+      apdu = new Buffer(5);
+      apdu[0] = cla;
+      apdu[1] = ins;
+      apdu[2] = p1;
+      apdu[3] = p2;
+      apdu[4] = parseInt(dataOrLength, 10);
     } else {
-      apdu[4] = dataOrLength;
+      throw new DeviceException('Data must be a Buffer object');
     }
+
+    // if (ins === INS_VERIFY_PIN)
+    // console.log('exchangeApdu: ' + apdu.toString('hex'));
 
     return await this.exchangeCheck(apdu, acceptedSW);
   }
 
   async changePin(pin) {
-    pin = ByteUtil.stringToByteArray(pin);
-    await this.exchangeApdu(CLA, INS_CHANGE_PIN, 0x00, 0x00, pin, this.OK);
+    if (pin == null || pin.length < 4 || pin.length > 20) {
+      throw new DeviceException('Invalid user PIN length');
+    }
+
+    if (!/^\d+$/g.test(pin)) {
+      throw new DeviceException(
+        'User PIN must contain only numbers from 0 to 9'
+      );
+    }
+
+    let data = new Buffer(pin.length);
+    data.write(pin, 0, pin.length, 'ascii');
+
+    await this.exchangeApdu(CLA, INS_CHANGE_PIN, 0x00, 0x00, data, this.OK);
   }
 
   async verifyPin(pin, acceptedSW = this.OK) {
-    pin = ByteUtil.stringToByteArray(pin);
-    await this.exchangeApdu(CLA, INS_VERIFY_PIN, 0x00, 0x00, pin, acceptedSW);
+    if (pin == null || pin.length < 4 || pin.length > 20) {
+      throw new DeviceException('Invalid user PIN length');
+    }
+
+    if (!/^\d+$/g.test(pin)) {
+      throw new DeviceException(
+        'User PIN must contain only numbers from 0 to 9'
+      );
+    }
+
+    let data = new Buffer(pin.length);
+    data.write(pin, 0, pin.length, 'ascii');
+
+    await this.exchangeApdu(CLA, INS_VERIFY_PIN, 0x00, 0x00, data, acceptedSW);
   }
 
   async getVerifyPinRemainingAttempts() {
@@ -111,7 +160,7 @@ export default class SecureDevice {
       0x80,
       0x00,
       this.DUMMY,
-      null
+      this.OK
     );
 
     if (response.length === 1) {
@@ -121,26 +170,44 @@ export default class SecureDevice {
     return this.lastSW;
   }
 
-  async getWalletPublicKey(keyPath) {
-    // let data = BIP32Util.splitPath(keyPath);
-    // let response = this.exchangeApdu(CLA, INS_GET_WALLET_PUBLIC_KEY, 0x00, 0x00, data, this.OK);
-    // let offset = 0;
-    // let Key = [response[offset]];
-    // offset++;
-    // System.arraycopy(response, offset, Key, 0, Key.length);
-    // offset += Key.length;
-    // let address[] = new byte[response[offset]];
-    // offset++;
-    // System.arraycopy(response, offset, address, 0, address.length);
-    // offset += address.length;
-    // byte chainCode[] = new byte[32];
-    // System.arraycopy(response, offset, chainCode, 0, chainCode.length);
-    // offset += address.length;
-    // return new BTChipPublicKey(Key, new String(address), chainCode);
+  async getWalletPublicKey(path, bytesAsStrings = true) {
+    path = BIP32Util.splitPath(path);
+
+    let response = await this.exchangeApdu(
+      CLA,
+      INS_GET_WALLET_PUBLIC_KEY,
+      0x00,
+      0x00,
+      path,
+      this.OK
+    );
+
+    let data = Buffer.from(response);
+
+    let offset = 0;
+
+    let publicKey = new Buffer(data.readUInt8(offset++));
+    publicKey.set(response.slice(offset, offset + publicKey.length));
+    offset += publicKey.length;
+
+    let address = new Buffer(data.readUInt8(offset++));
+    address.set(response.slice(offset, offset + address.length));
+    offset += address.length;
+
+    let chainCode = new Buffer(32);
+    chainCode.set(response.slice(offset, offset + chainCode.length));
+
+    if (bytesAsStrings)
+      return {
+        publicKey: publicKey.toString('hex'),
+        address: address.toString('ascii'),
+        chainCode: chainCode.toString('hex'),
+      };
+    else return { publicKey, address, chainCode };
   }
 
   async getGenuinenessKey() {
-    let response = await this.exchangeApdu(
+    return await this.exchangeApdu(
       CLA,
       INS_GET_GENUINENESS_KEY,
       0x00,
@@ -148,40 +215,58 @@ export default class SecureDevice {
       this.DUMMY,
       this.OK
     );
-
-    return response;
   }
 
-  async proveGenuineness(challenge) {
+  async proveGenuineness(challenge, signatureAsString = true) {
+    let data = new Buffer(32);
+
+    if (challenge == null || challenge.length !== 64) {
+      throw new DeviceException('Invalid challenge length');
+    }
+
+    challenge = ByteUtil.toByteArray(challenge);
+    data.set(challenge, 0);
+
     let response = await this.exchangeApdu(
       CLA,
       INS_PROVE_GENUINENESS,
       0x00,
       0x00,
-      challenge,
+      data,
       this.OK
     );
     response[0] = 0x30;
+
+    response = Buffer.from(response);
+
+    if (signatureAsString) {
+      return response.toString('hex');
+    }
+
     return response;
   }
 
   async signTransactionPrepare(path, hash) {
-    let data = new ByteBuffer();
-    new Buffer();
-    data.put(BIP32Util.splitPath(path));
-    data.put(hash);
+    if (hash == null || hash.length !== 64) {
+      throw new DeviceException('Invalid hash length');
+    }
+    hash = ByteUtil.toByteArray(hash);
+    path = BIP32Util.splitPath(path);
+    let data = new Buffer(path.length + hash.length);
+    data.set(path, 0);
+    data.set(hash, path.length);
+
     await this.exchangeApdu(
       CLA,
       INS_SIGN_TRANSACTION,
       0x00,
       0x00,
-      data.toByteArray(),
+      data,
       this.OK
     );
-    return true;
   }
 
-  async signTransaction() {
+  async signTransaction(signatureAsString = true) {
     let response = await this.exchangeApdu(
       CLA,
       INS_SIGN_TRANSACTION,
@@ -191,6 +276,13 @@ export default class SecureDevice {
       this.OK
     );
     response[0] = 0x30;
+
+    response = Buffer.from(response);
+
+    if (signatureAsString) {
+      return response.toString('hex');
+    }
+
     return response;
   }
 
@@ -234,31 +326,41 @@ export default class SecureDevice {
   }
 
   async setup(mode, keyVersion, keyVersionP2SH, userPin = null, seed = null) {
-    let operationModeFlags = 0;
-    let data = new Buffer(3);
+    // Allocate the maximum size
+    let data = new Buffer(3 + 20 + 64);
     let offset = 0;
 
-    if (mode !== MODE_DEVELOPER && mode !== MODE_WALLET)
+    if (mode !== MODE_DEVELOPMENT && mode !== MODE_WALLET)
       throw new DeviceException(`Unsupported mode ${mode}`);
 
     data.writeUInt8(mode, offset++);
     data.writeUInt8(keyVersion, offset++);
     data.writeUInt8(keyVersionP2SH, offset++);
 
-    if (operationModeFlags === MODE_DEVELOPER) {
+    if (mode === MODE_DEVELOPMENT) {
       // PIN
       if (userPin == null || userPin.length < 4 || userPin.length > 20) {
         throw new DeviceException('Invalid user PIN length');
       }
 
+      if (!/^\d+$/g.test(userPin)) {
+        throw new DeviceException(
+          'User PIN must contain only numbers from 0 to 9'
+        );
+      }
+
       data.writeUInt8(userPin.length, offset++);
-      data.write(userPin, offset++);
+      offset += data.write(userPin, offset, userPin.length, 'ascii');
 
       // SEED
-      if (seed == null || seed.length !== 64) {
+      if (seed == null || seed.length !== 128) {
         throw new DeviceException('Invalid seed length');
       }
-      data.write(seed, offset++);
+      seed = ByteUtil.toByteArray(seed);
+      data.set(seed, offset);
+
+      data = data.slice(0, offset + seed.length);
+      // console.log(data.toString('hex'));
     }
 
     await this.exchangeApdu(CLA, INS_SETUP, 0x00, 0x00, data, this.OK);
@@ -291,10 +393,12 @@ export default class SecureDevice {
   async prepareSeed(seed) {
     let data = new Buffer(64);
 
-    if (seed.length !== 64) {
+    if (seed == null || seed.length !== 128) {
       throw new DeviceException('Invalid seed length');
     }
-    data.write(seed, 0);
+
+    seed = ByteUtil.toByteArray(seed);
+    data.set(seed, 0);
 
     await this.exchangeApdu(CLA, INS_PREPARE_SEED, 0x80, 0x00, data, this.OK);
   }
@@ -302,10 +406,12 @@ export default class SecureDevice {
   async validateSeed(seed) {
     let data = new Buffer(64);
 
-    if (seed.length !== 64) {
+    if (seed == null || seed.length !== 128) {
       throw new DeviceException('Invalid seed length');
     }
-    data.write(seed, 0);
+
+    seed = ByteUtil.toByteArray(seed);
+    data.set(seed, 0);
 
     await this.exchangeApdu(
       CLA,
@@ -316,9 +422,4 @@ export default class SecureDevice {
       this.OK
     );
   }
-
-  // sendRawAPDU(cmd, data) {
-  //    let commandAPDU = Command.build(cmd, data);
-  //   return new Response(this.exchange(commandAPDU.getBytes(), true));
-  // }
 }

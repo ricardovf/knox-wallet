@@ -20,7 +20,7 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         interaction = new DongleInteraction();
-        dongle = interaction.prepareDongle(true);
+        dongle = interaction.getDongle(true);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(28281), 0);
         server.createContext("/call", new CallHandler());
@@ -30,16 +30,20 @@ public class Server {
         server.start();
     }
 
+    static void ensureCors(HttpExchange t) throws IOException {
+        t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+
+        if (t.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+            t.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+            t.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+            t.sendResponseHeaders(204, -1);
+            return;
+        }
+    }
+
     static class CallHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-
-            if (t.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
-                t.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-                t.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-                t.sendResponseHeaders(204, -1);
-                return;
-            }
+            ensureCors(t);
 
             String response;
             byte responseBytes[];
@@ -73,6 +77,8 @@ public class Server {
                 code = 500;
             }
 
+            System.out.println("SERVER: call()");
+
             t.sendResponseHeaders(code, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
@@ -82,10 +88,11 @@ public class Server {
 
     static class ResetHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
+            ensureCors(t);
             String response;
             int code = 200;
             try {
-                dongle = interaction.prepareDongle(true);
+                dongle = interaction.getDongle(true);
                 response = "OK";
             } catch (BTChipException e) {
                 response = e.toString();
@@ -94,6 +101,8 @@ public class Server {
                 response = "An unknown Exception happened!";
                 code = 500;
             }
+
+            System.out.println("SERVER: reset()");
 
             t.sendResponseHeaders(code, response.length());
             OutputStream os = t.getResponseBody();
@@ -104,8 +113,12 @@ public class Server {
 
     static class PingHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            String response = "knox";
+            ensureCors(t);
+
+            String response = "PONG";
             int code = 200;
+
+            System.out.println("SERVER: ping()");
 
             t.sendResponseHeaders(code, response.length());
             OutputStream os = t.getResponseBody();
