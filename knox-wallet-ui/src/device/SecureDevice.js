@@ -170,7 +170,7 @@ export default class SecureDevice {
     return this.lastSW;
   }
 
-  async getWalletPublicKey(path, bytesAsStrings = true) {
+  async getWalletPublicKey(path, asString = true) {
     path = BIP32Util.splitPath(path);
 
     let response = await this.exchangeApdu(
@@ -197,7 +197,7 @@ export default class SecureDevice {
     let chainCode = new Buffer(32);
     chainCode.set(response.slice(offset, offset + chainCode.length));
 
-    if (bytesAsStrings)
+    if (asString)
       return {
         publicKey: publicKey.toString('hex'),
         address: address.toString('ascii'),
@@ -206,8 +206,8 @@ export default class SecureDevice {
     else return { publicKey, address, chainCode };
   }
 
-  async getGenuinenessKey() {
-    return await this.exchangeApdu(
+  async getGenuinenessKey(asString = true) {
+    let response = await this.exchangeApdu(
       CLA,
       INS_GET_GENUINENESS_KEY,
       0x00,
@@ -215,9 +215,13 @@ export default class SecureDevice {
       this.DUMMY,
       this.OK
     );
+
+    response = Buffer.from(response);
+
+    return asString ? response.toString('hex') : response;
   }
 
-  async proveGenuineness(challenge, signatureAsString = true) {
+  async proveGenuineness(challenge, asString = true) {
     let data = new Buffer(32);
 
     if (challenge == null || challenge.length !== 64) {
@@ -237,13 +241,12 @@ export default class SecureDevice {
     );
     response[0] = 0x30;
 
+    // Treat this signature as
+    // response.push(0x01);
+
     response = Buffer.from(response);
 
-    if (signatureAsString) {
-      return response.toString('hex');
-    }
-
-    return response;
+    return asString ? response.toString('hex') : response;
   }
 
   async signTransactionPrepare(path, hash) {
@@ -266,7 +269,12 @@ export default class SecureDevice {
     );
   }
 
-  async signTransaction(signatureAsString = true) {
+  async signTransaction(path, hash, asString = true) {
+    await this.signTransactionPrepare(path, hash);
+    return await this.signTransactionExecute(asString);
+  }
+
+  async signTransactionExecute(asString = true) {
     let response = await this.exchangeApdu(
       CLA,
       INS_SIGN_TRANSACTION,
@@ -277,13 +285,13 @@ export default class SecureDevice {
     );
     response[0] = 0x30;
 
+    // SIGHASH_ALL
+    // https://bitcoin.stackexchange.com/questions/37125/how-are-sighash-flags-encoded-into-a-signature
+    response.push(0x01);
+
     response = Buffer.from(response);
 
-    if (signatureAsString) {
-      return response.toString('hex');
-    }
-
-    return response;
+    return asString ? response.toString('hex') : response;
   }
 
   async getFirmwareVersion() {

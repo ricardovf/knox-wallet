@@ -26,6 +26,7 @@ package com.knox.playground.basic;
 import javacard.framework.*;
 import javacard.security.DESKey;
 import javacard.security.KeyBuilder;
+import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
 
 public class BasicWalletApplet extends Applet {
     /**
@@ -42,13 +43,17 @@ public class BasicWalletApplet extends Applet {
         walletPin = new OwnerPIN(WALLET_PIN_ATTEMPTS, WALLET_PIN_SIZE);
         entropyKeyLength = MAX_ENTROPY_LENGTH;
         masterDerived = new byte[(short) (MAX_ENTROPY_LENGTH << 1)];
-        genuinenessPrivateKey = new byte[64];
+        genuinenessPrivateKey = new byte[32];
 
         // Chip Key is unique for a device and is used to encrypt memory
         chipKey = (DESKey)KeyBuilder.buildKey(KeyBuilder.TYPE_DES, KeyBuilder.LENGTH_DES3_2KEY, false);
 
         // Generate the genuineness public and private key
-        Crypto.random.nextBytes(genuinenessPrivateKey, (short)0, (short)64);
+        Crypto.random.nextBytes(genuinenessPrivateKey, (short)0, (short)32);
+        // Ensure key is in range: https://en.bitcoin.it/wiki/Private_key#Range_of_valid_ECDSA_private_keys
+        if (MathMod256.ucmp(genuinenessPrivateKey, (short)0, Secp256k1.SECP256K1_R, (short)0) >= 0) {
+            ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+        }
 
         // Set state as installed
         state = STATE_INSTALLED;
@@ -491,7 +496,9 @@ public class BasicWalletApplet extends Applet {
         }
 
         // Copy the genuineness private key to the scratch
-        Util.arrayCopyNonAtomic(genuinenessPrivateKey, (short)0, scratch256, (short)0, (short)64);
+        System.out.println("PRIVATE GENUINIT KEY");
+        System.out.println(ByteUtils.toHexString(genuinenessPrivateKey));
+        Util.arrayCopyNonAtomic(genuinenessPrivateKey, (short)0, scratch256, (short)0, (short)genuinenessPrivateKey.length);
 
         // Sign the data SHA-256 hash with the genuineness private key
 //        System.out.println(ByteUtils.toHexString(buffer));
@@ -521,6 +528,13 @@ public class BasicWalletApplet extends Applet {
 
         // Get the public key
         proprietaryAPI.getUncompressedPublicPoint(genuinenessPrivateKey, (short)0, scratch256, (short)0);
+
+        System.out.println("PRIVATE GENUINIT KEY");
+        System.out.println(ByteUtils.toHexString(genuinenessPrivateKey));
+
+        System.out.println("PUBLIC KEY");
+        System.out.println(ByteUtils.toHexString(scratch256));
+
 
         Util.arrayCopyNonAtomic(scratch256, (short)0, buffer, (short)0, (short)65);
         apdu.setOutgoingAndSend((short)0, (short)65);

@@ -2,23 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a7b1d44-0643-4870-81c1-effbf81576b5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/APDU/Command.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/APDU/Response.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/APDU/Response.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/Constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/DeviceException.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/DeviceException.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/SecureDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/SecureDevice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/Transport.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/Transport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/TransportHTTP.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/TransportHTTP.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/util/BIP32Util.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/util/BIP32Util.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/util/ByteUtil.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/util/ByteUtil.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/test/Bip32Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/Bip32Tests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/test/SetupWalletTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/SetupWalletTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../playground/basic/test/TransactionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/TransactionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/playground.iws" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/playground.iws" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -40,30 +32,30 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="10429" />
+          <entry key="js" value="11483" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="10429" />
+          <entry key="JavaScript" value="11483" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="60" />
-          <entry key="json" value="3" />
+          <entry key="js" value="100" />
+          <entry key="json" value="4" />
           <entry key="png" value="1" />
-          <entry key="ts" value="2" />
+          <entry key="ts" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="JSON" value="3" />
-          <entry key="JavaScript" value="60" />
-          <entry key="TypeScript" value="2" />
+          <entry key="JSON" value="4" />
+          <entry key="JavaScript" value="100" />
+          <entry key="TypeScript" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -78,62 +70,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="219" column="24" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#379#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/APDU/Response.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="33" column="27" lean-forward="true" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/Constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-18">
-              <caret line="1" column="33" lean-forward="true" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/DeviceException.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="21" selection-start-column="21" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="593">
+              <caret line="92" selection-start-line="92" selection-end-line="92" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="694">
-              <caret line="295" column="3" lean-forward="true" selection-start-line="295" selection-start-column="3" selection-end-line="295" selection-end-column="3" />
+            <state relative-caret-position="440">
+              <caret line="371" column="36" selection-start-line="371" selection-start-column="36" selection-end-line="371" selection-end-column="36" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -142,13 +95,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/TransportHTTP.js">
+        <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+            <state relative-caret-position="-3751">
+              <caret line="172" column="8" selection-start-line="172" selection-start-column="8" selection-end-line="172" selection-end-column="8" />
               <folding>
-                <element signature="e#0#36#0" expanded="true" />
+                <element signature="e#0#379#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curves.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4140">
+              <caret line="180" column="46" selection-start-line="180" selection-start-column="42" selection-end-line="180" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/short.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="357" column="19" selection-start-line="357" selection-start-column="11" selection-end-line="357" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -157,20 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>withTheme</find>
-      <find>theme</find>
-      <find>logo</find>
-      <find>Option</find>
-      <find>getSteps</find>
-      <find>, { withTheme: true }</find>
-      <find>getBytes</find>
-      <find>buffer</find>
-      <find>BTChipException</find>
-      <find>export</find>
-      <find>Buffer(</find>
-      <find>sendRawAPDU</find>
-      <find>86fc40431323334b873212f885ccffbf4692afcb84bc2e55886de2dfa07d90f5c3c239abc31c0a6ce047e30fd8bf6a281e71389aa82d73df74c7bbfb3b06b4639a5cee775cccd3c</find>
-      <find>MODE_DEVELOPER</find>
       <find>exchangeApdu</find>
       <find>Byte</find>
       <find>ByteUt</find>
@@ -187,11 +144,28 @@
       <find>.exchange(</find>
       <find>Checking error: command not allowed (see sw2)</find>
       <find>lastSW</find>
+      <find>genuin</find>
+      <find>publicKey</find>
+      <find>99e021772830207cf7c55b69948d3b16b4dcbf1f55a9cd80ebf8221a169735f964d33f11d62cd28240b3862afc0b901adc9f231c7124dd19bdb30367b61964c5</find>
+      <find>node_modules/bitcoinjs-lib/src/script_signature.js</find>
+      <find>sign</find>
+      <find>`</find>
+      <find>signTransaction</find>
+      <find>edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9</find>
+      <find>ecc</find>
+      <find>ECPairECPair</find>
+      <find>EC Point</find>
+      <find>secp256k1</find>
+      <find>baae</find>
+      <find>keyPair</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>MODE_DEVELOPMENT</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/node_modules/elliptic/lib</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -232,7 +206,6 @@
         <option value="$PROJECT_DIR$/src/device/APDU/Command.js" />
         <option value="$PROJECT_DIR$/src/device/tests/SecureDevice.test.js" />
         <option value="$PROJECT_DIR$/src/device/__tests__/TestsConstants.js" />
-        <option value="$PROJECT_DIR$/src/device/util/ByteUtil.js" />
         <option value="$PROJECT_DIR$/src/device/Constants.js" />
         <option value="$PROJECT_DIR$/src/device/Transport.js" />
         <option value="$PROJECT_DIR$/src/device/TransportHTTP.js" />
@@ -240,7 +213,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/device/util/BIP32Util.js" />
         <option value="$PROJECT_DIR$/src/device/APDU/Response.js" />
+        <option value="$PROJECT_DIR$/src/device/util/ByteUtil.js" />
         <option value="$PROJECT_DIR$/src/device/SecureDevice.js" />
+        <option value="$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js" />
         <option value="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" />
       </list>
     </option>
@@ -276,9 +251,9 @@
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="403" />
+    <option name="x" value="311" />
     <option name="y" value="26" />
-    <option name="width" value="1852" />
+    <option name="width" value="1944" />
     <option name="height" value="1008" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -300,7 +275,95 @@
             <path>
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
               <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="bitcoinjs-lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="bitcoinjs-lib" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="curve" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="ec" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="eddsa" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="elliptic" type="462c0819:PsiDirectoryNode" />
+              <item name="precomputed" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="setup" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -425,7 +488,7 @@
       <workItem from="1524778639351" duration="255000" />
       <workItem from="1524778905665" duration="2516000" />
       <workItem from="1538158140427" duration="3422000" />
-      <workItem from="1538163061565" duration="46679000" />
+      <workItem from="1538163061565" duration="58101000" />
     </task>
     <servers />
   </component>
@@ -435,16 +498,16 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65589000" />
+    <option name="totallyTimeSpent" value="77011000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="403" y="26" width="1852" height="1008" extended-state="0" />
+    <frame x="311" y="26" width="1944" height="1008" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
-      <window_info id="Favorites" order="1" sideWeight="0.5010917" side_tool="true" visible="true" weight="0.2222829" />
+      <window_info id="Favorites" order="1" sideWeight="0.5010917" side_tool="true" visible="true" weight="0.21164846" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="3" sideWeight="0.4989083" visible="true" weight="0.2222829" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" sideWeight="0.4989083" visible="true" weight="0.21164846" />
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="1" />
@@ -469,96 +532,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/README.md" />
-    <entry file="file://$PROJECT_DIR$/node_modules/react/cjs/react.development.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/react-hot-loader/dist/react-hot-loader.development.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom.development.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/redux/dist/redux.js" />
-    <entry file="file://$PROJECT_DIR$/src/store/initialState.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="7" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SimpleButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/types.js" />
-    <entry file="file://$PROJECT_DIR$/src/reducers/index.js" />
-    <entry file="file://$PROJECT_DIR$/node_modules/react-redux/lib/index.js" />
-    <entry file="file://$PROJECT_DIR$/src/container/Incrementer.js" />
-    <entry file="file://$PROJECT_DIR$/public/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/index.js" />
-    <entry file="file://$PROJECT_DIR$/src/index.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ErrorBoundary.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/registerServiceWorker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2015" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Menu.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/media/img/logo-knox-horizontal-blue-bg.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@material-ui/core/styles/withStyles.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config-overrides.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/InstallConnector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="17" column="39" lean-forward="true" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/NumericKeyboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-235">
-          <caret column="26" lean-forward="true" selection-start-column="26" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSteps.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1115">
@@ -702,13 +675,6 @@
     <entry file="file://$PROJECT_DIR$/src/device/__tests__/TestsConstants.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/util/ByteUtil.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/Transport.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
@@ -723,20 +689,6 @@
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="1" column="33" lean-forward="true" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -758,27 +710,191 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/Constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
-          <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
+          <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/device/APDU/Response.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="331">
-          <caret line="33" column="27" lean-forward="true" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/payments/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="14220" column="4" selection-start-line="14220" selection-start-column="4" selection-end-line="14220" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/tiny-secp256k1/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="46" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/util/ByteUtil.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/transaction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="237" column="27" selection-start-line="237" selection-start-column="27" selection-end-line="237" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/crypto.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/ecpair.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1247">
+          <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/script_signature.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/eddsa/signature.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-396">
+          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/ec/key.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="108" column="18" lean-forward="true" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/eddsa/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1771">
+          <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/eddsa/key.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/base.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/mont.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/short.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="357" column="19" selection-start-line="357" selection-start-column="11" selection-end-line="357" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/edwards.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="160" column="24" lean-forward="true" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/ec/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="49" column="23" lean-forward="true" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/precomputed/secp256k1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-17209" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curves.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4140">
+          <caret line="180" column="46" selection-start-line="180" selection-start-column="42" selection-end-line="180" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="219" column="24" selection-start-line="219" selection-start-column="8" selection-end-line="219" selection-end-column="24" />
+        <state relative-caret-position="-3751">
+          <caret line="172" column="8" selection-start-line="172" selection-start-column="8" selection-end-line="172" selection-end-column="8" />
           <folding>
             <element signature="e#0#379#0" expanded="true" />
           </folding>
@@ -787,10 +903,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="295" column="3" lean-forward="true" selection-start-line="295" selection-start-column="3" selection-end-line="295" selection-end-column="3" />
+        <state relative-caret-position="440">
+          <caret line="371" column="36" selection-start-line="371" selection-start-column="36" selection-end-line="371" selection-end-column="36" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="593">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

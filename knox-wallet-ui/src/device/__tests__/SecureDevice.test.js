@@ -1,18 +1,18 @@
 import SecureDevice from '../SecureDevice';
 import TransportHTTP from '../TransportHTTP';
-import ByteUtil from '../util/ByteUtil';
 import {
   BITCOIN_TESTNET_P2SH_VERSION,
   BITCOIN_TESTNET_VERSION,
   MODE_DEVELOPMENT,
   MODE_WALLET,
-  STATE_INSTALLED,
   STATE_PIN_SET,
   STATE_READY,
   STATE_SETUP_DONE,
 } from '../Constants';
 import DeviceException from '../DeviceException';
 import BIP32Util from '../util/BIP32Util';
+import * as bitcoin from 'bitcoinjs-lib';
+import { ec as EC } from 'elliptic';
 
 const debug = false;
 
@@ -34,17 +34,6 @@ it('can reset the transport', async () => {
   let transport = new TransportHTTP(debug);
   let response = await transport.reset();
   expect(response).toEqual('OK');
-});
-
-it('can get genuineness public key with 65 bytes', async () => {
-  let device = new SecureDevice(new TransportHTTP(debug));
-  await device.transport.reset();
-
-  let key = await device.getGenuinenessKey();
-
-  // console.log(ByteUtil.toHexString(key));
-
-  expect(key).toHaveLength(65);
 });
 
 it('can setup develop', async () => {
@@ -252,6 +241,49 @@ it('can change network', async () => {
   await device.changeNetwork(0, 0);
 });
 
+it('can get genuineness public key with 65 bytes', async () => {
+  let device = new SecureDevice(new TransportHTTP(debug));
+  await device.transport.reset();
+
+  let key = await device.getGenuinenessKey(false);
+
+  // console.log(ByteUtil.toHexString(key));
+
+  expect(key).toHaveLength(65);
+});
+
+// it('can verify genuineness', async () => {
+//   let device = new SecureDevice(new TransportHTTP(debug));
+//   await device.transport.reset();
+//   await device.setup(
+//     MODE_DEVELOPMENT,
+//     BITCOIN_TESTNET_VERSION,
+//     BITCOIN_TESTNET_P2SH_VERSION,
+//     DEFAULT_PIN,
+//     DEFAULT_SEED
+//   );
+//
+//   await device.verifyPin(DEFAULT_PIN);
+//
+//   let challengeHash =
+//     'aef3ae5f288cff9b5bcc4c926912e67f9fb738f1e6ae6f6a887b7df6aa5a62f0';
+//
+//   let signature = await device.proveGenuineness(challengeHash, false);
+//   let publicKey = await device.getGenuinenessKey(false);
+//
+//   challengeHash = Buffer.from(challengeHash, 'hex');
+//
+//   console.log(signature.toString('hex'));
+//   console.log(publicKey.toString('hex'));
+//   console.log(challengeHash.toString('hex'));
+//
+//   console.log(bitcoin.script.isCanonicalScriptSignature(signature));
+//
+//   const ss = bitcoin.script.signature.encode(signature);
+//   const keyPair = bitcoin.ECPair.fromPublicKey(publicKey);
+//   expect(keyPair.verify(challengeHash, ss.signature)).toBeTruthy();
+// });
+
 it('can sign a transaction', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
@@ -268,10 +300,32 @@ it('can sign a transaction', async () => {
   let path = "44'/1'/0'/0/0";
   let hash = 'edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9';
 
-  await device.signTransactionPrepare(path, hash);
-  let signature = await device.signTransaction(path, hash);
-  // @todo check signature
-  // console.log(signature);
+  let publicKey = (await device.getWalletPublicKey(path, false)).publicKey;
+  let signature = await device.signTransaction(path, hash, false);
+
+  hash = Buffer.from(hash, 'hex');
+
+  // console.log(signature.toString('hex'));
+  // console.log(publicKey.toString('hex'));
+  // console.log(hash.toString('hex'));
+
+  const ss = bitcoin.script.signature.decode(signature);
+  const keyPair = bitcoin.ECPair.fromPublicKey(publicKey);
+  // expect(keyPair.verify(hash, ss.signature)).toBeTruthy();
+
+  let ec = new EC('secp256k1');
+
+  // Generate keys
+  let key = ec.keyFromPublic(publicKey.toString('hex'), 'hex');
+
+  let signatureNoSigHash = signature.toString('hex');
+
+  // expect(
+  //   key.verify(
+  //     hash,
+  //     signatureNoSigHash.substr(0, signatureNoSigHash.length - 2)
+  //   )
+  // ).toBeTruthy();
 });
 
 it('can verify genuineness', async () => {
@@ -287,10 +341,48 @@ it('can verify genuineness', async () => {
 
   await device.verifyPin(DEFAULT_PIN);
 
-  let challengeHash =
-    'edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9';
+  let hash = 'edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9';
 
-  let signature = await device.proveGenuineness(challengeHash);
-  // @todo check signature
-  // console.log(signature);
+  let publicKey = await device.getGenuinenessKey(false);
+  let signature = await device.proveGenuineness(hash, false);
+
+  hash = Buffer.from(hash, 'hex');
+
+  let privateGen =
+    '6c5544797a91115dc3330ebd003851d239a706ff2aa2ab70039c5510ddf06420eceb88926b05d3b151373e8b6fdec284db569204ca13d2caa23bd1d85dcab02a';
+
+  // console.log(signature.toString('hex'));
+  // console.log(publicKey.toString('hex'));
+  // console.log(hash.toString('hex'));
+  //
+  // const ss = bitcoin.script.signature.decode(signature);
+  // const keyPair = bitcoin.ECPair.fromPublicKey(publicKey);
+  // expect(keyPair.verify(hash, ss.signature)).toBeTruthy();
+
+  let ec = new EC('secp256k1');
+
+  // Generate keys
+  let keyFromJava = ec.keyFromPublic(publicKey.toString('hex'), 'hex');
+  console.log(publicKey.toString('hex'));
+  console.log(keyFromJava);
+
+  let keyPrivate = ec.keyFromPrivate(privateGen, 'hex');
+
+  let keyFromJS = ec.keyFromPublic(keyPrivate.getPublic());
+  console.log(keyPrivate.getPublic());
+  console.log(keyFromJS);
+  console.log(keyPrivate.getPublic('hex'));
+
+  let signatureNoSigHash = signature.toString('hex');
+
+  console.log(signatureNoSigHash);
+
+  signatureNoSigHash = keyPrivate.sign(hash);
+
+  // console.log(signatureNoSigHash.toHex());
+  // console.log(ss.signature);
+
+  expect(keyFromJS.verify(hash, signatureNoSigHash)).toBeTruthy();
+
+  // elliptic.ec('secp256k1').sign(keccak_256(encode(rawTX)), privKey, 'hex', {canonical:true})
 });

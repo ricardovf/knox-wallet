@@ -27,7 +27,13 @@ public class TransactionTest extends AbstractJavaCardTest {
         dongle.verifyPin(DEFAULT_PIN);
         assertTrue(dongle.signTransactionPrepare(path, challengeBytes));
         byte[] signature = dongle.signTransaction();
+        System.out.println("SIGNATURE NORMAL");
+        System.out.println(ByteUtil.hexString(signature));
+
         signature = canonicalizeSignature(signature);
+        System.out.println("SIGNATURE CANONICAL");
+        System.out.println(ByteUtil.hexString(signature));
+
         byte[] publicKey = dongle.getWalletPublicKey(path).getPublicKey();
         assertEquals(65, publicKey.length);
         System.out.println("ADDRESS");
@@ -37,8 +43,7 @@ public class TransactionTest extends AbstractJavaCardTest {
         System.out.println("PUBLIC");
         System.out.println(ByteUtils.toHexString(publicKey));
 
-        System.out.println("SIGNATURE");
-        System.out.println(ByteUtil.hexString(signature));
+
 
         ECPublicKey publicKeyEC = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
         Secp256k1.setCommonCurveParameters(publicKeyEC);
