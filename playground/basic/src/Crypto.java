@@ -183,7 +183,7 @@ public class Crypto {
      * @param off the offset
      * @return the number of bytes by which the signature length changed
      */
-    static short fixS(byte[] sig, short off) {
+    public static short fixS(byte[] sig, short off) {
         short sOff = (short) (sig[(short) (off + 3)] + (short) (off + 5));
         short ret = 0;
 

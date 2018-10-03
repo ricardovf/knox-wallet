@@ -20,6 +20,7 @@
 
 package com.knox.playground.basic;
 
+import javacard.security.ECPrivateKey;
 import javacard.security.Key;
 
 /**
@@ -60,16 +61,28 @@ public interface ProprietaryAPI {
 	 * @return true if it's present, otherwise false
 	 */
 	public boolean hasDeterministicECDSASHA256();
+
 	/**
 	 * Perform a deterministic ECDSA SHA-256 signature
-	 * Non malleability is not guaranteed and should be checked by the host
-	 * (see https://github.com/bitcoin/bips/blob/master/bip-0062.mediawiki#low-s-values-in-signatures)
-	 * @param key Private ECC key object provisioned with the signature key
-	 * @param in buffer containing the data to hash and sign
-	 * @param inBuffer offset to the data
-	 * @param inLength length of the data
-	 * @param out buffer that will contain the signature
-	 * @param outOffset offset to the signature
-	 */	
-	public void signDeterministicECDSASHA256(Key key, byte[] in, short inBuffer, short inLength, byte[] out, short outOffset);
+	 * @param keyBuffer private key
+	 * @param keyOffset
+	 * @param dataBuffer sha256 hash
+	 * @param dataOffset
+	 * @param targetBuffer
+	 * @param targetOffset
+	 */
+	public void signDeterministicECDSASHA256(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset);
+
+	/**
+	 * Check if a signature is valid
+	 *
+	 * @param keyBuffer public key
+	 * @param keyOffset
+	 * @param dataBuffer sha256 hash
+	 * @param dataOffset
+	 * @param signatureBuffer der formatted signature
+	 * @param signatureOffset
+	 * @return
+	 */
+	public boolean verifyECDSASHA256(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] signatureBuffer, short signatureOffset);
 }

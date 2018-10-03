@@ -110,7 +110,6 @@ public class GenuinenessTest extends AbstractJavaCardTest {
         System.out.println(ByteUtil.hexString(publicKey));
 
         byte[] signature = dongle.proveGenuineness(challengeBytes);
-        signature = canonicalizeSignature(signature);
 
         ECKey.ECDSASignature signatureFromDER = ECKey.ECDSASignature.decodeFromDER(signature);
 
@@ -123,52 +122,13 @@ public class GenuinenessTest extends AbstractJavaCardTest {
         System.out.println(signatureFromDER.s);
         System.out.println(signatureFromDER.isCanonical());
 
+        // Check using private key
         byte[] privateKey = ByteUtils.fromHexString("6c5544797a91115dc3330ebd003851d239a706ff2aa2ab70039c5510ddf06420");
-
         ECKey key = ECKey.fromPrivate(privateKey, false);
         assertTrue(key.verify(Sha256Hash.wrap(challengeBytes), signatureFromDER));
-    }
 
-    @Test
-    public void testProveGenuinenessKey() throws BTChipException, UnreadableWalletException, IOException, NativeSecp256k1Util.AssertFailException {
-        BTChipDongle dongle = prepareDongleRestoreTestnet(true);
-
-        String hash = "edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9";
-        byte[] challengeBytes = ByteUtil.byteArray(hash);
-
-        byte[] publicKey = dongle.getGenuinenessKey();
-        assertEquals(65, publicKey.length);
-        System.out.println("PUBLIC:");
-        System.out.println(ByteUtil.hexString(publicKey));
-
-        byte[] signature = dongle.proveGenuineness(challengeBytes);
-        signature = canonicalizeSignature(signature);
-
-        System.out.println("SIGNATURE:");
-        System.out.println(ByteUtil.hexString(signature));
-
-        ECPublicKey publicKeyEC = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
-        assertTrue(Secp256k1.setCommonCurveParameters(publicKeyEC));
-
-        Signature signatureEC = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
-
-        publicKeyEC.setW(publicKey, (short)0, (short)65);
-        signatureEC.init(publicKeyEC, Signature.MODE_VERIFY);
-        try {
-//            ECKey.ECDSASignature signatureDecoded = ECKey.ECDSASignature.decodeFromDER(signature);
-//            ECDSASigner signer = new ECDSASigner();
-//            ECPublicKeyParameters params = new ECPublicKeyParameters(CURVE.getCurve().decodePoint(publicKey), CURVE);
-//            signer.init(false, params);
-//            assertTrue(signer.verifySignature(challengeBytes, signatureDecoded.r, signatureDecoded.s));
-
-            assertTrue(signatureEC.verify(challengeBytes, (short)0, (short)32, signature, (short)0, (short)signature.length));
-        } catch(Exception e) {
-            fail();
-        }
-
-        // Check if the public key changed after we signed (there was a bug, now fixed)
-        byte[] publicKeyRecheck = dongle.getGenuinenessKey();
-        assertEquals(65, publicKeyRecheck.length);
-        assertEquals(ByteUtil.hexString(publicKey), ByteUtil.hexString(publicKeyRecheck));
+        // Check using public key
+        ECKey keyPub = ECKey.fromPublicOnly(publicKey);
+        assertTrue(keyPub.verify(Sha256Hash.wrap(challengeBytes), signatureFromDER));
     }
 }

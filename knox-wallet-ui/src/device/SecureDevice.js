@@ -269,12 +269,12 @@ export default class SecureDevice {
     );
   }
 
-  async signTransaction(path, hash, asString = true) {
+  async signTransaction(path, hash, asString = true, addSigType = true) {
     await this.signTransactionPrepare(path, hash);
-    return await this.signTransactionExecute(asString);
+    return await this.signTransactionExecute(asString, addSigType);
   }
 
-  async signTransactionExecute(asString = true) {
+  async signTransactionExecute(asString = true, addSigType = true) {
     let response = await this.exchangeApdu(
       CLA,
       INS_SIGN_TRANSACTION,
@@ -285,9 +285,8 @@ export default class SecureDevice {
     );
     response[0] = 0x30;
 
-    // SIGHASH_ALL
     // https://bitcoin.stackexchange.com/questions/37125/how-are-sighash-flags-encoded-into-a-signature
-    response.push(0x01);
+    if (addSigType) response.push(0x01);
 
     response = Buffer.from(response);
 

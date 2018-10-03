@@ -6,6 +6,8 @@ import com.licel.jcardsim.utils.ByteUtil;
 import javacard.security.ECPublicKey;
 import javacard.security.KeyBuilder;
 import javacard.security.Signature;
+import org.bitcoinj.core.ECKey;
+import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.junit.Test;
 import org.spongycastle.pqc.math.linearalgebra.ByteUtils;
@@ -27,33 +29,21 @@ public class TransactionTest extends AbstractJavaCardTest {
         dongle.verifyPin(DEFAULT_PIN);
         assertTrue(dongle.signTransactionPrepare(path, challengeBytes));
         byte[] signature = dongle.signTransaction();
-        System.out.println("SIGNATURE NORMAL");
-        System.out.println(ByteUtil.hexString(signature));
-
-        signature = canonicalizeSignature(signature);
-        System.out.println("SIGNATURE CANONICAL");
-        System.out.println(ByteUtil.hexString(signature));
-
         byte[] publicKey = dongle.getWalletPublicKey(path).getPublicKey();
-        assertEquals(65, publicKey.length);
-        System.out.println("ADDRESS");
-        System.out.println(publicKey);
-//        System.out.println(ByteUtil.hexString(dk44H0H0H00.getChainCode()));
-//        System.out.println(ByteUtil.hexString(dk44H0H0H00.getPubKeyPoint().getEncoded()));
-        System.out.println("PUBLIC");
-        System.out.println(ByteUtils.toHexString(publicKey));
 
+        ECKey.ECDSASignature signatureFromDER = ECKey.ECDSASignature.decodeFromDER(signature);
 
+        System.out.println("SIGNATURE:");
+        System.out.println(ByteUtil.hexString(signature));
 
-        ECPublicKey publicKeyEC = (ECPublicKey)KeyBuilder.buildKey(KeyBuilder.TYPE_EC_FP_PUBLIC, KeyBuilder.LENGTH_EC_FP_256, false);
-        Secp256k1.setCommonCurveParameters(publicKeyEC);
-        Signature signatureEC = Signature.getInstance(Signature.ALG_ECDSA_SHA_256, false);
-        publicKeyEC.setW(publicKey, (short)0, (short)65);
-        signatureEC.init(publicKeyEC, Signature.MODE_VERIFY);
-        try {
-            assertTrue(signatureEC.verify(challengeBytes, (short)0, (short)32, signature, (short)0, (short)(signature.length)));
-        } catch(Exception e) {
-            fail();
-        }
+        System.out.println("SIGNATURE FROM DER:");
+        System.out.println(ByteUtils.toHexString(signatureFromDER.encodeToDER()));
+        System.out.println(signatureFromDER.r);
+        System.out.println(signatureFromDER.s);
+        System.out.println(signatureFromDER.isCanonical());
+
+        // Check using public key
+        ECKey keyPub = ECKey.fromPublicOnly(publicKey);
+        assertTrue(keyPub.verify(Sha256Hash.wrap(challengeBytes), signatureFromDER));
     }
 }

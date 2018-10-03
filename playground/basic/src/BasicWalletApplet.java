@@ -248,15 +248,11 @@ public class BasicWalletApplet extends Applet {
     }
 
     private static void _signTransientPrivate(byte[] keyBuffer, short keyOffset, byte[] dataBuffer, short dataOffset, byte[] targetBuffer, short targetOffset) {
-//        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
+        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
             Crypto.signTransientPrivate(keyBuffer, keyOffset, dataBuffer, dataOffset, targetBuffer, targetOffset);
-//        } else {
-//            Crypto.initTransientPrivate(keyBuffer, keyOffset);
-//            proprietaryAPI.signDeterministicECDSASHA256(Crypto.transientPrivate, dataBuffer, dataOffset, (short)32, targetBuffer, targetOffset);
-//            if (Crypto.transientPrivateTransient) {
-//                Crypto.transientPrivate.clearKey();
-//            }
-//        }
+        } else {
+            proprietaryAPI.signDeterministicECDSASHA256(keyBuffer, keyOffset, dataBuffer, dataOffset, targetBuffer, targetOffset);
+        }
     }
 
     private static void handleChangeNetwork(APDU apdu) throws ISOException {
@@ -453,8 +449,14 @@ public class BasicWalletApplet extends Applet {
             buffer[(short)0] = TC.TRUE;
 
             // Check the signature is valid
-            if (!Crypto.verifyPublic(scratch256, (short)180, buffer, offset, scratch256, (short)100)) {
-                buffer[(short)0] = TC.FALSE;
+            if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
+                if (!Crypto.verifyPublic(scratch256, (short)180, buffer, offset, scratch256, (short)100)) {
+                    buffer[(short)0] = TC.FALSE;
+                }
+            } else {
+                if (!proprietaryAPI.verifyECDSASHA256(scratch256, (short)180, buffer, offset, scratch256, (short)100)) {
+                    buffer[(short)0] = TC.FALSE;
+                }
             }
 
             // Clear the private key
@@ -508,8 +510,14 @@ public class BasicWalletApplet extends Applet {
         proprietaryAPI.getUncompressedPublicPoint(genuinenessPrivateKey, (short)0, scratch256, (short)0);
 
         // Check the signature is valid using the genuineness public key
-        if (!Crypto.verifyPublic(scratch256, (short)0, buffer, offset, scratch256, (short)100)) {
-            ISOException.throwIt(ISO7816.SW_UNKNOWN);
+        if ((proprietaryAPI == null) || (!proprietaryAPI.hasDeterministicECDSASHA256())) {
+            if (!Crypto.verifyPublic(scratch256, (short)0, buffer, offset, scratch256, (short)100)) {
+                 ISOException.throwIt(ISO7816.SW_UNKNOWN);
+            }
+        } else {
+            if (!proprietaryAPI.verifyECDSASHA256(scratch256, (short)0, buffer, offset, scratch256, (short)100)) {
+                 ISOException.throwIt(ISO7816.SW_UNKNOWN);
+            }
         }
 
         short signatureSize = (short)((short)(scratch256[(short)101] & 0xff) + 2);
