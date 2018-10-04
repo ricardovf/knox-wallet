@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 // import ErrorBoundary from './ErrorBoundary';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LayoutSetup from './components/setup/LayoutSetup';
+import SetupLayout from './components/setup/SetupLayout';
+import { inject, observer } from 'mobx-react';
+import AppLayout from './components/AppLayout';
+import { STATE_READY } from './device/Constants';
 
+@inject('appStore', 'deviceStore')
+@observer
 class App extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    // config store to monitor state and device connection
+    this.props.deviceStore.autoRefreshStateStart();
+  }
+
+  componentWillUnmount() {
+    this.props.deviceStore.autoRefreshStateStop();
+  }
+
   render() {
+    const { appStore, deviceStore } = this.props;
+
     return (
-      <Router
-        basename={
-          process && process.env && process.env.NODE_ENV === 'production'
-            ? '/knox-wallet-ui'
-            : undefined
-        }
-      >
-        <LayoutSetup />
-      </Router>
+      <React.Fragment>
+        {deviceStore.isConnectorInstalled &&
+        deviceStore.hasDeviceConnected &&
+        deviceStore.state === STATE_READY ? (
+          <AppLayout />
+        ) : (
+          <SetupLayout />
+        )}
+      </React.Fragment>
     );
   }
 }

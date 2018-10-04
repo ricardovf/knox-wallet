@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button/Button';
 import TextField from '@material-ui/core/TextField';
 import CreateSteps from './CreateSteps';
+import { inject, observer } from 'mobx-react';
 
 const styles = theme => {
   return {
@@ -29,6 +30,8 @@ const styles = theme => {
 };
 
 @withStyles(styles)
+@inject('appStore', 'deviceStore')
+@observer
 export default class CreateSetName extends BasePaper {
   constructor(props) {
     super(props);
@@ -65,14 +68,11 @@ export default class CreateSetName extends BasePaper {
             />
           </div>
           <div className={classes.buttons}>
-            <Button className={classes.button} href="/create-or-recovery">
-              Back
-            </Button>
+            <Button className={classes.button}>Back</Button>
             <Button
               variant="contained"
               color="primary"
               className={classes.button}
-              href="/create-set-pin"
             >
               Continue
             </Button>

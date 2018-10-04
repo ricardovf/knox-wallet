@@ -1,18 +1,13 @@
-export default class DeviceException {
-  message = '';
+export default class DeviceException extends Error {
   sw = null;
 
   constructor(message, sw = null) {
-    this.message = message;
+    super(message);
     this.sw = sw;
   }
 
   getSW() {
     return this.sw;
-  }
-
-  getMessage() {
-    return this.message;
   }
 
   toString() {

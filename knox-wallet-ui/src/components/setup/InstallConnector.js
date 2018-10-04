@@ -20,18 +20,13 @@ export default class InstallConnector extends BasePaper {
           the wallet interface running on the browser.
         </Typography>
 
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          href="/usb"
-        >
+        <Button variant="contained" color="primary" className={classes.button}>
           <Icon className={classes.leftIcon}>cloud_download</Icon>
           Download
         </Button>
 
         <Typography variant="caption" color="textSecondary">
-          Version 1.1 for Mac OSX
+          Version 0.1 for Mac OSX
         </Typography>
       </div>
     );

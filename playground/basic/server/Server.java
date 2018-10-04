@@ -17,6 +17,7 @@ public class Server {
     static class DongleInteraction extends AbstractDongleInteraction {}
     static DongleInteraction interaction;
     static BTChipDongle dongle;
+    static boolean hasDevice = false;
 
     public static void main(String[] args) throws Exception {
         interaction = new DongleInteraction();
@@ -26,6 +27,9 @@ public class Server {
         server.createContext("/call", new CallHandler());
         server.createContext("/reset", new ResetHandler());
         server.createContext("/ping", new PingHandler());
+        server.createContext("/connect-device", new ConnectDeviceHandler());
+        server.createContext("/disconnect-device", new DisconnectDeviceHandler());
+        server.createContext("/has-device", new HasDeviceHandler());
         server.setExecutor(null);
         server.start();
     }
@@ -48,33 +52,39 @@ public class Server {
             String response;
             byte responseBytes[];
             int code = 200;
-            try {
-                if (!t.getRequestMethod().equals("POST")) {
-                    throw new BTChipException("Only POST is supported on this method");
+            if (!hasDevice) {
+                // Can't call if there is no device connected
+                response = "Can't call, no device connected";
+                code = 405;
+            } else {
+                try {
+                    if (!t.getRequestMethod().equals("POST")) {
+                        throw new BTChipException("Only POST is supported on this method");
+                    }
+
+                    byte[] input = getInputAsBinary(t.getRequestBody());
+
+                    if (input.length == 0) {
+                        throw new BTChipException("No command found in the input data!");
+                    }
+
+                    if (input.length < 4) {
+                        throw new BTChipException("Command must have at least 4 bytes!");
+                    }
+
+                    byte[] command = ByteUtils.fromHexString(new String(input));
+
+                    // @todo check if command is valid
+
+                    responseBytes = dongle.exchange(command, true);
+                    response = ByteUtils.toHexString(responseBytes);
+                } catch (BTChipException e) {
+                    response = e.toString();
+                    code = 500;
+                } catch (Exception e) {
+                    response = "An unknown Exception happened!";
+                    code = 500;
                 }
-
-                byte[] input = getInputAsBinary(t.getRequestBody());
-
-                if (input.length == 0) {
-                    throw new BTChipException("No command found in the input data!");
-                }
-
-                if (input.length < 4) {
-                    throw new BTChipException("Command must have at least 4 bytes!");
-                }
-
-                byte[] command = ByteUtils.fromHexString(new String(input));
-
-                // @todo check if command is valid
-
-                responseBytes = dongle.exchange(command, true);
-                response = ByteUtils.toHexString(responseBytes);
-            } catch (BTChipException e) {
-                response = e.toString();
-                code = 500;
-            } catch (Exception e) {
-                response = "An unknown Exception happened!";
-                code = 500;
             }
 
             System.out.println("SERVER: call()");
@@ -91,18 +101,75 @@ public class Server {
             ensureCors(t);
             String response;
             int code = 200;
-            try {
-                dongle = interaction.getDongle(true);
-                response = "OK";
-            } catch (BTChipException e) {
-                response = e.toString();
-                code = 500;
-            } catch (Exception e) {
-                response = "An unknown Exception happened!";
-                code = 500;
+
+            if (!hasDevice) {
+                // Can't reset if there is no device connected
+                response = "Can't reset, no device connected";
+                code = 405;
+            } else {
+                try {
+                    dongle = interaction.getDongle(true);
+                    response = "OK";
+                } catch (BTChipException e) {
+                    response = e.toString();
+                    code = 500;
+                } catch (Exception e) {
+                    response = "An unknown Exception happened!";
+                    code = 500;
+                }
             }
 
             System.out.println("SERVER: reset()");
+
+            t.sendResponseHeaders(code, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class DisconnectDeviceHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            ensureCors(t);
+            String response;
+            int code = 200;
+            hasDevice = false;
+            response = "OK";
+
+            System.out.println("SERVER: disconnect device()");
+
+            t.sendResponseHeaders(code, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class ConnectDeviceHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            ensureCors(t);
+            String response;
+            int code = 200;
+            hasDevice = true;
+            response = "OK";
+
+            System.out.println("SERVER: connect device()");
+
+            t.sendResponseHeaders(code, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
+    static class HasDeviceHandler implements HttpHandler {
+        public void handle(HttpExchange t) throws IOException {
+            ensureCors(t);
+
+            String response = hasDevice ? "1" : "0";
+            int code = 200;
+
+            System.out.println("SERVER: has device()");
 
             t.sendResponseHeaders(code, response.length());
             OutputStream os = t.getResponseBody();

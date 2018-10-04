@@ -14,7 +14,7 @@ import BIP32Util from '../util/BIP32Util';
 import * as bitcoin from 'bitcoinjs-lib';
 import { ec as EC } from 'elliptic';
 import Signature from 'elliptic/lib/elliptic/ec/signature';
-import bigInt from 'big-integer';
+import NoDeviceConnectedException from '../NoDeviceConnectedException';
 
 const debug = false;
 
@@ -28,19 +28,43 @@ export const ANOTHER_SEED =
 
 it('can ping the transport', async () => {
   let transport = new TransportHTTP(debug);
+  await transport.disconnectDevice();
   let response = await transport.ping();
-  expect(response).toEqual('PONG');
+  expect(response).toEqual(true);
+});
+
+it('should connect a device before using', async () => {
+  let transport = new TransportHTTP(debug);
+  await transport.disconnectDevice();
+
+  expect.assertions(4);
+
+  expect(await transport.hasDevice()).toEqual(false);
+
+  try {
+    await transport.reset();
+  } catch (e) {
+    expect(e.message).toMatch('No device connected');
+    expect(e instanceof NoDeviceConnectedException).toBeTruthy();
+  }
+
+  await transport.connectDevice();
+
+  expect(await transport.hasDevice()).toEqual(true);
 });
 
 it('can reset the transport', async () => {
   let transport = new TransportHTTP(debug);
+  expect(await transport.disconnectDevice()).toBeTruthy();
+  expect(await transport.connectDevice()).toBeTruthy();
   let response = await transport.reset();
-  expect(response).toEqual('OK');
+  expect(response).toBeTruthy();
 });
 
 it('can setup develop', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,
@@ -52,6 +76,8 @@ it('can setup develop', async () => {
   // Should be on development mode and ready state
   expect(await device.getCurrentMode()).toEqual(MODE_DEVELOPMENT);
   expect(await device.getState()).toEqual(STATE_READY);
+
+  expect.assertions(4);
 
   try {
     await device.setup(
@@ -70,6 +96,7 @@ it('can setup develop', async () => {
 it('can setup normal mode', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_WALLET,
     BITCOIN_TESTNET_VERSION,
@@ -78,6 +105,8 @@ it('can setup normal mode', async () => {
 
   expect(await device.getCurrentMode()).toEqual(MODE_WALLET);
   expect(await device.getState()).toEqual(STATE_SETUP_DONE);
+
+  expect.assertions(6);
 
   // Can't prepare seed cause there is not PIN set
   try {
@@ -98,6 +127,7 @@ it('can setup normal mode', async () => {
 it('can setup normal mode getting random words', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_WALLET,
     BITCOIN_TESTNET_VERSION,
@@ -125,13 +155,14 @@ it('can setup normal mode getting random words', async () => {
 it('can get the firmware version', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_WALLET,
     BITCOIN_TESTNET_VERSION,
     BITCOIN_TESTNET_P2SH_VERSION
   );
 
-  expect(await device.getFirmwareVersion()).toEqual({
+  expect(await device.getFirmwareVersion(false)).toEqual({
     major: 0,
     minor: 5,
     patch: 0,
@@ -142,6 +173,7 @@ it('can get the firmware version', async () => {
 it('can get pin tries remaining', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,
@@ -166,11 +198,14 @@ it('can get pin tries remaining', async () => {
 it('can erase device', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_WALLET,
     BITCOIN_TESTNET_VERSION,
     BITCOIN_TESTNET_P2SH_VERSION
   );
+
+  expect.assertions(4);
 
   // Can't erase cause is not in ready state
   try {
@@ -192,6 +227,7 @@ it('can erase device', async () => {
 it('can get public addresses', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,
@@ -222,6 +258,7 @@ it('can get public addresses', async () => {
 it('can change network', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,
@@ -229,6 +266,8 @@ it('can change network', async () => {
     DEFAULT_PIN,
     DEFAULT_SEED
   );
+
+  expect.assertions(2);
 
   // Can't change network without PIN
   try {
@@ -246,6 +285,7 @@ it('can change network', async () => {
 it('can get genuineness public key with 65 bytes', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
 
   let key = await device.getGenuinenessKey(false);
 
@@ -257,6 +297,7 @@ it('can get genuineness public key with 65 bytes', async () => {
 it('can sign a transaction', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,
@@ -322,6 +363,7 @@ it('can decode DER signature', async () => {
 it('can verify genuineness', async () => {
   let device = new SecureDevice(new TransportHTTP(debug));
   await device.transport.reset();
+  await device.transport.connectDevice();
   await device.setup(
     MODE_DEVELOPMENT,
     BITCOIN_TESTNET_VERSION,

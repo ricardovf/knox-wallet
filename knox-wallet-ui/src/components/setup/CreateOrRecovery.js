@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';
 import Grid from '@material-ui/core/Grid';
+import { inject, observer } from 'mobx-react';
 
 const styles = theme => {
   return {
@@ -28,9 +29,11 @@ const styles = theme => {
 };
 
 @withStyles(styles)
+@inject('appStore', 'deviceStore')
+@observer
 export default class CreateOrRecovery extends BasePaper {
   render() {
-    const { classes } = this.props;
+    const { classes, appStore } = this.props;
 
     this.content = (
       <div className={classes.paperSpaceTwoOptions}>
@@ -56,7 +59,7 @@ export default class CreateOrRecovery extends BasePaper {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                href="/create-set-name"
+                onClick={appStore.setupStartCreating}
               >
                 Create new
               </Button>
@@ -75,7 +78,7 @@ export default class CreateOrRecovery extends BasePaper {
               <Button
                 color="primary"
                 className={classes.button}
-                href="/recovery-set-name"
+                onClick={appStore.setupStartRecovering}
               >
                 Recover wallet
               </Button>

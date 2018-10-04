@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import logo from '../../media/img/logo-knox-horizontal-blue-bg.png';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import { Route, Switch } from 'react-router-dom';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Typography } from '@material-ui/core';
 import InstallConnector from './InstallConnector';
@@ -14,6 +13,16 @@ import CreateSetPIN from './CreateSetPIN';
 import CreateRecovery from './CreateRecovery';
 import { observer, inject } from 'mobx-react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Footer from '../Footer';
+import {
+  STATE_INSTALLED,
+  STATE_PIN_SET,
+  STATE_READY,
+  STATE_SETUP_DONE,
+} from '../../device/Constants';
+import Paper from '@material-ui/core/Paper';
+import SimpleMessage from './SimpleMessage';
+import { SETUP_IS_CREATING, SETUP_IS_RECOVERING } from '../../store/AppStore';
 
 const theme = createMuiTheme();
 
@@ -63,11 +72,50 @@ const styles = theme => ({
 });
 
 @withStyles(styles)
-@inject('deviceStore')
+@inject('appStore', 'deviceStore')
 @observer
-export default class LayoutSetup extends React.Component {
+export default class SetupLayout extends React.Component {
   render() {
-    const { classes, deviceStore } = this.props;
+    const { classes, appStore, deviceStore } = this.props;
+
+    let isConnectorInstalled = deviceStore.isConnectorInstalled;
+    let hasDevice = deviceStore.hasDeviceConnected;
+    let state = deviceStore.state;
+
+    let component = null;
+
+    if (!isConnectorInstalled) {
+      component = <InstallConnector />;
+    } else if (!hasDevice) {
+      component = <ConnectDevice />;
+    } else {
+      switch (state) {
+        case STATE_INSTALLED:
+          // must make setup
+          component = <CreateOrRecovery />;
+          break;
+        case STATE_SETUP_DONE:
+          if (appStore.setupIsCreatingOrRecovering === undefined) {
+            component = <CreateOrRecovery />;
+          } else if (
+            appStore.setupIsCreatingOrRecovering === SETUP_IS_CREATING
+          ) {
+            component = <CreateSetPIN />;
+          } else if (
+            appStore.setupIsCreatingOrRecovering === SETUP_IS_RECOVERING
+          ) {
+            component = <CreateSetPIN />;
+          } else {
+            component = 'Setup error: unknown state';
+          }
+          break;
+        case STATE_PIN_SET:
+          component = <CreateRecovery />;
+          break;
+        case STATE_READY:
+          component = <SimpleMessage content="Device is ready." />;
+      }
+    }
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -76,30 +124,8 @@ export default class LayoutSetup extends React.Component {
             <img src={logo} height={65} className={classes.logo} />
           </Toolbar>
         </AppBar>
-        <main className={classes.content}>
-          <Switch>
-            <Route exact path="/" component={InstallConnector} />
-            <Route exact path="/usb" component={ConnectDevice} />
-            <Route
-              exact
-              path="/create-or-recovery"
-              component={CreateOrRecovery}
-            />
-            <Route exact path="/create-set-name" component={CreateSetName} />
-            <Route exact path="/create-set-pin" component={CreateSetPIN} />
-            <Route exact path="/create-recovery" component={CreateRecovery} />
-            <Route component={NotFound} />
-          </Switch>
-        </main>
-        <div className={classes.footer}>
-          <Typography variant="caption" color="textSecondary">
-            Ricardo Vieira Fritsche © 2018
-          </Typography>
-
-          <Typography variant="caption" color="textSecondary">
-            Firmware version: {deviceStore.firmwareVersion}
-          </Typography>
-        </div>
+        <main className={classes.content}>{component}</main>
+        <Footer />
       </MuiThemeProvider>
     );
   }

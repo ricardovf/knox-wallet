@@ -1874,6 +1874,10 @@ compression@^1.5.2:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
+computed-async-mobx@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/computed-async-mobx/-/computed-async-mobx-4.1.1.tgz#fadbfa1a0aadc7b241dd6a40d0830095016292e5"
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -5231,6 +5235,10 @@ mobx-react@^5.2.0:
   dependencies:
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.2"
+
+mobx-utils@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/mobx-utils/-/mobx-utils-5.0.2.tgz#82325c66c86a4b0a9c161df08bd71ebca0f9c902"
 
 mobx@^5.5.0:
   version "5.5.0"

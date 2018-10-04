@@ -12,14 +12,29 @@ export default class Transport {
   exchange(command) {}
 
   /**
-   * @return {Promise<any>}
+   * @return {Promise<boolean>}
    */
   ping() {}
 
   /**
-   * @return {Promise<any>}
+   * @return {Promise<boolean>}
    */
   reset() {}
+
+  /**
+   * @return {Promise<boolean>}
+   */
+  hasDevice() {}
+
+  /**
+   * @return {Promise<boolean>}
+   */
+  connectDevice() {}
+
+  /**
+   * @return {Promise<boolean>}
+   */
+  disconnectDevice() {}
 
   close() {}
   setDebug(debug) {

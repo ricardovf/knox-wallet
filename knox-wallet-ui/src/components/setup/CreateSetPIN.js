@@ -1,13 +1,12 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';
-import usb from '../../media/img/usb.png';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button/Button';
 import TextField from '@material-ui/core/TextField';
 import CreateSteps from './CreateSteps';
 import NumericKeyboard from './NumericKeyboard';
+import { inject, observer } from 'mobx-react';
 
 const styles = theme => {
   return {
@@ -30,16 +29,11 @@ const styles = theme => {
 };
 
 @withStyles(styles)
+@inject('appStore', 'deviceStore')
+@observer
 export default class CreateSetPIN extends BasePaper {
-  constructor(props) {
-    super(props);
-    this.state = {
-      connected: false,
-    };
-  }
-
   render() {
-    const { classes } = this.props;
+    const { classes, appStore } = this.props;
 
     this.content = (
       <div>
@@ -67,14 +61,16 @@ export default class CreateSetPIN extends BasePaper {
             <NumericKeyboard />
           </div>
           <div className={classes.buttons}>
-            <Button className={classes.button} href="/create-set-name">
+            <Button
+              className={classes.button}
+              onClick={appStore.setupBackToDecide}
+            >
               Back
             </Button>
             <Button
               variant="contained"
               color="primary"
               className={classes.button}
-              href="/create-recovery"
             >
               Continue
             </Button>

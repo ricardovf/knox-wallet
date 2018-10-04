@@ -2,30 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a7b1d44-0643-4870-81c1-effbf81576b5" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Util.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AppLayout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Footer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/setup/SimpleMessage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/device/NoDeviceConnectedException.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/AppStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SimpleButton.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/ConnectDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/ConnectDevice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateSetName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateSetName.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/InstallConnector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/InstallConnector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/LayoutSetup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/SetupLayout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/DeviceException.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/DeviceException.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/SecureDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/SecureDevice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/Transport.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/Transport.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/TransportHTTP.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/TransportHTTP.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/Crypto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/Crypto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/JCardSIMProprietaryAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/JCardSIMProprietaryAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/ProprietaryAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/ProprietaryAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/Base_Helper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/Bignat.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/Bignat_Helper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ECConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ECCurve.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ECPoint.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ECPoint_Helper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/Integer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ObjectAllocator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ObjectLocker.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/P512r1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/PM.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ResourceManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/ReturnCodes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/jcmathlib/SecP256r1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/test/GenuinenessTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/GenuinenessTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/test/TransactionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/TransactionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/deviceStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/DeviceStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../playground/basic/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/playground.iws" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/playground.iws" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -47,30 +51,32 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="12094" />
+          <entry key="js" value="16441" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="12094" />
+          <entry key="JavaScript" value="16441" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="106" />
+          <entry key="js" value="153" />
           <entry key="json" value="4" />
+          <entry key="md" value="1" />
           <entry key="png" value="1" />
-          <entry key="ts" value="4" />
+          <entry key="ts" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="106" />
-          <entry key="TypeScript" value="4" />
+          <entry key="JavaScript" value="153" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="TypeScript" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -86,10 +92,35 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
+        <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="455">
+              <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#130#178#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="137">
+              <caret line="21" column="13" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetPIN.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -97,50 +128,38 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetName.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="293" lean-forward="true" selection-start-line="293" selection-end-line="293" />
+            <state relative-caret-position="318">
+              <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
               <folding>
-                <element signature="e#0#43#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
+        <entry file="file://$PROJECT_DIR$/src/store/DeviceStore.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="33" />
+            <state relative-caret-position="1334">
+              <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#64#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic.js">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/ec/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="153" column="62" selection-start-line="153" selection-start-column="59" selection-end-line="153" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/ec/signature.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="8" column="18" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="18" />
+            <state relative-caret-position="209">
+              <caret line="61" column="41" lean-forward="true" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,8 +167,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="273" column="10" lean-forward="true" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+            <state relative-caret-position="5882">
+              <caret line="340" column="46" selection-start-line="340" selection-start-column="20" selection-end-line="340" selection-end-column="46" />
               <folding>
                 <element signature="e#0#379#0" expanded="true" />
               </folding>
@@ -158,19 +177,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curves.js">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/InstallConnector.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4140">
-              <caret line="180" column="46" selection-start-line="180" selection-start-column="42" selection-end-line="180" selection-end-column="46" />
+            <state relative-caret-position="644">
+              <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/short.js">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/SetupLayout.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="357" column="19" selection-start-line="357" selection-start-column="11" selection-end-line="357" selection-end-column="19" />
+            <state relative-caret-position="235">
+              <caret line="82" column="34" lean-forward="true" selection-start-line="82" selection-start-column="34" selection-end-line="82" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -179,13 +216,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Data must be a Buffer object</find>
-      <find>setup</find>
-      <find>isBuff</find>
-      <find>fir</find>
-      <find>changePin</find>
-      <find>path</find>
-      <find>public</find>
       <find>REMA</find>
       <find>Rema</find>
       <find>Invalid status</find>
@@ -209,6 +239,13 @@
       <find>Signature</find>
       <find>verify</find>
       <find>bigInt</find>
+      <find>try</find>
+      <find>asString</find>
+      <find>firmware</find>
+      <find>MuiThemeProvider</find>
+      <find>href</find>
+      <find>.get(</find>
+      <find>deviceStore.isConnectorInstalled.get()</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -216,6 +253,8 @@
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/node_modules/elliptic/lib</dir>
+      <dir>$PROJECT_DIR$/src/components</dir>
+      <dir>$PROJECT_DIR$/src/</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -224,10 +263,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/SimpleButton.md" />
-        <option value="$PROJECT_DIR$/src/components/README.md" />
-        <option value="$PROJECT_DIR$/src/ErrorBoundary.js" />
-        <option value="$PROJECT_DIR$/src/components/SimpleButton.js" />
         <option value="$PROJECT_DIR$/src/actions/creators.js" />
         <option value="$PROJECT_DIR$/src/reducer/index.js" />
         <option value="$PROJECT_DIR$/src/reducers/counter.js" />
@@ -239,35 +274,46 @@
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/src/components/LayoutSetup.js" />
         <option value="$PROJECT_DIR$/config-overrides.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/InstallConnector.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js" />
         <option value="$PROJECT_DIR$/src/components/setup/CreateSteps.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/CreateSetName.js" />
         <option value="$PROJECT_DIR$/src/components/setup/NumericKeyboard.js" />
         <option value="$PROJECT_DIR$/src/store/index.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/store/deviceStore.js" />
         <option value="$PROJECT_DIR$/src/components/setup/BasePaper.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/LayoutSetup.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/ConnectDevice.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" />
         <option value="$PROJECT_DIR$/src/components/setup/CreateRecovery.js" />
         <option value="$PROJECT_DIR$/src/device/util/hex.js" />
         <option value="$PROJECT_DIR$/src/device/APDU/Command.js" />
         <option value="$PROJECT_DIR$/src/device/tests/SecureDevice.test.js" />
         <option value="$PROJECT_DIR$/src/device/__tests__/TestsConstants.js" />
         <option value="$PROJECT_DIR$/src/device/Constants.js" />
-        <option value="$PROJECT_DIR$/src/device/Transport.js" />
-        <option value="$PROJECT_DIR$/src/device/TransportHTTP.js" />
-        <option value="$PROJECT_DIR$/src/device/DeviceException.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/device/util/BIP32Util.js" />
         <option value="$PROJECT_DIR$/src/device/APDU/Response.js" />
         <option value="$PROJECT_DIR$/src/device/util/ByteUtil.js" />
         <option value="$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js" />
+        <option value="$PROJECT_DIR$/src/device/DeviceException.js" />
+        <option value="$PROJECT_DIR$/src/device/NoDeviceConnectedException.js" />
         <option value="$PROJECT_DIR$/src/device/SecureDevice.js" />
+        <option value="$PROJECT_DIR$/src/store/deviceStore.js" />
+        <option value="$PROJECT_DIR$/src/store/appStore.js" />
+        <option value="$PROJECT_DIR$/src/store/PppStore.js" />
+        <option value="$PROJECT_DIR$/src/device/Transport.js" />
+        <option value="$PROJECT_DIR$/src/device/TransportHTTP.js" />
         <option value="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" />
+        <option value="$PROJECT_DIR$/src/components/LayoutApp.js" />
+        <option value="$PROJECT_DIR$/src/Util.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/LayoutSetup.js" />
+        <option value="$PROJECT_DIR$/src/components/AppLayout.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/SimpleMessage.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/ConnectDevice.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/InstallConnector.js" />
+        <option value="$PROJECT_DIR$/src/components/Footer.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/SetupLayout.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
+        <option value="$PROJECT_DIR$/src/store/DeviceStore.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/CreateSetName.js" />
+        <option value="$PROJECT_DIR$/src/store/AppStore.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" />
       </list>
     </option>
   </component>
@@ -358,15 +404,7 @@
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
               <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-              <item name="APDU" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
+              <item name="media" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -408,8 +446,9 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/setup" />
-      <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/store" />
+      <recent name="$PROJECT_DIR$/src/device" />
+      <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -464,7 +503,7 @@
       <workItem from="1524778639351" duration="255000" />
       <workItem from="1524778905665" duration="2516000" />
       <workItem from="1538158140427" duration="3422000" />
-      <workItem from="1538163061565" duration="60877000" />
+      <workItem from="1538163061565" duration="75602000" />
     </task>
     <servers />
   </component>
@@ -474,23 +513,23 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79787000" />
+    <option name="totallyTimeSpent" value="94512000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="311" y="26" width="1944" height="1008" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
-      <window_info id="Favorites" order="1" sideWeight="0.5010917" side_tool="true" visible="true" weight="0.21164846" />
+      <window_info id="Favorites" order="1" sideWeight="0.24672489" side_tool="true" weight="0.21164846" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="3" sideWeight="0.4989083" visible="true" weight="0.21164846" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" sideWeight="0.7532751" visible="true" weight="0.21164846" />
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" weight="0.329849" />
+      <window_info anchor="bottom" id="Find" order="5" weight="0.32969433" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.32969433" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.31707317" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
@@ -508,206 +547,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1892">
-          <caret line="83" column="15" lean-forward="true" selection-start-line="44" selection-start-column="8" selection-end-line="83" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="13" lean-forward="true" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#195#269#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/ConnectDevice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetPIN.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1127">
-          <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/LayoutSetup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2125">
-          <caret line="99" column="42" selection-start-line="99" selection-start-column="31" selection-end-line="99" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateRecovery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/BasePaper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="730">
-          <caret line="67" column="1" selection-start-line="67" selection-start-column="1" selection-end-line="67" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/byte/lib/byte.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/buffer/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" selection-start-column="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/deviceStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="25" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/source-map-explorer/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/__tests__/TestsConstants.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/Transport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/TransportHTTP.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/DeviceException.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="21" selection-start-column="21" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/APDU/Command.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1725">
-          <caret line="75" column="19" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="19" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#142#182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/Constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/APDU/Response.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/bitcoinjs-lib/src/payments/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="14220" column="4" selection-start-line="14220" selection-start-column="4" selection-end-line="14220" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/tiny-secp256k1/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
           <caret line="3" column="46" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/util/ByteUtil.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -840,13 +683,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/ec/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -854,10 +690,158 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/global-types/node_modules/@types/jest/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="440" column="8" selection-start-line="440" selection-start-column="8" selection-end-line="440" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/DeviceException.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/NoDeviceConnectedException.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
+        <state relative-caret-position="2116">
           <caret line="92" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/SimpleButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/util/ByteUtil.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/util/BIP32Util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/Transport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/TransportHTTP.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="105" column="2" selection-start-line="105" selection-start-column="2" selection-end-line="105" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/BasePaper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/SimpleMessage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/ConnectDevice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="55" column="23" selection-start-line="55" selection-start-column="23" selection-end-line="55" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="99" column="17" selection-start-line="99" selection-start-column="17" selection-end-line="99" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#172#205#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/InstallConnector.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -866,20 +850,91 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="273" column="10" lean-forward="true" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+        <state relative-caret-position="5882">
+          <caret line="340" column="46" selection-start-line="340" selection-start-column="20" selection-end-line="340" selection-end-column="46" />
           <folding>
             <element signature="e#0#379#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="293" lean-forward="true" selection-start-line="293" selection-end-line="293" />
+        <state relative-caret-position="189">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
           <folding>
-            <element signature="e#0#43#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/SetupLayout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="82" column="34" lean-forward="true" selection-start-line="82" selection-start-column="34" selection-end-line="82" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="30" column="41" lean-forward="true" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#130#178#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/DeviceStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1334">
+          <caret line="58" column="20" selection-start-line="58" selection-start-column="20" selection-end-line="58" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetName.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="61" column="41" lean-forward="true" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="21" column="13" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetPIN.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="35" column="29" selection-start-line="35" selection-start-column="29" selection-end-line="35" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

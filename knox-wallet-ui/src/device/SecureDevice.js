@@ -293,7 +293,7 @@ export default class SecureDevice {
     return asString ? response.toString('hex') : response;
   }
 
-  async getFirmwareVersion() {
+  async getFirmwareVersion(asString = true) {
     let response = await this.exchangeApdu(
       CLA,
       INS_GET_FIRMWARE_VERSION,
@@ -305,7 +305,13 @@ export default class SecureDevice {
     let major = parseInt(response[0] & 0xff, 10);
     let minor = parseInt(response[1] & 0xff, 10);
     let patch = parseInt(response[2] & 0xff, 10);
-    return { major, minor, patch, string: `${major}.${minor}.${patch}` };
+    let firmware = {
+      major,
+      minor,
+      patch,
+      string: `${major}.${minor}.${patch}`,
+    };
+    return asString ? firmware.string : firmware;
   }
 
   async getState() {
