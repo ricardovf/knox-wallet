@@ -13,6 +13,7 @@
     "elliptic": "^6.4.1",
     "mobx": "^5.5.0",
     "mobx-react": "^5.2.0",
+    "mobx-task": "^1.0.0-alpha.0",
     "mobx-utils": "^5.0.2",
     "prop-types": "^15.6.1",
     "react": "^16.0.0",

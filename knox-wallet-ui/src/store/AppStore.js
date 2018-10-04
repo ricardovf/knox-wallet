@@ -18,7 +18,7 @@ export default class AppStore {
   @observable
   keyVersionP2SH = BITCOIN_TESTNET_P2SH_VERSION;
 
-  // @todo save this to localstorage
+  // @todo save this to localstorage or get from url
   @observable
   setupIsCreatingOrRecovering = undefined;
 
@@ -27,7 +27,7 @@ export default class AppStore {
   }
 
   @action.bound
-  async setupBackToDecide() {
+  setupBackToDecide() {
     this.setupIsCreatingOrRecovering = undefined;
   }
 

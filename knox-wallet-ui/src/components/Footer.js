@@ -4,11 +4,15 @@ import { Typography } from '@material-ui/core';
 import { observer, inject } from 'mobx-react';
 import { __DEV__ } from '../Util';
 import Button from '@material-ui/core/Button';
+import { STATE_INSTALLED } from '../device/Constants';
 
 const styles = theme => ({
   footer: {
     marginTop: theme.spacing.unit * 6,
     padding: theme.spacing.unit,
+    textAlign: 'center',
+  },
+  footerOnlySimulator: {
     textAlign: 'center',
   },
   dev: { marginTop: theme.spacing.unit * 3 },
@@ -20,15 +24,20 @@ const styles = theme => ({
 @observer
 export default class Footer extends React.Component {
   render() {
-    const { classes, appStore, deviceStore } = this.props;
+    const { classes, appStore, deviceStore, onlySimulator } = this.props;
 
     let hasDevice = deviceStore.hasDeviceConnected;
+    let state = deviceStore.state;
 
     return (
-      <div className={classes.footer}>
-        <Typography variant="caption" color="textSecondary">
-          Ricardo Vieira Fritsche © 2018
-        </Typography>
+      <div
+        className={onlySimulator ? classes.footerOnlySimulator : classes.footer}
+      >
+        {!onlySimulator && (
+          <Typography variant="caption" color="textSecondary">
+            Ricardo Vieira Fritsche © 2018
+          </Typography>
+        )}
 
         {__DEV__ && (
           <div className={classes.dev}>
@@ -47,6 +56,18 @@ export default class Footer extends React.Component {
                 Reset
               </Button>
             )}
+            {hasDevice &&
+              state === STATE_INSTALLED && (
+                <Button
+                  onClick={() => {
+                    deviceStore.simulatorPrepareDefaultDevice();
+                  }}
+                  size="small"
+                  className={classes.button}
+                >
+                  Default
+                </Button>
+              )}
             <Button
               onClick={() => {
                 hasDevice

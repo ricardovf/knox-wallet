@@ -2,6 +2,7 @@
 export const CLA = 0xe0;
 export const INS_SETUP = 0x20;
 export const INS_VERIFY_PIN = 0x22;
+export const INS_PIN_VERIFIED = 0x62;
 export const INS_CHANGE_PIN = 0x4b;
 export const INS_PREPARE_SEED = 0x4c;
 export const INS_GET_GENUINENESS_KEY = 0x4d;
@@ -30,3 +31,7 @@ export const USER_CONFIRMATION_NONE = 0x00;
 // Bitcoin network
 export const BITCOIN_TESTNET_VERSION = 111;
 export const BITCOIN_TESTNET_P2SH_VERSION = 196;
+
+export const PIN_MIN_LENGTH = 4;
+export const PIN_MAX_LENGTH = 12;
+export const PIN_MAX_ATTEMPTS = 5;

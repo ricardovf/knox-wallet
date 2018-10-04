@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import CreateSteps from './CreateSteps';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -12,14 +11,6 @@ import { inject, observer } from 'mobx-react';
 const styles = theme => {
   return {
     ...baseStyle(theme),
-    paperSpaceFormWithSteps: {
-      margin: '70px auto 24px auto',
-      width: '440px',
-      [theme.breakpoints.down(paperWidth + theme.spacing.unit * 3 * 2)]: {
-        width: 'inherit',
-        margin: `20px ${theme.spacing.unit}px 20px ${theme.spacing.unit}px`,
-      },
-    },
     mainTitle: {
       marginBottom: theme.spacing.unit * 3,
       fontWeight: 500,
@@ -31,22 +22,14 @@ const styles = theme => {
 };
 
 @withStyles(styles)
-@inject('deviceStore')
+@inject('appStore', 'deviceStore')
 @observer
-export default class CreateRecovery extends BasePaper {
-  constructor(props) {
-    super(props);
-    this.state = {
-      connected: false,
-    };
-  }
-
+export default class CreateWriteSeed extends React.Component {
   render() {
     const { classes } = this.props;
 
-    this.content = (
+    return (
       <div>
-        <CreateSteps />
         <div className={classes.paperSpaceMedium}>
           <Typography variant="subheading" className={classes.mainTitle}>
             You will now see the recovery seed of your new wallet. It’s
@@ -86,7 +69,5 @@ export default class CreateRecovery extends BasePaper {
         </div>
       </div>
     );
-
-    return super.render();
   }
 }

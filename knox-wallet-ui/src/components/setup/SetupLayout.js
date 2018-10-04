@@ -8,9 +8,6 @@ import { Typography } from '@material-ui/core';
 import InstallConnector from './InstallConnector';
 import ConnectDevice from './ConnectDevice';
 import CreateOrRecovery from './CreateOrRecovery';
-import CreateSetName from './CreateSetName';
-import CreateSetPIN from './CreateSetPIN';
-import CreateRecovery from './CreateRecovery';
 import { observer, inject } from 'mobx-react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Footer from '../Footer';
@@ -20,9 +17,9 @@ import {
   STATE_READY,
   STATE_SETUP_DONE,
 } from '../../device/Constants';
-import Paper from '@material-ui/core/Paper';
 import SimpleMessage from './SimpleMessage';
 import { SETUP_IS_CREATING, SETUP_IS_RECOVERING } from '../../store/AppStore';
+import Create from './Create';
 
 const theme = createMuiTheme();
 
@@ -95,22 +92,20 @@ export default class SetupLayout extends React.Component {
           component = <CreateOrRecovery />;
           break;
         case STATE_SETUP_DONE:
+        case STATE_PIN_SET:
           if (appStore.setupIsCreatingOrRecovering === undefined) {
             component = <CreateOrRecovery />;
           } else if (
             appStore.setupIsCreatingOrRecovering === SETUP_IS_CREATING
           ) {
-            component = <CreateSetPIN />;
+            component = <Create />;
           } else if (
             appStore.setupIsCreatingOrRecovering === SETUP_IS_RECOVERING
           ) {
-            component = <CreateSetPIN />;
+            component = 'Recovery process';
           } else {
             component = 'Setup error: unknown state';
           }
-          break;
-        case STATE_PIN_SET:
-          component = <CreateRecovery />;
           break;
         case STATE_READY:
           component = <SimpleMessage content="Device is ready." />;

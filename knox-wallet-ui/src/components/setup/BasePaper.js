@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
+import { inject, observer } from 'mobx-react';
 
 export const paperWidth = 720;
 
@@ -44,6 +45,14 @@ export const styles = theme => ({
       margin: `20px ${theme.spacing.unit}px 20px ${theme.spacing.unit}px`,
     },
   },
+  paperSpaceFormWithSteps: {
+    margin: '70px auto 24px auto',
+    width: '440px',
+    [theme.breakpoints.down(paperWidth + theme.spacing.unit * 3 * 2)]: {
+      width: 'inherit',
+      margin: `20px ${theme.spacing.unit}px 20px ${theme.spacing.unit}px`,
+    },
+  },
   button: {
     margin: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
@@ -54,6 +63,10 @@ export const styles = theme => ({
 });
 
 export default class BasePaper extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     const { classes } = this.props;
 

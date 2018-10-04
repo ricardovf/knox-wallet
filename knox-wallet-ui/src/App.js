@@ -4,15 +4,12 @@ import { hot } from 'react-hot-loader';
 import SetupLayout from './components/setup/SetupLayout';
 import { inject, observer } from 'mobx-react';
 import AppLayout from './components/AppLayout';
-import { STATE_READY } from './device/Constants';
+import { STATE_PIN_SET, STATE_READY } from './device/Constants';
+import PINModal from './components/PINModal';
 
 @inject('appStore', 'deviceStore')
 @observer
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     // config store to monitor state and device connection
     this.props.deviceStore.autoRefreshStateStart();
@@ -25,15 +22,31 @@ class App extends Component {
   render() {
     const { appStore, deviceStore } = this.props;
 
+    // Check if its authenticated, if not, show the PIN request screen
+    let isConnectorInstalled = deviceStore.isConnectorInstalled;
+    let hasDevice = deviceStore.hasDeviceConnected;
+    let state = deviceStore.state;
+    let pinVerified = deviceStore.pinVerified;
+
+    let showPinModal =
+      isConnectorInstalled &&
+      hasDevice &&
+      [STATE_PIN_SET, STATE_READY].includes(state) &&
+      !pinVerified;
+
+    let maybeContent;
+
+    if (!showPinModal) {
+      if (isConnectorInstalled && hasDevice && state === STATE_READY) {
+        maybeContent = <AppLayout />;
+      } else {
+        maybeContent = <SetupLayout />;
+      }
+    }
     return (
       <React.Fragment>
-        {deviceStore.isConnectorInstalled &&
-        deviceStore.hasDeviceConnected &&
-        deviceStore.state === STATE_READY ? (
-          <AppLayout />
-        ) : (
-          <SetupLayout />
-        )}
+        <PINModal open={showPinModal} />
+        {maybeContent}
       </React.Fragment>
     );
   }

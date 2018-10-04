@@ -5236,6 +5236,10 @@ mobx-react@^5.2.0:
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.2"
 
+mobx-task@^1.0.0-alpha.0:
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/mobx-task/-/mobx-task-1.0.0-alpha.0.tgz#9f499124a0f1d4038974cd1dab3cc6a30618317a"
+
 mobx-utils@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/mobx-utils/-/mobx-utils-5.0.2.tgz#82325c66c86a4b0a9c161df08bd71ebca0f9c902"

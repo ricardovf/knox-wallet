@@ -8,6 +8,7 @@ import {
   INS_GET_MODE,
   INS_GET_STATE,
   INS_GET_WALLET_PUBLIC_KEY,
+  INS_PIN_VERIFIED,
   INS_PREPARE_SEED,
   INS_PROVE_GENUINENESS,
   INS_SETUP,
@@ -23,6 +24,7 @@ import BIP32Util from './util/BIP32Util';
 import { Buffer } from 'buffer';
 import ByteUtil from './util/ByteUtil';
 import { statusWordToMessage } from './APDU/Response';
+import { isValidPinContent, isValidPinLength } from './util/PIN';
 
 export default class SecureDevice {
   transport = null;
@@ -120,11 +122,11 @@ export default class SecureDevice {
   }
 
   async changePin(pin) {
-    if (pin == null || pin.length < 4 || pin.length > 20) {
+    if (!isValidPinLength(pin)) {
       throw new DeviceException('Invalid user PIN length');
     }
 
-    if (!/^\d+$/g.test(pin)) {
+    if (!isValidPinContent(pin)) {
       throw new DeviceException(
         'User PIN must contain only numbers from 0 to 9'
       );
@@ -136,12 +138,31 @@ export default class SecureDevice {
     await this.exchangeApdu(CLA, INS_CHANGE_PIN, 0x00, 0x00, data, this.OK);
   }
 
+  /**
+   * @return {Promise<boolean>}
+   */
+  async isPinVerified() {
+    try {
+      await this.exchangeApdu(
+        CLA,
+        INS_PIN_VERIFIED,
+        0x00,
+        0x00,
+        this.DUMMY,
+        this.OK
+      );
+      return Promise.resolve(true);
+    } catch (e) {}
+
+    return Promise.resolve(false);
+  }
+
   async verifyPin(pin, acceptedSW = this.OK) {
-    if (pin == null || pin.length < 4 || pin.length > 20) {
+    if (!isValidPinLength(pin)) {
       throw new DeviceException('Invalid user PIN length');
     }
 
-    if (!/^\d+$/g.test(pin)) {
+    if (!isValidPinContent(pin)) {
       throw new DeviceException(
         'User PIN must contain only numbers from 0 to 9'
       );

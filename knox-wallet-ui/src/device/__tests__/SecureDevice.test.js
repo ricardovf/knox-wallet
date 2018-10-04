@@ -182,16 +182,22 @@ it('can get pin tries remaining', async () => {
     DEFAULT_SEED
   );
 
+  expect(await device.isPinVerified()).toEqual(false);
   expect(await device.getVerifyPinRemainingAttempts()).toEqual(5);
   try {
     await device.verifyPin('9999');
   } catch (e) {}
+  expect(await device.isPinVerified()).toEqual(false);
   expect(await device.getVerifyPinRemainingAttempts()).toEqual(4);
   try {
     await device.verifyPin('8888');
   } catch (e) {}
+  expect(await device.isPinVerified()).toEqual(false);
   expect(await device.getVerifyPinRemainingAttempts()).toEqual(3);
+
+  // Correct PIN
   await device.verifyPin(DEFAULT_PIN);
+  expect(await device.isPinVerified()).toEqual(true);
   expect(await device.getVerifyPinRemainingAttempts()).toEqual(5);
 });
 
