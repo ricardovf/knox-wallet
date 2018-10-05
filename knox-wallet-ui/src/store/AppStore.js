@@ -44,7 +44,11 @@ export default class AppStore {
   }
 
   @action.bound
-  setupStartRecovering() {
+  async setupStartRecovering() {
+    if (this.deviceStore.state === STATE_INSTALLED) {
+      await this.deviceStore.ensureSetup(this.keyVersion, this.keyVersionP2SH);
+    }
+
     this.setupIsCreatingOrRecovering = SETUP_IS_RECOVERING;
   }
 

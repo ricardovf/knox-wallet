@@ -20,6 +20,7 @@ import {
 import SimpleMessage from './SimpleMessage';
 import { SETUP_IS_CREATING, SETUP_IS_RECOVERING } from '../../store/AppStore';
 import Create from './Create';
+import Recovery from './Recovery';
 
 const theme = createMuiTheme();
 
@@ -102,7 +103,7 @@ export default class SetupLayout extends React.Component {
           } else if (
             appStore.setupIsCreatingOrRecovering === SETUP_IS_RECOVERING
           ) {
-            component = 'Recovery process';
+            component = <Recovery />;
           } else {
             component = 'Setup error: unknown state';
           }

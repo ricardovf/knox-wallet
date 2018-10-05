@@ -13,7 +13,7 @@ import {
   STATE_SETUP_DONE,
 } from '../../device/Constants';
 import CreateOrRecoverySetPIN from './CreateOrRecoverySetPIN';
-import CreateWriteSeed from './CreateWriteSeed';
+import RecoveryEnterWords from './RecoveryEnterWords';
 
 const styles = theme => {
   return {
@@ -27,12 +27,12 @@ const styles = theme => {
   };
 };
 
-const steps = ['Choose a PIN', 'Write the recovery seed'];
+const steps = ['Choose a PIN', 'Recover using the seed words'];
 
 @withStyles(styles)
 @inject('appStore', 'deviceStore')
 @observer
-export default class Create extends BasePaper {
+export default class Recovery extends BasePaper {
   handleBack = () => {
     if (this.props.deviceStore.state === STATE_SETUP_DONE) {
       this.props.appStore.setupBackToDecide();
@@ -57,7 +57,7 @@ export default class Create extends BasePaper {
       step = 0;
     } else if (state === STATE_PIN_SET) {
       // must generate seed and write words
-      component = <CreateWriteSeed />;
+      component = <RecoveryEnterWords />;
       step = 1;
     }
 

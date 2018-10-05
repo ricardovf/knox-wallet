@@ -60,6 +60,12 @@ export const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
+  flexCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default class BasePaper extends React.Component {

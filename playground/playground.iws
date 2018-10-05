@@ -24,7 +24,7 @@
       <file leaf-file-name="BasicWalletApplet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
+            <state relative-caret-position="-3590">
               <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -594,7 +594,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="197" y="55" width="2021" height="979" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Tool Output" order="12" />
@@ -604,7 +603,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5002758" side_tool="true" weight="0.3071823" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4997242" weight="0.3966851" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4997242" visible="true" weight="0.3966851" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
@@ -1054,7 +1053,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
+        <state relative-caret-position="-3590">
           <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />

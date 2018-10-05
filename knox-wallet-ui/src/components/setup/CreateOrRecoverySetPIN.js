@@ -40,7 +40,7 @@ const STEP_CONFIRM = 1;
 @withStyles(styles)
 @inject('appStore', 'deviceStore')
 @observer
-export default class CreateSetPIN extends React.Component {
+export default class CreateOrRecoverySetPIN extends React.Component {
   @observable
   pin = '';
 
@@ -205,7 +205,7 @@ export default class CreateSetPIN extends React.Component {
   }
 }
 
-Steps.propTypes = {
+CreateOrRecoverySetPIN.propTypes = {
   classes: PropTypes.object,
   handleBack: PropTypes.func,
 };
