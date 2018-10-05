@@ -100,7 +100,7 @@ export default class CreateSetPIN extends React.Component {
       if (this.pinConfirmation.length > PIN_MIN_LENGTH) {
         if (this.pinConfirmation !== this.pin) {
           showError = true;
-          errorText = 'The confirmation pin is incorrect';
+          errorText = `The confirmation pin doesn't match the pin`;
         }
       }
     }

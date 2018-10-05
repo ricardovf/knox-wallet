@@ -23,6 +23,7 @@ public interface BTChipConstants {
     byte CLA = (byte) 0xE0;
     byte INS_SETUP = (byte) 0x20;
     byte INS_VERIFY_PIN = (byte) 0x22;
+    byte INS_PIN_VERIFIED = (byte) 0x62;
     byte INS_CHANGE_PIN = (byte) 0x4B;
     byte INS_PREPARE_SEED = (byte) 0x4C;
     byte INS_GET_GENUINENESS_KEY = (byte) 0x4D;

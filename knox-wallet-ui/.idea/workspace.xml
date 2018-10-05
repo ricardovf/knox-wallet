@@ -2,28 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a7b1d44-0643-4870-81c1-effbf81576b5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/PINModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/device/util/PIN.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FullLoading.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/BasePaper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/BasePaper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateRecovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateSetName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/Create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PINModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PINModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/Create.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/Create.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateSteps.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/Steps.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/NumericKeyboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/NumericKeyboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/setup/SetupLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/SetupLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/Constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/SecureDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/SecureDevice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/AppStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/AppStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/DeviceStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/DeviceStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/basic/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/basic/test/PinTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/PinTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../playground/basic/test/SetupWalletTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/test/SetupWalletTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/dongle/src/BTChipConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/dongle/src/BTChipConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/dongle/src/BTChipDongle.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/dongle/src/BTChipDongle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../playground/playground.iws" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/playground.iws" afterDir="false" />
@@ -47,32 +40,32 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="22257" />
+          <entry key="js" value="24700" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="22257" />
+          <entry key="JavaScript" value="24700" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="184" />
-          <entry key="json" value="5" />
-          <entry key="md" value="1" />
+          <entry key="js" value="207" />
+          <entry key="json" value="7" />
+          <entry key="md" value="2" />
           <entry key="png" value="1" />
-          <entry key="ts" value="6" />
+          <entry key="ts" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="JSON" value="5" />
-          <entry key="JavaScript" value="184" />
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="TypeScript" value="6" />
+          <entry key="JSON" value="7" />
+          <entry key="JavaScript" value="207" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="TypeScript" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -87,11 +80,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="713">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="299">
+              <caret line="18" column="68" selection-start-line="18" selection-start-column="68" selection-end-line="18" selection-end-column="68" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -100,10 +93,68 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/FullLoading.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/PINModal.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="388">
+              <caret line="200" column="18" lean-forward="true" selection-start-line="197" selection-start-column="16" selection-end-line="200" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="15" column="20" selection-end-line="87" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1118">
+              <caret line="87" column="11" lean-forward="true" selection-start-line="87" selection-start-column="11" selection-end-line="87" selection-end-column="11" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#172#205#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+            <state relative-caret-position="639">
+              <caret line="51" column="27" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="27" />
               <folding>
                 <element signature="e#0#74#0" expanded="true" />
               </folding>
@@ -114,8 +165,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/DeviceStore.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="203" selection-start-line="203" selection-end-line="203" />
+            <state relative-caret-position="289">
+              <caret line="121" column="2" selection-start-line="121" selection-start-column="2" selection-end-line="121" selection-end-column="2" />
               <folding>
                 <element signature="e#0#74#0" expanded="true" />
               </folding>
@@ -123,65 +174,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/PINModal.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="179" column="23" selection-start-line="179" selection-start-column="23" selection-end-line="179" selection-end-column="23" />
+            <state relative-caret-position="381">
+              <caret line="445" selection-start-line="445" selection-end-line="445" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#399#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
+        <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="13" column="13" lean-forward="true" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="62" column="52" selection-start-line="62" selection-start-column="52" selection-end-line="62" selection-end-column="52" />
+            <state relative-caret-position="-2846">
+              <caret line="223" column="29" lean-forward="true" selection-start-line="223" selection-start-column="29" selection-end-line="223" selection-end-column="29" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#43#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/setup/SimpleMessage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/setup/BasePaper.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="5" selection-start-line="5" selection-end-line="5" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/device/Constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="788">
-              <caret line="36" column="29" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -190,15 +202,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>keyPair</find>
-      <find>Signature</find>
-      <find>verify</find>
-      <find>bigInt</find>
-      <find>try</find>
-      <find>asString</find>
-      <find>firmware</find>
-      <find>MuiThemeProvider</find>
-      <find>href</find>
       <find>.get(</find>
       <find>deviceStore.isConnectorInstalled.get()</find>
       <find>getSteps</find>
@@ -220,6 +223,15 @@
       <find>paperWidth</find>
       <find>fullsc</find>
       <find>withMobileDialog</find>
+      <find>random</find>
+      <find>rand</find>
+      <find>,</find>
+      <find>entropyToMnemonic</find>
+      <find>generateAndShowWords</find>
+      <find>task</find>
+      <find>verifyPinOnDevice</find>
+      <find>rando</find>
+      <find>prepar</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -227,8 +239,8 @@
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/node_modules/elliptic/lib</dir>
-      <dir>$PROJECT_DIR$/src/components</dir>
       <dir>$PROJECT_DIR$/src/</dir>
+      <dir>$PROJECT_DIR$/src/components</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -237,7 +249,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/reducers/index.js" />
         <option value="$PROJECT_DIR$/src/container/Incrementer.js" />
         <option value="$PROJECT_DIR$/public/manifest.json" />
         <option value="$PROJECT_DIR$/public/index.html" />
@@ -266,7 +277,6 @@
         <option value="$PROJECT_DIR$/src/components/AppLayout.js" />
         <option value="$PROJECT_DIR$/src/components/setup/SimpleMessage.js" />
         <option value="$PROJECT_DIR$/src/components/setup/ConnectDevice.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js" />
         <option value="$PROJECT_DIR$/src/components/setup/InstallConnector.js" />
         <option value="$PROJECT_DIR$/src/components/setup/CreateSetName.js" />
@@ -274,20 +284,22 @@
         <option value="$PROJECT_DIR$/src/components/setup/CreateSteps.js" />
         <option value="$PROJECT_DIR$/src/components/setup/SetupLayout.js" />
         <option value="$PROJECT_DIR$/src/components/setup/BasePaper.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/Create.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js" />
         <option value="$PROJECT_DIR$/src/components/setup/Steps.js" />
         <option value="$PROJECT_DIR$/src/device/util/PIN.js" />
-        <option value="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" />
-        <option value="$PROJECT_DIR$/src/device/SecureDevice.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/components/setup/NumericKeyboard.js" />
         <option value="$PROJECT_DIR$/src/device/Constants.js" />
         <option value="$PROJECT_DIR$/src/components/Footer.js" />
-        <option value="$PROJECT_DIR$/src/store/DeviceStore.js" />
-        <option value="$PROJECT_DIR$/src/store/AppStore.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/CreateSetPIN.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/Create.js" />
+        <option value="$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js" />
         <option value="$PROJECT_DIR$/src/components/PINModal.js" />
+        <option value="$PROJECT_DIR$/src/device/SecureDevice.js" />
+        <option value="$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js" />
+        <option value="$PROJECT_DIR$/src/components/FullLoading.js" />
+        <option value="$PROJECT_DIR$/src/store/AppStore.js" />
+        <option value="$PROJECT_DIR$/src/store/DeviceStore.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
       </list>
     </option>
   </component>
@@ -322,8 +334,8 @@
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="397" />
-    <option name="y" value="29" />
+    <option name="x" value="337" />
+    <option name="y" value="32" />
     <option name="width" value="1944" />
     <option name="height" value="1008" />
   </component>
@@ -353,45 +365,6 @@
               <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="setup" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-              <item name="__tests__" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -423,6 +396,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/components/setup" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -484,7 +458,7 @@
       <workItem from="1524778639351" duration="255000" />
       <workItem from="1524778905665" duration="2516000" />
       <workItem from="1538158140427" duration="3422000" />
-      <workItem from="1538163061565" duration="97760000" />
+      <workItem from="1538163061565" duration="106712000" />
     </task>
     <servers />
   </component>
@@ -494,10 +468,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116670000" />
+    <option name="totallyTimeSpent" value="125622000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="397" y="29" width="1944" height="1008" extended-state="0" />
+    <frame x="337" y="32" width="1944" height="1008" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
@@ -549,50 +523,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/eddsa/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1771">
-          <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/eddsa/key.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/base.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/mont.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/short.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="357" column="19" selection-start-line="357" selection-start-column="11" selection-end-line="357" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curve/edwards.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="160" column="24" lean-forward="true" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/curves.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4140">
-          <caret line="180" column="46" selection-start-line="180" selection-start-column="42" selection-end-line="180" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/elliptic/lib/elliptic/utils.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -647,16 +577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
           <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2116">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -756,16 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1219">
-          <caret line="53" column="14" lean-forward="true" selection-start-line="53" selection-start-column="14" selection-end-line="53" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/util/PIN.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -786,30 +696,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/Create.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="32" selection-start-line="32" selection-end-line="33" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/setup/CreateOrRecovery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="80" column="54" selection-start-line="80" selection-start-column="25" selection-end-line="80" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/SetupLayout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="122" column="18" lean-forward="true" selection-start-line="122" selection-start-column="8" selection-end-line="122" selection-end-column="18" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -840,98 +730,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetPIN.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4623">
-          <caret line="201" column="15" lean-forward="true" selection-start-line="109" selection-start-column="8" selection-end-line="201" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/BasePaper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="5" selection-start-line="5" selection-end-line="5" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/device/Constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="788">
           <caret line="36" column="29" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="24" column="131" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="131" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="62" column="52" selection-start-line="62" selection-start-column="52" selection-end-line="62" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#172#205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/DeviceStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="203" selection-start-line="203" selection-end-line="203" />
-          <folding>
-            <element signature="e#0#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -942,12 +744,182 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/PINModal.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/react-hot-loader/package.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-hot-loader/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="179" column="23" selection-start-line="179" selection-start-column="23" selection-end-line="179" selection-end-column="23" />
+        <state relative-caret-position="-12" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-hot-loader/react-hot-loader.d.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/Create.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/BasePaper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/__tests__/Bitcoinjs.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateSetPIN.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1567">
+          <caret line="124" column="25" lean-forward="true" selection-start-line="111" selection-start-column="12" selection-end-line="124" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/SetupLayout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="94" column="26" selection-start-line="94" selection-start-column="13" selection-end-line="94" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bip39/test/vectors.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2645" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bip39/test/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1721" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/bip39/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/__tests__/SecureDevice.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2846">
+          <caret line="223" column="29" lean-forward="true" selection-start-line="223" selection-start-column="29" selection-end-line="223" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/device/SecureDevice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="445" selection-start-line="445" selection-end-line="445" />
+          <folding>
+            <element signature="e#0#399#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/CreateWriteSeed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1118">
+          <caret line="87" column="11" lean-forward="true" selection-start-line="87" selection-start-column="11" selection-end-line="87" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ErrorBoundary.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="20" selection-end-line="87" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/PINModal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="200" column="18" lean-forward="true" selection-start-line="197" selection-start-column="16" selection-end-line="200" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#172#205#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="639">
+          <caret line="51" column="27" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/FullLoading.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="31" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/DeviceStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="121" column="2" selection-start-line="121" selection-start-column="2" selection-end-line="121" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="18" column="68" selection-start-line="18" selection-start-column="68" selection-end-line="18" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>

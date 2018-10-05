@@ -11,6 +11,8 @@ import static javacard.framework.ISO7816.SW_CONDITIONS_NOT_SATISFIED;
 import static javacard.framework.ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PinTests extends AbstractJavaCardTest {
     @Rule
@@ -25,7 +27,13 @@ public class PinTests extends AbstractJavaCardTest {
 
     @Test
     public void correctPinTest() throws BTChipException {
+        assertFalse(dongle.isPinVerified());
         dongle.verifyPin(DEFAULT_PIN);
+        assertTrue(dongle.isPinVerified());
+        dongle.verifyPin(DEFAULT_PIN);
+        assertTrue(dongle.isPinVerified());
+        dongle.verifyPin(DEFAULT_PIN);
+        assertTrue(dongle.isPinVerified());
     }
 
     @Test
@@ -37,13 +45,19 @@ public class PinTests extends AbstractJavaCardTest {
         // No pin tried
         assertEquals(5, dongle.getVerifyPinRemainingAttempts());
 
+        assertFalse(dongle.isPinVerified());
+
         // 1 try
         dongle.verifyPin("6667".getBytes(), notGood);
         assertEquals(4, dongle.getVerifyPinRemainingAttempts());
 
+        assertFalse(dongle.isPinVerified());
+
         // 2 try
         dongle.verifyPin("6667".getBytes(), notGood);
         assertEquals(3, dongle.getVerifyPinRemainingAttempts());
+
+        assertFalse(dongle.isPinVerified());
 
         // 3 try
         dongle.verifyPin("6627".getBytes(), notGood);
@@ -53,9 +67,13 @@ public class PinTests extends AbstractJavaCardTest {
         dongle.verifyPin("6367".getBytes(), notGood);
         assertEquals(1, dongle.getVerifyPinRemainingAttempts());
 
+        assertFalse(dongle.isPinVerified());
+
         // Last try will return error
         dongle.verifyPin("1668".getBytes(), notGood);
         assertEquals(SW_CONDITIONS_NOT_SATISFIED, dongle.getVerifyPinRemainingAttempts());
+
+        assertFalse(dongle.isPinVerified());
     }
 
     @Test
@@ -67,13 +85,19 @@ public class PinTests extends AbstractJavaCardTest {
         // No pin tried
         assertEquals(5, dongle.getVerifyPinRemainingAttempts());
 
+        assertFalse(dongle.isPinVerified());
+
         // First try
         dongle.verifyPin("6667".getBytes(), notGood);
         assertEquals(4, dongle.getVerifyPinRemainingAttempts());
 
+        assertFalse(dongle.isPinVerified());
+
         // Second try (correct pin) will reset the counter
         dongle.verifyPin(DEFAULT_PIN);
         assertEquals(5, dongle.getVerifyPinRemainingAttempts());
+
+        assertTrue(dongle.isPinVerified());
     }
 
     @Test(expected = BTChipException.class)

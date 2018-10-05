@@ -21,13 +21,108 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/basic/server/Server.java">
+      <file leaf-file-name="BasicWalletApplet.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-884">
-              <caret line="109" column="18" selection-start-line="109" selection-start-column="18" selection-end-line="109" selection-end-column="18" />
+            <state relative-caret-position="404">
+              <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Util.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/Util.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SetupWalletTests.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="65">
+              <caret line="166" column="33" selection-start-line="166" selection-start-column="33" selection-end-line="166" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Bip32.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/src/Bip32.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="113" column="22" lean-forward="true" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ISO7816.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/ISO7816.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="116">
+              <caret line="11" column="42" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BTChipConstants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dongle/src/BTChipConstants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="25" column="25" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PinTests.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/test/PinTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1826">
+              <caret line="95" column="25" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/server/Server.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1206">
+              <caret line="143" column="13" selection-start-line="143" selection-start-column="13" selection-end-line="143" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="31" column="23" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BTChipDongle.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dongle/src/BTChipDongle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="468" column="18" selection-start-line="468" selection-start-column="18" selection-end-line="468" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1938#1939#0" expanded="true" />
+                <element signature="e#1961#1962#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -46,19 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>04ecbbabc1b27a4e1a0a7b38611e70e0d08d7b21d6bf1365296f90dbe195f2fe9f380eb1a634da7e91275d58685f2577a8df9006372d8a61fef01514a9c198e58c</find>
-      <find>30440220096B875E1A1A7E4B60B065F13A31C7B3B28AE901604650ACD2691A0A8AA82DA6022011C54B1DB7B4D34D8AA42320190869F45224DF8EB28E77C005DE2414BFE1FCCB</find>
-      <find>0xFE</find>
-      <find>PRIVATE GENUINIT KEY</find>
-      <find>ECPoint</find>
-      <find>2f676e0df3b9dc680e28dabc3af3f9c264ff8953f1d143d62c06e960e562f678</find>
-      <find>getUncompressedPublicPoint</find>
-      <find>hasHmacSHA512</find>
-      <find>04fa05ed0a3649886270bacec5ddc1a3643009a759bee996f9a6ac060c9992a82e2f676e0df3b9dc680e28dabc3af3f9c264ff8953f1d143d62c06e960e562f678</find>
-      <find>verify</find>
-      <find>31126515197468027214933240576345115136564245539326620668929069298772882232218</find>
-      <find>15721437176623636005159904759903443163039200030007572040813464894095321243833</find>
-      <find>9288878455486640533838815615833157231634474520260338630022615290950229970420192888784554866405338388156158331572316344745202603386300226152909502299704201</find>
       <find>92888784554866405338388156158331572316344745202603386300226152909502299704201</find>
       <find>29478497275615468345935564612313899684315892163812927082444087101014091004023</find>
       <find>3045022100cd5d305e020539297f3ef05d7b6a12a7580995aede100f872b8db9103b230b890220412c3cfa13cd664197d81d0ba6beda4f9de5e053e8eaf370277ca2396c287877</find>
@@ -76,6 +158,19 @@
       <find>signature</find>
       <find>keyAgreement</find>
       <find>ECPrivateKey</find>
+      <find>changePin</find>
+      <find>0x62</find>
+      <find>reset</find>
+      <find>PIN_</find>
+      <find>check</find>
+      <find>26368</find>
+      <find>27010</find>
+      <find>getWordsFromIndexes</find>
+      <find>SW_SECURITY_STATUS_NOT_SATISFIED</find>
+      <find>words</find>
+      <find>fill</find>
+      <find>System</find>
+      <find>System.out</find>
     </findStrings>
     <replaceStrings>
       <replace>package com.knox.playground.basic.btchip;</replace>
@@ -121,7 +216,6 @@
         <option value="$PROJECT_DIR$/dongle/src/BitcoinTransaction.java" />
         <option value="$PROJECT_DIR$/basic/src/Transaction.java" />
         <option value="$PROJECT_DIR$/basic/src/BCDUtils.java" />
-        <option value="$PROJECT_DIR$/basic/test/PinTests.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.txt" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
@@ -135,17 +229,18 @@
         <option value="$PROJECT_DIR$/basic/src/server/Server.java" />
         <option value="$PROJECT_DIR$/basic/test/AbstractJavaCardTest.java" />
         <option value="$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java" />
-        <option value="$PROJECT_DIR$/dongle/src/BTChipConstants.java" />
-        <option value="$PROJECT_DIR$/dongle/src/BTChipDongle.java" />
-        <option value="$PROJECT_DIR$/basic/test/SetupWalletTests.java" />
         <option value="$PROJECT_DIR$/basic/test/Bip32Tests.java" />
         <option value="$PROJECT_DIR$/basic/test/GenuinenessTest.java" />
         <option value="$PROJECT_DIR$/basic/test/TransactionTest.java" />
         <option value="$PROJECT_DIR$/basic/src/Crypto.java" />
         <option value="$PROJECT_DIR$/basic/src/ProprietaryAPI.java" />
         <option value="$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java" />
-        <option value="$PROJECT_DIR$/basic/src/BasicWalletApplet.java" />
+        <option value="$PROJECT_DIR$/dongle/src/BTChipConstants.java" />
+        <option value="$PROJECT_DIR$/dongle/src/BTChipDongle.java" />
+        <option value="$PROJECT_DIR$/basic/test/PinTests.java" />
         <option value="$PROJECT_DIR$/basic/server/Server.java" />
+        <option value="$PROJECT_DIR$/basic/test/SetupWalletTests.java" />
+        <option value="$PROJECT_DIR$/basic/src/BasicWalletApplet.java" />
       </list>
     </option>
   </component>
@@ -308,7 +403,7 @@
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
-    <configuration name="GenuinenessTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PinTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="basic" />
       <extension name="coverage">
         <pattern>
@@ -319,7 +414,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.knox.playground.basic" />
-      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.GenuinenessTest" />
+      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.PinTests" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea -noverify" />
@@ -331,7 +426,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="GenuinenessTest.testSignWithBitcoinj" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PinTests.correctPinTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="basic" />
       <extension name="coverage">
         <pattern>
@@ -342,8 +437,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.knox.playground.basic" />
-      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.GenuinenessTest" />
-      <option name="METHOD_NAME" value="testSignWithBitcoinj" />
+      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.PinTests" />
+      <option name="METHOD_NAME" value="correctPinTest" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea -noverify" />
       <option name="PARAMETERS" value="" />
@@ -354,7 +449,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="TransactionTest.testSign" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="basic" />
       <extension name="coverage">
         <pattern>
@@ -365,8 +460,8 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.knox.playground.basic" />
-      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.TransactionTest" />
-      <option name="METHOD_NAME" value="testSign" />
+      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.SetupWalletTests" />
+      <option name="METHOD_NAME" value="canPrepareSeedIfWalletTest" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea -noverify" />
       <option name="PARAMETERS" value="" />
@@ -441,17 +536,17 @@
     <list>
       <item itemvalue="Application.Server" />
       <item itemvalue="JUnit.com.knox.playground.basic in basic" />
-      <item itemvalue="JUnit.GenuinenessTest.testSignWithBitcoinj" />
-      <item itemvalue="JUnit.GenuinenessTest" />
-      <item itemvalue="JUnit.TransactionTest.testSign" />
+      <item itemvalue="JUnit.PinTests" />
+      <item itemvalue="JUnit.PinTests.correctPinTest" />
+      <item itemvalue="JUnit.SetupWalletTests.canPrepareSeedIfWalletTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Server" />
+        <item itemvalue="JUnit.SetupWalletTests.canPrepareSeedIfWalletTest" />
+        <item itemvalue="JUnit.PinTests" />
+        <item itemvalue="JUnit.PinTests.correctPinTest" />
         <item itemvalue="JUnit.com.knox.playground.basic in basic" />
-        <item itemvalue="JUnit.TransactionTest.testSign" />
-        <item itemvalue="JUnit.GenuinenessTest" />
-        <item itemvalue="JUnit.GenuinenessTest.testSignWithBitcoinj" />
       </list>
     </recent_temporary>
   </component>
@@ -466,35 +561,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GenuinenessTest_testSignWithBitcoinj - 2018.10.03 at 11h 22m 12s.xml">
-      <configuration name="GenuinenessTest.testSignWithBitcoinj" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 15m 39s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest - 2018.10.03 at 11h 25m 38s.xml">
-      <configuration name="GenuinenessTest" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 18m 55s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest_testSignWithBitcoinj - 2018.10.03 at 11h 26m 52s.xml">
-      <configuration name="GenuinenessTest.testSignWithBitcoinj" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 21m 13s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest_testSignWithBitcoinj - 2018.10.03 at 11h 27m 13s.xml">
-      <configuration name="GenuinenessTest.testSignWithBitcoinj" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 21m 42s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest - 2018.10.03 at 11h 27m 30s.xml">
-      <configuration name="GenuinenessTest" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 37m 11s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest - 2018.10.03 at 11h 28m 06s.xml">
-      <configuration name="GenuinenessTest" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 41m 05s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GenuinenessTest - 2018.10.03 at 11h 28m 36s.xml">
-      <configuration name="GenuinenessTest" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 18h 00m 22s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.10.03 at 11h 29m 06s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 18h 01m 39s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TransactionTest_testSign - 2018.10.03 at 11h 30m 35s.xml">
-      <configuration name="TransactionTest.testSign" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 18h 03m 14s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="com_knox_playground_basic_in_basic - 2018.10.03 at 11h 31m 24s.xml">
-      <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
+    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 18h 04m 07s.xml">
+      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -509,7 +604,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5002758" side_tool="true" weight="0.3071823" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4997242" visible="true" weight="0.41104972" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4997242" weight="0.3966851" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
@@ -549,17 +644,11 @@
           <properties />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java</url>
-          <line>448</line>
-          <properties />
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="80" />
+      <option name="time" value="83" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
@@ -579,13 +668,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/basic/src/Bip32Cache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1251">
-          <caret line="96" column="107" selection-start-line="96" selection-start-column="91" selection-end-line="96" selection-end-column="107" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/security/ECKey.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -607,13 +689,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
           <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dongle/src/BTChipConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="31" column="44" lean-forward="true" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -680,37 +755,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/PinTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dongle/src/utils/BIP32Utils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="347" column="37" selection-start-line="347" selection-start-column="37" selection-end-line="347" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -774,13 +822,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/Bip32.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="113" column="22" lean-forward="true" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -878,13 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/ISO7816.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="26" column="20" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/ProprietaryAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="467">
@@ -895,32 +929,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dongle/src/BTChipDongle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="373" column="18" selection-start-line="373" selection-start-column="18" selection-end-line="373" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1938#1939#0" expanded="true" />
-            <element signature="e#1961#1962#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/test/GenuinenessTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-222">
           <caret line="100" column="16" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="513" column="36" selection-start-line="513" selection-start-column="24" selection-end-line="513" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -963,10 +975,87 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dongle/src/BTChipConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/PinTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1826">
+          <caret line="95" column="25" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="31" column="23" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-884">
-          <caret line="109" column="18" selection-start-line="109" selection-start-column="18" selection-end-line="109" selection-end-column="18" />
+        <state relative-caret-position="-1206">
+          <caret line="143" column="13" selection-start-line="143" selection-start-column="13" selection-end-line="143" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/ISO7816.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/Bip32.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="113" column="22" lean-forward="true" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dongle/src/BTChipDongle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="468" column="18" selection-start-line="468" selection-start-column="18" selection-end-line="468" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1938#1939#0" expanded="true" />
+            <element signature="e#1961#1962#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/Util.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="166" column="33" selection-start-line="166" selection-start-column="33" selection-end-line="166" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="205" column="34" lean-forward="true" selection-start-line="205" selection-start-column="34" selection-end-line="205" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -69,7 +69,6 @@ class PINModal extends React.Component {
   verifyPinOnDevice = task(
     async () => {
       try {
-        console.log('calling verify pin on the device!');
         await this.props.deviceStore.verifyPin(this.pin);
         return true;
       } catch (e) {}

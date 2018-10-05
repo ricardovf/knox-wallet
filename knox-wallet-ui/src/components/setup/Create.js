@@ -57,7 +57,7 @@ export default class Create extends BasePaper {
       step = 0;
     } else if (state === STATE_PIN_SET) {
       // must generate seed and write words
-      component = <CreateWriteSeed handleBack={this.handleBack} />;
+      component = <CreateWriteSeed />;
       step = 1;
     }
 

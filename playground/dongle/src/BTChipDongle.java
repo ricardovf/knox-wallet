@@ -339,6 +339,16 @@ public class BTChipDongle implements BTChipConstants {
 		verifyPin(pin, OK);
 	}
 
+	public boolean isPinVerified() {
+		try {
+			exchangeApdu(CLA, INS_PIN_VERIFIED, (byte) 0x00, (byte) 0x00, DUMMY, OK);
+		} catch (BTChipException e) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public void verifyPin(byte[] pin, int acceptedSW[]) throws BTChipException {
 		exchangeApdu(CLA, INS_VERIFY_PIN, (byte)0x00, (byte)0x00, pin, acceptedSW);
 	}

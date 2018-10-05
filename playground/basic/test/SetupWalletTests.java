@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static javacard.framework.ISO7816.SW_CONDITIONS_NOT_SATISFIED;
 import static javacard.framework.ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED;
@@ -154,7 +155,20 @@ public class SetupWalletTests extends AbstractJavaCardTest {
         // Get a random new seed words
         byte[] seedWordsIndex = dongle.randomSeedWords();
 
-        DeterministicSeed seed = new DeterministicSeed(getWordsFromIndexes(seedWordsIndex), null, "", 1409478661L);
+        List<String> words = getWordsFromIndexes(seedWordsIndex);
+
+        System.out.println(words);
+
+        String wordsString = "";
+        for (int i = 0; i < words.size(); i++) {
+            wordsString = wordsString.concat(" ").concat(words.get(i));
+        }
+
+        wordsString = wordsString.trim();
+
+        assertEquals("fruit few appear broccoli steak cart keep lawsuit rocket start fame economy cabbage topic know day ginger onion believe barrel fee slice seek liquid", wordsString);
+
+        DeterministicSeed seed = new DeterministicSeed(words, null, "", 1409478661L);
 
         // Set the new seed
         dongle.prepareSeed(seed.getSeedBytes());
@@ -252,7 +266,7 @@ public class SetupWalletTests extends AbstractJavaCardTest {
 
     static protected List<String> getWordsFromIndexes(byte[] seedWordsIndex) {
         List<String> words = new ArrayList<String>();
-        assertEquals(34, seedWordsIndex.length);
+        assertEquals(48, seedWordsIndex.length);
 
         for (int i = 0; i < seedWordsIndex.length; i += 2) {
             ByteBuffer bb = ByteBuffer.allocate(2);

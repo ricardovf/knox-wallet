@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react';
 import AppLayout from './components/AppLayout';
 import { STATE_PIN_SET, STATE_READY } from './device/Constants';
 import PINModal from './components/PINModal';
+import FullLoading from './components/FullLoading';
 
 @inject('appStore', 'deviceStore')
 @observer
@@ -13,6 +14,10 @@ class App extends Component {
   componentDidMount() {
     // config store to monitor state and device connection
     this.props.deviceStore.autoRefreshStateStart();
+
+    if (!this.props.appStore.firstLoadComplete) {
+      setTimeout(this.props.appStore.changeFirstLoadToComplete, 1000);
+    }
   }
 
   componentWillUnmount() {
@@ -43,6 +48,11 @@ class App extends Component {
         maybeContent = <SetupLayout />;
       }
     }
+
+    if (!appStore.firstLoadComplete) {
+      return <FullLoading />;
+    }
+
     return (
       <React.Fragment>
         <PINModal open={showPinModal} />
@@ -53,3 +63,7 @@ class App extends Component {
 }
 
 export default hot(module)(App);
+
+// if (module.hot) {
+//   module.hot.accept();
+// }

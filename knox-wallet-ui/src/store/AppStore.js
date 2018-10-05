@@ -13,6 +13,9 @@ export const SETUP_IS_RECOVERING = 'recovering';
 
 export default class AppStore {
   @observable
+  firstLoadComplete = false;
+
+  @observable
   keyVersion = BITCOIN_TESTNET_VERSION;
 
   @observable
@@ -43,5 +46,10 @@ export default class AppStore {
   @action.bound
   setupStartRecovering() {
     this.setupIsCreatingOrRecovering = SETUP_IS_RECOVERING;
+  }
+
+  @action.bound
+  changeFirstLoadToComplete() {
+    this.firstLoadComplete = true;
   }
 }

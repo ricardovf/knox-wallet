@@ -25,6 +25,7 @@ import { Buffer } from 'buffer';
 import ByteUtil from './util/ByteUtil';
 import { statusWordToMessage } from './APDU/Response';
 import { isValidPinContent, isValidPinLength } from './util/PIN';
+import bip39 from 'bip39';
 
 export default class SecureDevice {
   transport = null;
@@ -409,8 +410,8 @@ export default class SecureDevice {
     await this.exchangeApdu(CLA, INS_CHANGE_NETWORK, 0x00, 0x00, data, this.OK);
   }
 
-  async randomSeedWords() {
-    return await this.exchangeApdu(
+  async randomSeedWords(returnWords = true) {
+    let data = await this.exchangeApdu(
       CLA,
       INS_PREPARE_SEED,
       0x00,
@@ -418,20 +419,38 @@ export default class SecureDevice {
       this.DUMMY,
       this.OK
     );
+
+    let wordsIndexes = [];
+    let tmpBuffer = new Buffer(2);
+    for (let i = 0; i < data.length; i += 2) {
+      tmpBuffer.writeUInt8(data[i], 0);
+      tmpBuffer.writeUInt8(data[i + 1], 1);
+      wordsIndexes.push(tmpBuffer.readUInt16BE(0));
+    }
+
+    if (returnWords) {
+      return wordsIndexes.map(i => bip39.wordlists.english[i]);
+    }
+
+    return wordsIndexes;
   }
 
   async erase() {
     await this.exchangeApdu(CLA, INS_ERASE, 0x00, 0x00, this.DUMMY, this.OK);
   }
 
-  async prepareSeed(seed) {
-    let data = new Buffer(64);
+  async prepareSeed(seed, seedIsWordList = false) {
+    if (seedIsWordList) {
+      // Must convert the bip 39 words to seed
+      seed = bip39.mnemonicToSeedHex(seed.join(' '));
+    }
 
     if (seed == null || seed.length !== 128) {
       throw new DeviceException('Invalid seed length');
     }
 
     seed = ByteUtil.toByteArray(seed);
+    let data = new Buffer(64);
     data.set(seed, 0);
 
     await this.exchangeApdu(CLA, INS_PREPARE_SEED, 0x80, 0x00, data, this.OK);

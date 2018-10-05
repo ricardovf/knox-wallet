@@ -121,13 +121,15 @@ export default class DeviceStore {
   @action
   autoRefreshStateStart() {
     if (!this._refreshStateInterval) {
-      this._refreshStateInterval = setInterval(() => {
+      let forceRefresh = () => {
         this._isConnectorInstalled.refresh();
         this._hasDeviceConnected.refresh();
         this._mode.refresh();
         this._state.refresh();
         this._pinVerified.refresh();
-      }, 1000);
+      };
+      forceRefresh();
+      this._refreshStateInterval = setInterval(forceRefresh, 1000);
     }
   }
 
@@ -207,6 +209,28 @@ export default class DeviceStore {
     try {
       await this.device.verifyPin(pin);
       return Promise.resolve(true);
+    } catch (e) {
+      if (__DEV__) console.log(e);
+      return Promise.reject(e);
+    }
+  }
+
+  @action.bound
+  async randomSeedWords() {
+    try {
+      let words = await this.device.randomSeedWords(true);
+      return Promise.resolve(words);
+    } catch (e) {
+      if (__DEV__) console.log(e);
+      return Promise.reject(e);
+    }
+  }
+
+  @action.bound
+  async prepareSeed(wordList) {
+    try {
+      await this.device.prepareSeed(wordList, true);
+      return Promise.resolve();
     } catch (e) {
       if (__DEV__) console.log(e);
       return Promise.reject(e);

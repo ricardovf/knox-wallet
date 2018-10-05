@@ -189,8 +189,8 @@ public class BasicWalletApplet extends Applet {
     }
 
     /**
-     * This method generates the seed words (BIP39) and puts in the scratch memory position 0.
-     * The data returned is actually a sequence of 24 16-bit big-endian integers with values ranging from 0 to 2047.
+     * This method generates the seed words (BIP39) and puts in the scratch memory position 100.
+     * The data generated is actually a sequence of 24 16-bit big-endian integers with values ranging from 0 to 2047.
      * CS = ENT / 32
      * MS = (ENT + CS) / 11
      *
@@ -198,23 +198,26 @@ public class BasicWalletApplet extends Applet {
      * +-------+----+--------+------+----+
      * |  256  |  8 |   264  |  24  | 64
      */
-    private static short _generateSeedWordsIndexes() {
-        short CS = (short)8;
+    private static void _generateSeedWordsIndexes() {
+        short offsetStart = (short)0;
+        short csLen = (short)8;
+        short entLen = (short) (csLen * 4); // 32
 
         // Generate random entropy
-        Crypto.random.nextBytes(scratch256, (short)0, (short)64);
+        Crypto.random.nextBytes(scratch256, (short)0, entLen);
 
         // Calculate the checksum (sha256) of the master key
-        Crypto.digestScratch.doFinal(scratch256, (short)0, (short)64, scratch256, (short)64);
+        Crypto.digestScratch.doFinal(scratch256, offsetStart, entLen, scratch256, (short)(offsetStart + entLen));
+        entLen += offsetStart + 1;
 
-        // Prepare to extract the 16 bit integers
-        short entLen = (short) (CS * 3);
+        // We will use only the first 8 bits of the checksum, so we clear the memory just to be sure
+        Util.arrayFillNonAtomic(scratch256, (short)(offsetStart + entLen), (short)64, (byte)0x00);
 
-        short outOff = 0;
+        short outOff = (short)100;
         short rShift = 0;
         short vp = 0;
 
-        for (short i = 0; i < entLen; i += 2) {
+        for (short i = offsetStart; i < entLen; i += 2) {
             short w = Util.getShort(scratch256, i);
             Util.setShort(scratch256, outOff, logicrShift((short) (vp | logicrShift(w, rShift)), (short) 5));
             outOff += 2;
@@ -228,8 +231,6 @@ public class BasicWalletApplet extends Applet {
                 vp = (short) (w << (16 - rShift));
             }
         }
-
-        return outOff;
     }
 
     // Compressed public key in scratch256, 0
@@ -331,10 +332,10 @@ public class BasicWalletApplet extends Applet {
         short offset = ISO7816.OFFSET_CDATA;
 
         if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_SEED_GENERATE_WORDS) {
-            // Put the random seed words on the scratch memory
-            short outOff = _generateSeedWordsIndexes();
-            Util.arrayCopyNonAtomic(scratch256, (short)0, buffer, (short)0, outOff);
-            apdu.setOutgoingAndSend((short) 0, outOff);
+            // Put the random seed words on the scratch memory at position 100 (48 bytes length: 24 words, 16 bits each)
+            _generateSeedWordsIndexes();
+            Util.arrayCopyNonAtomic(scratch256, (short)100, buffer, (short)0, (short) 48);
+            apdu.setOutgoingAndSend((short) 0, (short) 48);
         } else if (buffer[ISO7816.OFFSET_P1] == P1_PREPARE_SEED) {
             Bip32Cache.reset();
             apdu.setIncomingAndReceive();
@@ -498,8 +499,6 @@ public class BasicWalletApplet extends Applet {
         }
 
         // Copy the genuineness private key to the scratch
-        System.out.println("PRIVATE GENUINIT KEY");
-        System.out.println(ByteUtils.toHexString(genuinenessPrivateKey));
         Util.arrayCopyNonAtomic(genuinenessPrivateKey, (short)0, scratch256, (short)0, (short)genuinenessPrivateKey.length);
 
         // Sign the data SHA-256 hash with the genuineness private key
@@ -537,12 +536,6 @@ public class BasicWalletApplet extends Applet {
         // Get the public key
         proprietaryAPI.getUncompressedPublicPoint(genuinenessPrivateKey, (short)0, scratch256, (short)0);
 
-        System.out.println("PRIVATE GENUINIT KEY");
-        System.out.println(ByteUtils.toHexString(genuinenessPrivateKey));
-
-        System.out.println("PUBLIC KEY");
-        System.out.println(ByteUtils.toHexString(scratch256));
-
 
         Util.arrayCopyNonAtomic(scratch256, (short)0, buffer, (short)0, (short)65);
         apdu.setOutgoingAndSend((short)0, (short)65);
@@ -555,10 +548,12 @@ public class BasicWalletApplet extends Applet {
             apdu.setOutgoingAndSend((short)0, (short)1);
             return;
         }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
+
         apdu.setIncomingAndReceive();
-        if (buffer[ISO7816.OFFSET_LC] != walletPinSize) {
-            ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
-        }
         Util.arrayFillNonAtomic(scratch256, (short)0, WALLET_PIN_SIZE, (byte)0xff);
         Util.arrayCopyNonAtomic(buffer, ISO7816.OFFSET_CDATA, scratch256, (short)0, walletPinSize);
         if (!walletPin.check(scratch256, (short)0, WALLET_PIN_SIZE)) {
@@ -567,6 +562,8 @@ public class BasicWalletApplet extends Applet {
             }
             ISOException.throwIt(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED);
         }
+
+
     }
 
     /**
@@ -664,6 +661,11 @@ public class BasicWalletApplet extends Applet {
                     case INS_GET_MODE:
                         checkStateIsNot(STATE_INSTALLED);
                         handleGetMode(apdu);
+                        break;
+                    case INS_PIN_VERIFIED:
+                        checkStateIsNot(STATE_INSTALLED);
+                        checkStateIsNot(STATE_SETUP_DONE);
+                        checkAccess();
                         break;
                     case INS_VERIFY_PIN:
                         checkStateIsNot(STATE_INSTALLED);
@@ -781,7 +783,7 @@ public class BasicWalletApplet extends Applet {
     protected static final short SW_PUBLIC_POINT_NOT_AVAILABLE = (short)0x6FF6;
     private static final byte WALLET_PIN_ATTEMPTS = (byte) 5;
     private static final byte WALLET_PIN_MIN_SIZE = (byte) 4;
-    private static final byte WALLET_PIN_SIZE = (byte) 32;
+    private static final byte WALLET_PIN_SIZE = (byte) 0x0C;
 
     private static final byte AUTHORIZATION_NONE = (byte)0x00;
 //
@@ -803,6 +805,7 @@ public class BasicWalletApplet extends Applet {
     private static final byte INS_SETUP = (byte) 0x20;
     private static final byte INS_VERIFY_PIN = (byte)0x22;
     private static final byte INS_CHANGE_PIN = (byte)0x4B;
+    private static final byte INS_PIN_VERIFIED = (byte)0x62;
     private static final byte INS_PREPARE_SEED = (byte)0x4C;
     private static final byte INS_GET_GENUINENESS_KEY = (byte)0x4D;
     private static final byte INS_PROVE_GENUINENESS = (byte)0x4F;

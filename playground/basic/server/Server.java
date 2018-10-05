@@ -136,6 +136,13 @@ public class Server {
             hasDevice = false;
             response = "OK";
 
+            try {
+                interaction.reset();
+            } catch (BTChipException e) {
+                response = e.toString();
+                code = 500;
+            }
+
             System.out.println("SERVER: disconnect device()");
 
             t.sendResponseHeaders(code, response.length());
@@ -152,6 +159,13 @@ public class Server {
             int code = 200;
             hasDevice = true;
             response = "OK";
+
+            try {
+                interaction.reset();
+            } catch (BTChipException e) {
+                response = e.toString();
+                code = 500;
+            }
 
             System.out.println("SERVER: connect device()");
 

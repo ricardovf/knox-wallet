@@ -15,6 +15,7 @@ import * as bitcoin from 'bitcoinjs-lib';
 import { ec as EC } from 'elliptic';
 import Signature from 'elliptic/lib/elliptic/ec/signature';
 import NoDeviceConnectedException from '../NoDeviceConnectedException';
+import bip39 from 'bip39';
 
 const debug = false;
 
@@ -142,14 +143,12 @@ it('can setup normal mode getting random words', async () => {
   await device.verifyPin(DEFAULT_PIN);
 
   // Get a random new seed words
-  let seedWordsIndex = await device.randomSeedWords();
+  let seedWords = await device.randomSeedWords(true);
 
-  // console.log(seedWordsIndex);
-  // @todo derive seed from words and prepare wallet seed
+  let expectedWords =
+    'fruit few appear broccoli steak cart keep lawsuit rocket start fame economy cabbage topic know day ginger onion believe barrel fee slice seek liquid';
 
-  // await device.prepareSeed(ANOTHER_SEED);
-  // expect(await device.getState()).toEqual(STATE_READY);
-  // await device.validateSeed(ANOTHER_SEED);
+  expect(seedWords.join(' ')).toEqual(expectedWords);
 });
 
 it('can get the firmware version', async () => {
