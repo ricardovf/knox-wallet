@@ -16,12 +16,14 @@ export default class AppStore {
   firstLoadComplete = false;
 
   @observable
+  mainLeftMenuIsOpen = false;
+
+  @observable
   keyVersion = BITCOIN_TESTNET_VERSION;
 
   @observable
   keyVersionP2SH = BITCOIN_TESTNET_P2SH_VERSION;
 
-  // @todo save this to localstorage or get from url
   @observable
   setupIsCreatingOrRecovering = undefined;
 
@@ -55,5 +57,20 @@ export default class AppStore {
   @action.bound
   changeFirstLoadToComplete() {
     this.firstLoadComplete = true;
+  }
+
+  @action.bound
+  mainLeftMenuClose() {
+    this.mainLeftMenuIsOpen = false;
+  }
+
+  @action.bound
+  mainLeftMenuOpen() {
+    this.mainLeftMenuIsOpen = true;
+  }
+
+  @action.bound
+  mainLeftMenuToggle() {
+    this.mainLeftMenuIsOpen = !this.mainLeftMenuIsOpen;
   }
 }

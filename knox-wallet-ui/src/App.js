@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { hot } from 'react-hot-loader';
 // import ErrorBoundary from './ErrorBoundary';
 import SetupLayout from './components/setup/SetupLayout';
 import { inject, observer } from 'mobx-react';
@@ -10,7 +9,7 @@ import FullLoading from './components/FullLoading';
 
 @inject('appStore', 'deviceStore')
 @observer
-class App extends Component {
+export default class App extends Component {
   componentDidMount() {
     // config store to monitor state and device connection
     this.props.deviceStore.autoRefreshStateStart();
@@ -27,22 +26,20 @@ class App extends Component {
   render() {
     const { appStore, deviceStore } = this.props;
 
-    // Check if its authenticated, if not, show the PIN request screen
-    let isConnectorInstalled = deviceStore.isConnectorInstalled;
-    let hasDevice = deviceStore.hasDeviceConnected;
-    let state = deviceStore.state;
-    let pinVerified = deviceStore.pinVerified;
-
     let showPinModal =
-      isConnectorInstalled &&
-      hasDevice &&
-      [STATE_PIN_SET, STATE_READY].includes(state) &&
-      !pinVerified;
+      deviceStore.isConnectorInstalled &&
+      deviceStore.hasDeviceConnected &&
+      [STATE_PIN_SET, STATE_READY].includes(deviceStore.state) &&
+      !deviceStore.pinVerified;
 
     let maybeContent;
 
     if (!showPinModal) {
-      if (isConnectorInstalled && hasDevice && state === STATE_READY) {
+      if (
+        deviceStore.isConnectorInstalled &&
+        deviceStore.hasDeviceConnected &&
+        deviceStore.state === STATE_READY
+      ) {
         maybeContent = <AppLayout />;
       } else {
         maybeContent = <SetupLayout />;
@@ -61,9 +58,3 @@ class App extends Component {
     );
   }
 }
-
-export default hot(module)(App);
-
-// if (module.hot) {
-//   module.hot.accept();
-// }

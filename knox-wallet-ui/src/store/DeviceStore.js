@@ -7,6 +7,7 @@ import {
   BITCOIN_TESTNET_P2SH_VERSION,
   BITCOIN_TESTNET_VERSION,
   MODE_WALLET,
+  PIN_MAX_ATTEMPTS,
   STATE_INSTALLED,
   STATE_PIN_SET,
   STATE_READY,
@@ -15,10 +16,11 @@ import {
 export default class DeviceStore {
   constructor(device) {
     this.device = device;
-    this._firmware.refresh();
+    this._refreshStateInterval = null;
+    // this._firmware.refresh();
   }
 
-  _isConnectorInstalled = asyncComputed(false, 100, async () => {
+  _isConnectorInstalled = asyncComputed(true, 250, async () => {
     try {
       return await this.device.transport.ping();
     } catch (e) {
@@ -31,7 +33,7 @@ export default class DeviceStore {
     return this._isConnectorInstalled.get();
   }
 
-  _hasDeviceConnected = asyncComputed(false, 100, async () => {
+  _hasDeviceConnected = asyncComputed(true, 250, async () => {
     try {
       return await this.device.transport.hasDevice();
     } catch (e) {
@@ -44,7 +46,7 @@ export default class DeviceStore {
     return this._hasDeviceConnected.get();
   }
 
-  _firmware = asyncComputed(undefined, 100, async () => {
+  _firmware = asyncComputed(undefined, 250, async () => {
     try {
       return await this.device.getFirmwareVersion(true);
     } catch (e) {
@@ -57,7 +59,7 @@ export default class DeviceStore {
     return this._firmware.get();
   }
 
-  _mode = asyncComputed(undefined, 100, async () => {
+  _mode = asyncComputed(MODE_WALLET, 250, async () => {
     try {
       if (this.state !== STATE_INSTALLED)
         return await this.device.getCurrentMode();
@@ -71,7 +73,7 @@ export default class DeviceStore {
     return this._mode.get();
   }
 
-  _state = asyncComputed(STATE_INSTALLED, 100, async () => {
+  _state = asyncComputed(STATE_READY, 250, async () => {
     try {
       return await this.device.getState();
     } catch (e) {
@@ -84,11 +86,11 @@ export default class DeviceStore {
     return this._state.get();
   }
 
-  _pinVerified = asyncComputed(false, 100, async () => {
+  _pinVerified = asyncComputed(true, 250, async () => {
     try {
-      if (this.state === STATE_PIN_SET || this.state === STATE_READY) {
-        return await this.device.isPinVerified();
-      }
+      // if (this.state === STATE_PIN_SET || this.state === STATE_READY) {
+      return await this.device.isPinVerified();
+      // }
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -101,7 +103,7 @@ export default class DeviceStore {
     return this._pinVerified.get();
   }
 
-  _pinRemainingAttempts = asyncComputed(false, 100, async () => {
+  _pinRemainingAttempts = asyncComputed(PIN_MAX_ATTEMPTS, 250, async () => {
     try {
       if (this.state === STATE_PIN_SET || this.state === STATE_READY) {
         return await this.device.getVerifyPinRemainingAttempts();
@@ -118,24 +120,25 @@ export default class DeviceStore {
     return this._pinRemainingAttempts.get();
   }
 
+  _forceRefresh = () => {
+    this._pinVerified.refresh();
+    this._isConnectorInstalled.refresh();
+    this._hasDeviceConnected.refresh();
+    this._mode.refresh();
+    this._state.refresh();
+  };
+
   @action
   autoRefreshStateStart() {
-    if (!this._refreshStateInterval) {
-      let forceRefresh = () => {
-        this._isConnectorInstalled.refresh();
-        this._hasDeviceConnected.refresh();
-        this._mode.refresh();
-        this._state.refresh();
-        this._pinVerified.refresh();
-      };
-      forceRefresh();
-      this._refreshStateInterval = setInterval(forceRefresh, 1000);
+    if (this._refreshStateInterval === null) {
+      this._forceRefresh();
+      this._refreshStateInterval = setInterval(this._forceRefresh, 5000);
     }
   }
 
   @action
   autoRefreshStateStop() {
-    if (this._refreshStateInterval) {
+    if (this._refreshStateInterval !== null) {
       clearInterval(this._refreshStateInterval);
       this._refreshStateInterval = null;
     }
@@ -145,6 +148,7 @@ export default class DeviceStore {
   async disconnectDevice() {
     try {
       await this.device.transport.disconnectDevice();
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -154,6 +158,7 @@ export default class DeviceStore {
   async connectDevice() {
     try {
       await this.device.transport.connectDevice();
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -163,6 +168,7 @@ export default class DeviceStore {
   async resetDevice() {
     try {
       await this.device.transport.reset();
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -172,6 +178,7 @@ export default class DeviceStore {
   async ensureSetup(keyVersion, keyVersionP2SH) {
     try {
       await this.device.setup(MODE_WALLET, keyVersion, keyVersionP2SH);
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -190,6 +197,7 @@ export default class DeviceStore {
       await this.device.prepareSeed(
         'b873212f885ccffbf4692afcb84bc2e55886de2dfa07d90f5c3c239abc31c0a6ce047e30fd8bf6a281e71389aa82d73df74c7bbfb3b06b4639a5cee775cccd3c'
       );
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -199,6 +207,7 @@ export default class DeviceStore {
   async setPIN(pin) {
     try {
       await this.device.changePin(pin);
+      this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -208,6 +217,7 @@ export default class DeviceStore {
   async verifyPin(pin) {
     try {
       await this.device.verifyPin(pin);
+      this._forceRefresh();
       return Promise.resolve(true);
     } catch (e) {
       if (__DEV__) console.log(e);
@@ -230,6 +240,7 @@ export default class DeviceStore {
   async prepareSeed(wordList) {
     try {
       await this.device.prepareSeed(wordList, true);
+      this._forceRefresh();
       return Promise.resolve();
     } catch (e) {
       if (__DEV__) console.log(e);

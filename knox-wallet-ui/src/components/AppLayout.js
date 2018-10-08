@@ -9,6 +9,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { __DEV__ } from '../Util';
 import Footer from './Footer';
+import AccountsMenu from './accounts/AccountsMenu';
+import MainLeftMenu from './MainLeftMenu';
 
 const theme = createMuiTheme();
 
@@ -51,24 +53,25 @@ const styles = theme => ({
 });
 
 @withStyles(styles)
-@inject('appStore', 'deviceStore')
-@observer
+// @inject('appStore', 'deviceStore')
+// @observer
 export default class AppLayout extends React.Component {
   render() {
-    const { classes, appStore, deviceStore } = this.props;
+    const { classes } = this.props;
+
+    /*<Router basename={__DEV__ ? undefined : '/knox-wallet-ui'}>*/
 
     return (
-      <Router basename={__DEV__ ? undefined : '/knox-wallet-ui'}>
-        <MuiThemeProvider theme={theme}>
-          <AppBar position="static">
-            <Toolbar className={classes.toolbar}>
-              <img src={logo} height={65} className={classes.logo} />
-            </Toolbar>
-          </AppBar>
-          Dashboard!
-          <Footer />
-        </MuiThemeProvider>
-      </Router>
+      <MuiThemeProvider theme={theme}>
+        <AppBar position="static">
+          <Toolbar className={classes.toolbar}>
+            <img src={logo} height={65} className={classes.logo} />
+          </Toolbar>
+        </AppBar>
+        <MainLeftMenu />
+        <AccountsMenu />
+        <Footer />
+      </MuiThemeProvider>
     );
   }
 }

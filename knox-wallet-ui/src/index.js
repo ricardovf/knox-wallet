@@ -5,23 +5,32 @@ import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
-import DeviceStore from './store/DeviceStore';
-import SecureDevice from './device/SecureDevice';
-import TransportHTTP from './device/TransportHTTP';
-import AppStore from './store/AppStore';
-
-const secureDevice = new SecureDevice(new TransportHTTP(false));
-const deviceStore = new DeviceStore(secureDevice);
-const appStore = new AppStore(deviceStore);
+import { default as store } from './store';
+import { AppContainer } from 'react-hot-loader';
 
 configure({ enforceActions: 'observed' });
 
-const stores = { deviceStore, appStore };
+window.stores = window.stores || store;
 
-ReactDOM.render(
-  <Provider {...stores}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-);
+const renderApp = Component => {
+  ReactDOM.render(
+    <AppContainer>
+      <Provider {...window.stores}>
+        <Component />
+      </Provider>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
 // registerServiceWorker();
+
+renderApp(App);
+
+// hot reload config
+if (module.hot) {
+  module.hot.accept(['./App', './store'], () => {
+    const newApp = require('./App').default;
+    // store.deviceStore._forceRefresh();
+    renderApp(newApp);
+  });
+}
