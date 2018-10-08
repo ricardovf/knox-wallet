@@ -29,7 +29,7 @@ export const styles = theme => ({
 });
 
 @withStyles(styles)
-@inject('appStore', 'accountsStore')
+@inject('appStore', 'accountsStore', 'routing')
 @observer
 export default class AccountsMenu extends React.Component {
   handleCoinsMenuChange = (event, value) => {
@@ -37,7 +37,7 @@ export default class AccountsMenu extends React.Component {
   };
 
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const { classes, appStore, accountsStore, routing } = this.props;
 
     return (
       <React.Fragment>

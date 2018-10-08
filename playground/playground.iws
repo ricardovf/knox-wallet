@@ -145,7 +145,7 @@
       <find>29478497275615468345935564612313899684315892163812927082444087101014091004023</find>
       <find>3045022100cd5d305e020539297f3ef05d7b6a12a7580995aede100f872b8db9103b230b890220412c3cfa13cd664197d81d0ba6beda4f9de5e053e8eaf370277ca2396c287877</find>
       <find>30283118469993510892135110277501882569033820924172006012071498972012075752132</find>
-      <find />
+      <find>java.lang.UnsatisfiedLinkError: no secp256k1 in java.library.path</find>
       <find>transientPrivateTransient</find>
       <find>genuinenessPrivateKey</find>
       <find>transientPrivate</find>
@@ -173,13 +173,13 @@
       <find>System.out</find>
     </findStrings>
     <replaceStrings>
-      <replace />
-      <replace />
+      <replace>package com.knox.playground.basic.btchip;</replace>
+      <replace>package com.knox.playground.basic.btchip.utils;</replace>
       <replace>com.knox.playground.basic.btchip.</replace>
       <replace>com.knox.playground.basic</replace>
       <replace>BasicWalletApplet</replace>
       <replace>MODE_DEVELOPMENT</replace>
-      <replace />
+      <replace>assertEquals(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED, e.getSW())</replace>
       <replace />
     </replaceStrings>
     <dirStrings>
@@ -593,7 +593,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="220" y="55" width="2021" height="979" extended-state="0" />
+    <frame x="220" y="55" width="2021" height="979" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -604,7 +604,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5002758" side_tool="true" weight="0.3071823" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4997242" weight="0.3966851" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4997242" visible="true" weight="0.3966851" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
@@ -1079,7 +1079,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

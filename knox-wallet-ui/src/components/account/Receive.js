@@ -15,6 +15,7 @@ import { paperWidth } from '../setup/BasePaper';
 import iconBTC from '../../media/img/currency-icon-BTC.png';
 import Divider from '@material-ui/core/Divider';
 import AddressesTable from './AddressesTable';
+import { withRouter } from 'react-router';
 
 export const styles = theme => ({
   root: {

@@ -5304,6 +5304,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
+mobx-react-router@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/mobx-react-router/-/mobx-react-router-4.0.5.tgz#5f270eebceb64c256bc2f3c6bde8c5d88e76819e"
+
 mobx-react@^5.2.0:
   version "5.2.8"
   resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.2.8.tgz#059c7f29254d7cd36e103d79113103b40348d3bf"

@@ -28,11 +28,11 @@ export const styles = theme => ({
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 @withStyles(styles)
-@inject('appStore', 'deviceStore')
+@inject('appStore', 'deviceStore', 'routing')
 @observer
 export default class MainLeftMenu extends React.Component {
   render() {
-    const { classes, appStore } = this.props;
+    const { classes, appStore, routing } = this.props;
 
     return (
       <SwipeableDrawer
@@ -43,9 +43,7 @@ export default class MainLeftMenu extends React.Component {
         onOpen={appStore.mainLeftMenuOpen}
       >
         <div className={classes.logoContainer}>
-          <a className={classes.logo} href="/dashboard">
-            <img alt="knox wallet" src={logo} style={{ height: 120 }} />
-          </a>
+          <img alt="knox wallet" src={logo} style={{ height: 120 }} />
         </div>
         <Divider />
 
@@ -57,7 +55,7 @@ export default class MainLeftMenu extends React.Component {
             <ListItem
               button
               onClick={() => {
-                appStore.changePage('accounts');
+                routing.push('/accounts');
                 appStore.mainLeftMenuClose();
               }}
             >
@@ -66,7 +64,7 @@ export default class MainLeftMenu extends React.Component {
             <ListItem
               button
               onClick={() => {
-                appStore.changePage('settings');
+                routing.push('/settings');
                 appStore.mainLeftMenuClose();
               }}
             >

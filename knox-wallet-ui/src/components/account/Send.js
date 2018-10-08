@@ -26,6 +26,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Slider from '@material-ui/lab/Slider';
+import { withRouter } from 'react-router';
 
 export const styles = theme => ({
   root: {

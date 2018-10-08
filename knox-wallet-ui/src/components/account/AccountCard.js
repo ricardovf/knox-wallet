@@ -44,16 +44,20 @@ export const styles = theme => ({
 });
 
 @withStyles(styles)
-@inject('appStore', 'accountsStore')
+@inject('appStore', 'accountsStore', 'routing')
 @observer
 export default class AccountCard extends React.Component {
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const { classes, appStore, accountsStore, routing } = this.props;
 
     return (
       <Card
+        innerRef={el => (this._cardElement = el)}
         className={classes.card}
-        onClick={() => appStore.changePage('account')}
+        onClick={event => {
+          event.stopPropagation();
+          routing.push('/account');
+        }}
       >
         <CardContent>
           <Typography
@@ -68,7 +72,7 @@ export default class AccountCard extends React.Component {
           </div>
           <Typography color="textSecondary">Bitcoin</Typography>
           {/*<Divider />*/}
-          <Typography className={classes.values} component="p">
+          <Typography className={classes.values} component="div">
             <div>0.12354266 BTC</div>
             <div className={classes.valuePositive}>U$ 872</div>
           </Typography>
@@ -76,14 +80,20 @@ export default class AccountCard extends React.Component {
             <IconButton
               title="Send funds"
               aria-label="Send funds"
-              onClick={() => appStore.changePage('send')}
+              onClick={event => {
+                event.stopPropagation();
+                routing.push('/send');
+              }}
             >
               <Icon>send</Icon>
             </IconButton>
             <IconButton
               title="Receive funds"
               aria-label="Receive funds"
-              onClick={() => appStore.changePage('receive')}
+              onClick={event => {
+                event.stopPropagation();
+                routing.push('/receive');
+              }}
             >
               <Icon>arrow_downward</Icon>
             </IconButton>

@@ -10,6 +10,7 @@ import AccountCard from '../account/AccountCard';
 import AccountsMenu from './AccountsMenu';
 import Grid from '@material-ui/core/Grid/Grid';
 import NewAccountCard from '../account/NewAccountCard';
+import { withRouter } from 'react-router';
 
 export const styles = theme => ({
   root: {

@@ -17,6 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import AddressesTable from './AddressesTable';
 import TransactionsTable from './TransactionsTable';
 import TransactionsChart from './TransactionsChart';
+import { withRouter } from 'react-router';
 
 export const styles = theme => ({
   root: {
@@ -75,7 +76,7 @@ export const styles = theme => ({
 @withStyles(styles)
 @inject('appStore', 'accountsStore')
 @observer
-export default class Dashboard extends React.Component {
+export default class AccountDashboard extends React.Component {
   render() {
     const { classes, appStore, accountsStore } = this.props;
 

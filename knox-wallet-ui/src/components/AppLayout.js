@@ -11,7 +11,8 @@ import MainLeftMenu from './MainLeftMenu';
 import Accounts from './accounts/Accounts';
 import Receive from './account/Receive';
 import Send from './account/Send';
-import Dashboard from './account/Dashboard';
+import AccountDashboard from './account/AccountDashboard';
+import { Switch, Route, Redirect, withRouter } from 'react-router';
 
 const theme = createMuiTheme();
 
@@ -42,6 +43,7 @@ const styles = theme => ({
   },
   logo: {
     display: 'flex',
+    cursor: 'pointer',
 
     marginTop: '32px',
     marginBottom: '100px',
@@ -53,40 +55,41 @@ const styles = theme => ({
   },
 });
 
+const NotFound = function() {
+  return <div>Página não encontrada</div>;
+};
+
 @withStyles(styles)
-@inject('appStore', 'deviceStore')
+@inject('appStore', 'deviceStore', 'routing')
+@withRouter
 @observer
 export default class AppLayout extends React.Component {
   render() {
-    const { classes, appStore } = this.props;
-
-    /*<Router basename={__DEV__ ? undefined : '/knox-wallet-ui'}>*/
-
-    let page;
-    switch (appStore.page) {
-      case 'receive':
-        page = <Receive />;
-        break;
-      case 'send':
-        page = <Send />;
-        break;
-      case 'account':
-        page = <Dashboard />;
-        break;
-      case 'accounts':
-        page = <Accounts />;
-        break;
-    }
+    const { classes, appStore, routing } = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar className={classes.toolbar}>
-            <img src={logo} height={65} className={classes.logo} />
+            <img
+              src={logo}
+              height={65}
+              className={classes.logo}
+              onClick={() => {
+                routing.push('/accounts');
+              }}
+            />
           </Toolbar>
         </AppBar>
         <MainLeftMenu />
-        {page}
+        <Switch>
+          <Route exact path="/accounts" component={Accounts} />
+          <Route exact path="/receive" component={Receive} />
+          <Route exact path="/send" component={Send} />
+          <Route exact path="/account" component={AccountDashboard} />
+          <Redirect exact from="/" to="/accounts" />
+          <Route component={NotFound} />
+        </Switch>
         <Footer />
       </MuiThemeProvider>
     );

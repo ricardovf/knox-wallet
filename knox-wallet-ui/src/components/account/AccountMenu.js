@@ -34,7 +34,7 @@ export const styles = theme => ({
 });
 
 @withStyles(styles)
-@inject('appStore', 'accountsStore')
+@inject('appStore', 'accountsStore', 'routing')
 @observer
 export default class AccountMenu extends React.Component {
   handleCoinsMenuChange = (event, value) => {
@@ -42,7 +42,7 @@ export default class AccountMenu extends React.Component {
   };
 
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const { classes, appStore, accountsStore, routing } = this.props;
 
     return (
       <React.Fragment>
@@ -64,7 +64,7 @@ export default class AccountMenu extends React.Component {
               >
                 <span
                   title="Go to Account 1 dashboard"
-                  onClick={() => appStore.changePage('account')}
+                  onClick={() => routing.push('/account')}
                 >
                   Account 1
                 </span>
@@ -74,7 +74,7 @@ export default class AccountMenu extends React.Component {
                 color="inherit"
                 title="Send funds"
                 aria-label="Send funds"
-                onClick={() => appStore.changePage('send')}
+                onClick={() => routing.push('/send')}
               >
                 <Icon>send</Icon>
               </IconButton>
@@ -82,7 +82,7 @@ export default class AccountMenu extends React.Component {
                 color="inherit"
                 title="Receive funds"
                 aria-label="Receive funds"
-                onClick={() => appStore.changePage('receive')}
+                onClick={() => routing.push('/receive')}
               >
                 <Icon>arrow_downward</Icon>
               </IconButton>
