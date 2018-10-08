@@ -6,11 +6,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { Typography } from '@material-ui/core';
 import { observer, inject } from 'mobx-react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { __DEV__ } from '../Util';
 import Footer from './Footer';
-import AccountsMenu from './accounts/AccountsMenu';
 import MainLeftMenu from './MainLeftMenu';
+import Accounts from './accounts/Accounts';
+import Receive from './account/Receive';
+import Send from './account/Send';
+import Dashboard from './account/Dashboard';
 
 const theme = createMuiTheme();
 
@@ -53,13 +54,29 @@ const styles = theme => ({
 });
 
 @withStyles(styles)
-// @inject('appStore', 'deviceStore')
-// @observer
+@inject('appStore', 'deviceStore')
+@observer
 export default class AppLayout extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, appStore } = this.props;
 
     /*<Router basename={__DEV__ ? undefined : '/knox-wallet-ui'}>*/
+
+    let page;
+    switch (appStore.page) {
+      case 'receive':
+        page = <Receive />;
+        break;
+      case 'send':
+        page = <Send />;
+        break;
+      case 'account':
+        page = <Dashboard />;
+        break;
+      case 'accounts':
+        page = <Accounts />;
+        break;
+    }
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -69,7 +86,7 @@ export default class AppLayout extends React.Component {
           </Toolbar>
         </AppBar>
         <MainLeftMenu />
-        <AccountsMenu />
+        {page}
         <Footer />
       </MuiThemeProvider>
     );

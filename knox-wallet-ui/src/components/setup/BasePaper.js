@@ -78,7 +78,7 @@ export default class BasePaper extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Paper elevation={1} className={classes.paper} square={true}>
+        <Paper elevation={1} className={classes.paper} square>
           {this.content}
         </Paper>
       </div>

@@ -51,13 +51,25 @@ export default class MainLeftMenu extends React.Component {
 
         <div className={classes.list}>
           <List component="nav">
-            <ListItem button component="a" href="/dashboard">
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button component="a" href="/accounts">
+            {/*<ListItem button component="a" href="/dashboard">*/}
+            {/*<ListItemText primary="Dashboard" />*/}
+            {/*</ListItem>*/}
+            <ListItem
+              button
+              onClick={() => {
+                appStore.changePage('accounts');
+                appStore.mainLeftMenuClose();
+              }}
+            >
               <ListItemText primary="Accounts" />
             </ListItem>
-            <ListItem button component="a" href="/settings">
+            <ListItem
+              button
+              onClick={() => {
+                appStore.changePage('settings');
+                appStore.mainLeftMenuClose();
+              }}
+            >
               <ListItemText primary="Settings" />
             </ListItem>
           </List>

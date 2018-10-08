@@ -22,7 +22,12 @@ export const styles = theme => ({
     marginLeft: -18,
     marginRight: 10,
   },
-
+  accountName: {
+    flexGrow: 1,
+    '& span': {
+      cursor: 'pointer',
+    },
+  },
   // coinsMenu: {
   //   padding: theme.spacing.unit * 1,
   // },
@@ -31,7 +36,7 @@ export const styles = theme => ({
 @withStyles(styles)
 @inject('appStore', 'accountsStore')
 @observer
-export default class AccountsMenu extends React.Component {
+export default class AccountMenu extends React.Component {
   handleCoinsMenuChange = (event, value) => {
     this.props.accountsStore.changeSelectedCoin(value);
   };
@@ -52,22 +57,38 @@ export default class AccountsMenu extends React.Component {
               >
                 <Icon>menu</Icon>
               </IconButton>
-              <Typography variant="subheading" color="inherit">
-                Accounts
+              <Typography
+                variant="subheading"
+                color="inherit"
+                className={classes.accountName}
+              >
+                <span
+                  title="Go to Account 1 dashboard"
+                  onClick={() => appStore.changePage('account')}
+                >
+                  Account 1
+                </span>
               </Typography>
+
+              <IconButton
+                color="inherit"
+                title="Send funds"
+                aria-label="Send funds"
+                onClick={() => appStore.changePage('send')}
+              >
+                <Icon>send</Icon>
+              </IconButton>
+              <IconButton
+                color="inherit"
+                title="Receive funds"
+                aria-label="Receive funds"
+                onClick={() => appStore.changePage('receive')}
+              >
+                <Icon>arrow_downward</Icon>
+              </IconButton>
             </Toolbar>
           </AppBar>
         </div>
-        <Paper square>
-          <Tabs
-            value={accountsStore.selectedCoin}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={this.handleCoinsMenuChange}
-          >
-            <Tab value="BTC" label="Bitcoin" />
-          </Tabs>
-        </Paper>
       </React.Fragment>
     );
   }

@@ -19,6 +19,9 @@ export default class AppStore {
   mainLeftMenuIsOpen = false;
 
   @observable
+  page = 'accounts';
+
+  @observable
   keyVersion = BITCOIN_TESTNET_VERSION;
 
   @observable
@@ -72,5 +75,10 @@ export default class AppStore {
   @action.bound
   mainLeftMenuToggle() {
     this.mainLeftMenuIsOpen = !this.mainLeftMenuIsOpen;
+  }
+
+  @action.bound
+  changePage(page) {
+    this.page = page;
   }
 }
