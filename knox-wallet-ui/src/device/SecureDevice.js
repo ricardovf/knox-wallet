@@ -192,6 +192,11 @@ export default class SecureDevice {
     return this.lastSW;
   }
 
+  async getAddress(path) {
+    let pub = await this.getWalletPublicKey(path, true);
+    return pub.address;
+  }
+
   async getWalletPublicKey(path, asString = true) {
     path = BIP32Util.splitPath(path);
 

@@ -11,6 +11,8 @@ import AccountsMenu from './AccountsMenu';
 import Grid from '@material-ui/core/Grid/Grid';
 import NewAccountCard from '../account/NewAccountCard';
 import { withRouter } from 'react-router';
+import * as R from 'ramda';
+import { values } from 'mobx';
 
 export const styles = theme => ({
   root: {
@@ -48,15 +50,20 @@ export default class Accounts extends React.Component {
           container
           alignItems={'stretch'}
         >
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <AccountCard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <AccountCard />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <AccountCard />
-          </Grid>
+          {values(accountsStore.accounts).map(account => {
+            return (
+              <Grid
+                key={account.getIdentifier()}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+              >
+                <AccountCard account={account} />
+              </Grid>
+            );
+          })}
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <NewAccountCard />
           </Grid>

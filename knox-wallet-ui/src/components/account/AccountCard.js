@@ -9,11 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import iconBTC from '../../media/img/currency-icon-BTC.png';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
+import Loading from '../Loading';
 
 export const styles = theme => ({
   card: {
+    height: '100%',
     position: 'relative',
     cursor: 'pointer',
     '&:hover': {
@@ -31,6 +33,7 @@ export const styles = theme => ({
   values: {
     marginTop: theme.spacing.unit * 2,
     fontSize: 14,
+    position: 'relative',
   },
   valuePositive: {
     marginTop: 4,
@@ -48,7 +51,14 @@ export const styles = theme => ({
 @observer
 export default class AccountCard extends React.Component {
   render() {
-    const { classes, appStore, accountsStore, routing } = this.props;
+    const {
+      classes,
+      appStore,
+      accountsStore,
+      routing,
+      loading,
+      account,
+    } = this.props;
 
     return (
       <Card
@@ -65,16 +75,27 @@ export default class AccountCard extends React.Component {
             variant={'headline'}
             component="h2"
           >
-            Account 1
+            {account.name}
           </Typography>
           <div className={classes.accountCurrencyLogo}>
-            <img alt="Bitcoin" src={iconBTC} style={{ height: 38 }} />
+            <img
+              alt={account.coin.name}
+              src={account.coin.icon}
+              style={{ height: 38 }}
+            />
           </div>
-          <Typography color="textSecondary">Bitcoin</Typography>
+          <Typography color="textSecondary">{account.coin.name}</Typography>
           {/*<Divider />*/}
           <Typography className={classes.values} component="div">
-            <div>0.12354266 BTC</div>
-            <div className={classes.valuePositive}>U$ 872</div>
+            {loading && <CircularProgress size={24} />}
+            {!loading && (
+              <React.Fragment>
+                <div>{`${account.balance} ${account.coin.symbol}`}</div>
+                <div className={classes.valuePositive}>{`U$ ${
+                  account.balanceUSD
+                }`}</div>
+              </React.Fragment>
+            )}
           </Typography>
           <div className={classes.buttons}>
             <IconButton

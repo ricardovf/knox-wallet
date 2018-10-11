@@ -2,14 +2,15 @@ import { observable, computed, action, autorun, runInAction } from 'mobx';
 import { __DEV__ } from '../Util';
 import { asyncComputed } from 'computed-async-mobx';
 import {
-  BITCOIN_TESTNET_P2SH_VERSION,
-  BITCOIN_TESTNET_VERSION,
-  MODE_WALLET,
+  BITCOIN_P2SH_VERSION,
+  BITCOIN_VERSION,
   STATE_INSTALLED,
 } from '../device/Constants';
 
 export const SETUP_IS_CREATING = 'creating';
 export const SETUP_IS_RECOVERING = 'recovering';
+
+export const COIN_SELECTION_ALL = 'all';
 
 export default class AppStore {
   @observable
@@ -22,13 +23,15 @@ export default class AppStore {
   page = 'accounts';
 
   @observable
-  keyVersion = BITCOIN_TESTNET_VERSION;
-
-  @observable
-  keyVersionP2SH = BITCOIN_TESTNET_P2SH_VERSION;
-
-  @observable
   setupIsCreatingOrRecovering = undefined;
+
+  @observable
+  selectedCoin = COIN_SELECTION_ALL;
+
+  @action.bound
+  changeSelectedCoin(coin) {
+    this.selectedCoin = coin;
+  }
 
   constructor(deviceStore) {
     this.deviceStore = deviceStore;
@@ -42,7 +45,7 @@ export default class AppStore {
   @action.bound
   async setupStartCreating() {
     if (this.deviceStore.state === STATE_INSTALLED) {
-      await this.deviceStore.ensureSetup(this.keyVersion, this.keyVersionP2SH);
+      await this.deviceStore.ensureSetup(BITCOIN_VERSION, BITCOIN_P2SH_VERSION);
     }
 
     this.setupIsCreatingOrRecovering = SETUP_IS_CREATING;
@@ -51,7 +54,7 @@ export default class AppStore {
   @action.bound
   async setupStartRecovering() {
     if (this.deviceStore.state === STATE_INSTALLED) {
-      await this.deviceStore.ensureSetup(this.keyVersion, this.keyVersionP2SH);
+      await this.deviceStore.ensureSetup(BITCOIN_VERSION, BITCOIN_P2SH_VERSION);
     }
 
     this.setupIsCreatingOrRecovering = SETUP_IS_RECOVERING;

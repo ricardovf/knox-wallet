@@ -13,6 +13,7 @@ import Receive from './account/Receive';
 import Send from './account/Send';
 import AccountDashboard from './account/AccountDashboard';
 import { Switch, Route, Redirect, withRouter } from 'react-router';
+import { autorun } from 'mobx';
 
 const theme = createMuiTheme();
 
@@ -60,10 +61,18 @@ const NotFound = function() {
 };
 
 @withStyles(styles)
-@inject('appStore', 'deviceStore', 'routing')
+@inject('appStore', 'deviceStore', 'accountsStore', 'routing')
 @withRouter
 @observer
 export default class AppLayout extends React.Component {
+  componentDidMount() {
+    this.props.accountsStore.autoRefreshAccountsStart();
+  }
+
+  componentWillUnmount() {
+    this.props.accountsStore.autoRefreshAccountsStop();
+  }
+
   render() {
     const { classes, appStore, routing } = this.props;
 

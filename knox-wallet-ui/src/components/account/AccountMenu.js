@@ -37,10 +37,6 @@ export const styles = theme => ({
 @inject('appStore', 'accountsStore', 'routing')
 @observer
 export default class AccountMenu extends React.Component {
-  handleCoinsMenuChange = (event, value) => {
-    this.props.accountsStore.changeSelectedCoin(value);
-  };
-
   render() {
     const { classes, appStore, accountsStore, routing } = this.props;
 
@@ -57,6 +53,14 @@ export default class AccountMenu extends React.Component {
               >
                 <Icon>menu</Icon>
               </IconButton>
+              {/*<IconButton*/}
+              {/*className={classes.menuButton}*/}
+              {/*color="inherit"*/}
+              {/*aria-label="Go back"*/}
+              {/*onClick={() => routing.push('/')}*/}
+              {/*>*/}
+              {/*<Icon>home</Icon>*/}
+              {/*</IconButton>*/}
               <Typography
                 variant="subheading"
                 color="inherit"

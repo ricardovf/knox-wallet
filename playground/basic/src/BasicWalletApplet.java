@@ -549,9 +549,12 @@ public class BasicWalletApplet extends Applet {
             return;
         }
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {}
+        if (!(proprietaryAPI instanceof JCardSIMProprietaryAPI)) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+        }
 
         apdu.setIncomingAndReceive();
         Util.arrayFillNonAtomic(scratch256, (short)0, WALLET_PIN_SIZE, (byte)0xff);

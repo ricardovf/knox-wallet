@@ -29,6 +29,9 @@ export const MODE_DEVELOPMENT = 0x08;
 export const USER_CONFIRMATION_NONE = 0x00;
 
 // Bitcoin network
+export const BITCOIN_VERSION = 0;
+export const BITCOIN_P2SH_VERSION = 5;
+
 export const BITCOIN_TESTNET_VERSION = 111;
 export const BITCOIN_TESTNET_P2SH_VERSION = 196;
 

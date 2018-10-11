@@ -46,7 +46,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/basic/basic.iml" filepath="$PROJECT_DIR$/basic/basic.iml" />
       <module fileurl="file://$PROJECT_DIR$/dongle/dongle.iml" filepath="$PROJECT_DIR$/dongle/dongle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/helloworld/helloworld.iml" filepath="$PROJECT_DIR$/helloworld/helloworld.iml" />
       <module fileurl="file://$PROJECT_DIR$/playground.iml" filepath="$PROJECT_DIR$/playground.iml" />
     </modules>
   </component>

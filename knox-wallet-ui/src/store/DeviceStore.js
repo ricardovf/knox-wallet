@@ -17,7 +17,6 @@ export default class DeviceStore {
   constructor(device) {
     this.device = device;
     this._refreshStateInterval = null;
-    // this._firmware.refresh();
   }
 
   _isConnectorInstalled = asyncComputed(true, 250, async () => {

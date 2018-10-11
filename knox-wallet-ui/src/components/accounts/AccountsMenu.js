@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import * as R from 'ramda';
+import { COIN_SELECTION_ALL } from '../../store/AppStore';
 
 export const styles = theme => ({
   appBarContainer: {
@@ -33,11 +35,15 @@ export const styles = theme => ({
 @observer
 export default class AccountsMenu extends React.Component {
   handleCoinsMenuChange = (event, value) => {
-    this.props.accountsStore.changeSelectedCoin(value);
+    this.props.appStore.changeSelectedCoin(value);
   };
 
   render() {
     const { classes, appStore, accountsStore, routing } = this.props;
+
+    const tabs = R.map(coin => {
+      return <Tab key={coin.key} value={coin.key} label={coin.name} />;
+    }, R.values(accountsStore.coins));
 
     return (
       <React.Fragment>
@@ -60,12 +66,23 @@ export default class AccountsMenu extends React.Component {
         </div>
         <Paper square>
           <Tabs
-            value={accountsStore.selectedCoin}
+            value={
+              appStore.selectedCoin === COIN_SELECTION_ALL
+                ? COIN_SELECTION_ALL
+                : accountsStore.coins[appStore.selectedCoin]
+                  ? accountsStore.coins[appStore.selectedCoin].key
+                  : undefined
+            }
             indicatorColor="primary"
             textColor="primary"
             onChange={this.handleCoinsMenuChange}
           >
-            <Tab value="BTC" label="Bitcoin" />
+            <Tab
+              key={COIN_SELECTION_ALL}
+              value={COIN_SELECTION_ALL}
+              label="All"
+            />
+            {tabs}
           </Tabs>
         </Paper>
       </React.Fragment>
