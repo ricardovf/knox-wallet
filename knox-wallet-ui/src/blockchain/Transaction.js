@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { satoshiToBTC, satoshiToUSD } from './Converter';
 
 export default class Transaction {
   id = null;
@@ -14,4 +15,12 @@ export default class Transaction {
   constructor(id) {
     this.id = id;
   }
+
+  // get balanceBTC() {
+  //   return satoshiToBTC(this.balance);
+  // }
+  //
+  // get balanceUSD() {
+  //   return satoshiToUSD(this.balance);
+  // }
 }

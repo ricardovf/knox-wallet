@@ -53,29 +53,14 @@ export const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(address, path, balance, balanceUSD) {
-  id += 1;
-  return { id, address, path, balance, balanceUSD };
-}
-
-const rows = [
-  createData('17yYCtcqRtqQbfASBvdYVqunLPS16faZ5d', "44'/1'/0'/1/0", 0, 0),
-  createData(
-    '13yYCtcqRtqQbfASBvdYVqunLPS16faZ5d',
-    "44'/1'/0'/2/0",
-    '0.22112521',
-    301
-  ),
-  createData('12cYCtcqRtqQbfASBvdYVqunLPS16faZ5d', "44'/1'/0'/3/0", 0, 0),
-];
-
 @withStyles(styles)
 @inject('appStore', 'accountsStore')
 @observer
 export default class AddressesTable extends React.Component {
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const { classes, appStore, accountsStore, addresses } = this.props;
+
+    if (!addresses) return null;
 
     return (
       <Table className={classes.table} padding={'none'}>
@@ -88,12 +73,16 @@ export default class AddressesTable extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => {
+          {addresses.map(address => {
             return (
-              <TableRow hover key={row.id} className={classes.row}>
-                <TableCell component="th" scope="row" className={classes.cell}>
-                  <div className={classes.address}>{row.address}</div>
-                  <div className={classes.path}>{row.path}</div>
+              <TableRow hover key={address.id} className={classes.address}>
+                <TableCell
+                  component="th"
+                  scope="address"
+                  className={classes.cell}
+                >
+                  <div className={classes.address}>{address.address}</div>
+                  <div className={classes.path}>{address.path}</div>
                 </TableCell>
                 <TableCell
                   numeric
@@ -101,14 +90,16 @@ export default class AddressesTable extends React.Component {
                 >
                   <div
                     className={
-                      row.balance > 0 ? classes.valuePositive : undefined
+                      address.balance > 0 ? classes.valuePositive : undefined
                     }
                   >
-                    {row.balance} BTC
+                    {address.balanceBTC} {address.coinSymbol}
                   </div>
-                  <div className={classes.valueSecondary}>
-                    U$ {row.balanceUSD}
-                  </div>
+                  {address.balance > 0 && (
+                    <div className={classes.valueSecondary}>
+                      U$ {address.balanceUSD}
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             );

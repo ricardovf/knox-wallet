@@ -27,6 +27,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Slider from '@material-ui/lab/Slider';
 import { withRouter } from 'react-router';
+import AccountLoading from './AccountLoading';
+import AccountNotFound from './AccountNotFound';
 
 export const styles = theme => ({
   root: {
@@ -129,12 +131,31 @@ export const styles = theme => ({
 @inject('appStore', 'accountsStore')
 @observer
 export default class Send extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
   render() {
     const { classes, appStore, accountsStore } = this.props;
 
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
+
+    if (!accountsLoaded) {
+      return <AccountLoading />;
+    } else if (!account) {
+      return <AccountNotFound />;
+    }
+
     return (
       <div className={classes.root}>
-        <AccountMenu />
+        <AccountMenu account={account} />
         <Paper className={classes.paper} square>
           <div className={classes.margin}>
             <Typography

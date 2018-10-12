@@ -16,6 +16,11 @@ import iconBTC from '../../media/img/currency-icon-BTC.png';
 import Divider from '@material-ui/core/Divider';
 import AddressesTable from './AddressesTable';
 import { withRouter } from 'react-router';
+import AccountLoading from './AccountLoading';
+import AccountNotFound from './AccountNotFound';
+import * as R from 'ramda';
+import Tab from '@material-ui/core/Tab/Tab';
+import { observable, runInAction, values, action, computed } from 'mobx';
 
 export const styles = theme => ({
   root: {
@@ -67,12 +72,82 @@ export const styles = theme => ({
 @inject('appStore', 'accountsStore')
 @observer
 export default class Receive extends React.Component {
+  @computed
+  get previousAddresses() {
+    const { appStore, accountsStore } = this.props;
+
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
+    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
+
+    if (account && accountsLoaded && addressesLoaded) {
+      return R.map(address => {
+        return {
+          id: address.index,
+          address: address.address,
+          path: address.path,
+          balance: address.balance,
+          balanceBTC: address.balanceBTC,
+          balanceUSD: address.balanceUSD,
+          coinSymbol: account.coin.symbol,
+        };
+      }, R.filter(address => address.balance > 0, values(account.addresses)));
+    }
+
+    return [];
+  }
+
+  @computed
+  get freshAddresses() {
+    const { appStore, accountsStore } = this.props;
+
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
+    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
+
+    if (account && accountsLoaded && addressesLoaded) {
+      return R.map(address => {
+        return {
+          id: address.index,
+          address: address.address,
+          path: address.path,
+          balance: address.balance,
+          balanceBTC: address.balanceBTC,
+          balanceUSD: address.balanceUSD,
+          coinSymbol: account.coin.symbol,
+        };
+      }, R.filter(address => address.balance == 0, values(account.addresses)));
+    }
+
+    return [];
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
   render() {
     const { classes, appStore, accountsStore } = this.props;
 
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
+    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
+
+    if (!accountsLoaded || !addressesLoaded) {
+      return <AccountLoading />;
+    } else if (!account) {
+      return <AccountNotFound />;
+    }
+
     return (
       <div className={classes.root}>
-        <AccountMenu />
+        <AccountMenu account={account} />
         <Paper className={classes.paper} square>
           <div className={classes.margin}>
             <Typography
@@ -98,8 +173,20 @@ export default class Receive extends React.Component {
             <Divider />
           </div>
           <div className={classes.margin + ' ' + classes.marginNoTop}>
-            <AddressesTable />
-            <Button variant={'raised'} color={'primary'}>
+            <AddressesTable addresses={this.freshAddresses} />
+            <Button
+              onClick={() => {
+                accountsStore.addFreshAddress();
+              }}
+              disabled={
+                accountsStore.addFreshAddress.result !== undefined &&
+                accountsStore.addFreshAddress.pending
+                  ? true
+                  : undefined
+              }
+              variant={'raised'}
+              color={'primary'}
+            >
               New address
             </Button>
           </div>
@@ -111,7 +198,7 @@ export default class Receive extends React.Component {
             <Divider />
           </div>
           <div className={classes.margin + ' ' + classes.marginNoTop}>
-            <AddressesTable />
+            <AddressesTable addresses={this.previousAddresses} />
           </div>
         </Paper>
       </div>

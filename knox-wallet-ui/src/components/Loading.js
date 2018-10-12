@@ -21,6 +21,9 @@ const styles = theme => ({
   loading: {
     width: '90%',
   },
+  loadingText: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 @withStyles(styles)
@@ -33,7 +36,11 @@ export default class Loading extends React.Component {
         <div className={classes.loading}>
           <CircularProgress size={size || 28} />
           {text && (
-            <Typography variant="caption" color="textSecondary">
+            <Typography
+              className={classes.loadingText}
+              variant="caption"
+              color="textSecondary"
+            >
               {text}
             </Typography>
           )}

@@ -8,7 +8,9 @@ export default class Account {
   index = null;
   name = '';
   purpose = null;
+  @observable
   addresses = new Map();
+  @observable
   addressesInternal = new Map();
   transactions = new Map();
 
@@ -16,10 +18,17 @@ export default class Account {
   _balance = '0';
 
   @observable
+  _balanceBTC = '0';
+
+  @observable
   _balanceUSD = '0';
 
   get balance() {
     return this._balance;
+  }
+
+  get balanceBTC() {
+    return this._balanceBTC;
   }
 
   get balanceUSD() {
@@ -39,7 +48,8 @@ export default class Account {
       balance = balance.plus(address.balance);
     }
 
-    this._balance = satoshiToBTC(balance);
+    this._balance = balance.toString();
+    this._balanceBTC = satoshiToBTC(balance);
     this._balanceUSD = satoshiToUSD(balance);
   }
 

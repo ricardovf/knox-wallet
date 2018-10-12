@@ -24,8 +24,8 @@
       <file leaf-file-name="BasicWalletApplet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="121" column="8" selection-start-line="121" selection-start-column="8" selection-end-line="121" selection-end-column="8" />
+            <state relative-caret-position="175">
+              <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -33,11 +33,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
+      <file leaf-file-name="BTChipTransport.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dongle/src/comm/BTChipTransport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+            <state relative-caret-position="-251">
+              <caret line="3" column="56" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="56" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LedgerHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dongle/src/comm/LedgerHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JCardSIMProprietaryAPI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="87">
+              <caret line="56" column="96" selection-start-line="56" selection-start-column="78" selection-end-line="56" selection-end-column="96" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -46,7 +67,7 @@
         <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/Util.class">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="174">
-              <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
+              <caret line="61" column="30" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -96,24 +117,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bip32.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/basic/src/Bip32.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="113" column="22" lean-forward="true" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ISO7816.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/ISO7816.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="11" column="42" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BTChipDongle.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dongle/src/BTChipDongle.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -141,9 +144,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>3045022100cd5d305e020539297f3ef05d7b6a12a7580995aede100f872b8db9103b230b890220412c3cfa13cd664197d81d0ba6beda4f9de5e053e8eaf370277ca2396c287877</find>
       <find>30283118469993510892135110277501882569033820924172006012071498972012075752132</find>
-      <find />
+      <find>java.lang.UnsatisfiedLinkError: no secp256k1 in java.library.path</find>
       <find>transientPrivateTransient</find>
       <find>genuinenessPrivateKey</find>
       <find>transientPrivate</find>
@@ -169,17 +171,18 @@
       <find>fill</find>
       <find>System</find>
       <find>System.out</find>
-      <find />
+      <find>if (!walletPin.check(scratch256, (sh</find>
       <find>stdVersion</find>
+      <find>ALG_EC</find>
     </findStrings>
     <replaceStrings>
-      <replace />
-      <replace />
+      <replace>package com.knox.playground.basic.btchip;</replace>
+      <replace>package com.knox.playground.basic.btchip.utils;</replace>
       <replace>com.knox.playground.basic.btchip.</replace>
       <replace>com.knox.playground.basic</replace>
       <replace>BasicWalletApplet</replace>
       <replace>MODE_DEVELOPMENT</replace>
-      <replace />
+      <replace>assertEquals(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED, e.getSW())</replace>
       <replace />
     </replaceStrings>
     <dirStrings>
@@ -266,12 +269,55 @@
             </path>
             <path>
               <item name="playground" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="basic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="basic" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="basic" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="basic" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="dongle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="dongle" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="dongle" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="comm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="dongle" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="playground" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="jcardsim-3.0.5-SNAPSHOT" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
@@ -555,7 +601,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="220" y="55" width="2021" height="979" extended-state="0" />
+    <frame x="220" y="55" width="2021" height="979" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -630,9 +676,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/basic/server.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/jre/lib/rt.jar!/com/sun/net/httpserver/HttpExchange.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -651,13 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dongle/src/comm/BTChipTransport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="27" selection-start-line="27" selection-end-line="29" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -898,18 +934,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
-          <caret line="41" column="9" lean-forward="true" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10240#10241#0" expanded="true" />
-            <element signature="e#10268#10269#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dongle/src/BTChipConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -947,7 +971,7 @@
     <entry file="file://$PROJECT_DIR$/basic/src/Bip32.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
-          <caret line="113" column="22" lean-forward="true" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
+          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -966,7 +990,7 @@
     <entry file="jar://$PROJECT_DIR$/../ext/jcardsim-3.0.5-SNAPSHOT.jar!/javacard/framework/Util.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
-          <caret line="61" column="30" lean-forward="true" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
+          <caret line="61" column="30" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1007,20 +1031,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" selection-start-line="8" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="121" column="8" selection-start-line="121" selection-start-column="8" selection-end-line="121" selection-end-column="8" />
+        <state relative-caret-position="175">
+          <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/dongle/src/comm/BTChipTransport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        <state relative-caret-position="-251">
+          <caret line="3" column="56" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dongle/src/comm/LedgerHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="56" column="96" selection-start-line="56" selection-start-column="78" selection-end-line="56" selection-end-column="96" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1041,7 +1089,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

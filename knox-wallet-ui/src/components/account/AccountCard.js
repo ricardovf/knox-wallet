@@ -91,7 +91,7 @@ export default class AccountCard extends React.Component {
             {loading && <CircularProgress size={24} />}
             {!loading && (
               <React.Fragment>
-                <div>{`${account.balance} ${account.coin.symbol}`}</div>
+                <div>{`${account.balanceBTC} ${account.coin.symbol}`}</div>
                 <div className={classes.valuePositive}>{`U$ ${
                   account.balanceUSD
                 }`}</div>

@@ -1,7 +1,9 @@
+import { satoshiToBTC, satoshiToUSD } from './Converter';
+
 export default class Address {
-  path = null;
+  path = '';
   index = null;
-  address = null;
+  address = '';
   internal = false;
 
   //
@@ -13,4 +15,12 @@ export default class Address {
 
   //
   lastUpdate = null;
+
+  get balanceBTC() {
+    return satoshiToBTC(this.balance);
+  }
+
+  get balanceUSD() {
+    return satoshiToUSD(this.balance);
+  }
 }

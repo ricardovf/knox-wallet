@@ -21,6 +21,8 @@ import { withRouter } from 'react-router';
 import Loading from '../Loading';
 import Message from '../Message';
 import { linkToAccount, linkToAccounts } from '../../LinkMaker';
+import AccountNotFound from './AccountNotFound';
+import AccountLoading from './AccountLoading';
 
 export const styles = theme => ({
   root: {
@@ -101,46 +103,13 @@ export default class AccountDashboard extends React.Component {
     const { classes, appStore, accountsStore, routing } = this.props;
 
     let account = accountsStore.accounts.get(appStore.selectedAccount);
-
     let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
 
-    // @todo put this code in a component
     if (!accountsLoaded) {
-      return (
-        <div className={classes.root}>
-          <AccountMenu />
-          <Paper className={classes.loadingPaper} square>
-            <Loading text="Loading accounts..." />
-          </Paper>
-        </div>
-      );
+      return <AccountLoading />;
     } else if (!account) {
-      return (
-        <div className={classes.root}>
-          <AccountMenu />
-          <Paper className={classes.loadingPaper} square>
-            <Message
-              text="Invalid account selected!"
-              content={
-                <Button
-                  className={classes.goToDashboardButton}
-                  size={'large'}
-                  variant={'raised'}
-                  color={'primary'}
-                  onClick={() => {
-                    routing.push(linkToAccounts());
-                  }}
-                >
-                  Go to dashboard
-                </Button>
-              }
-            />
-          </Paper>
-        </div>
-      );
+      return <AccountNotFound />;
     }
-
-    // @todo if loading, show loading
 
     return (
       <div className={classes.root}>
@@ -157,7 +126,7 @@ export default class AccountDashboard extends React.Component {
               <img alt={account.coin.name} src={account.coin.icon} />
             </Typography>
             <Typography variant="headline" className={classes.valueDollar}>
-              {`${account.balance} ${account.coin.symbol}`}
+              {`${account.balanceBTC} ${account.coin.symbol}`}
               <small>{`U$ ${account.balanceUSD}`}</small>
             </Typography>
 

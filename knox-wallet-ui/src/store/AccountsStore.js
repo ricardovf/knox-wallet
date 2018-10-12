@@ -69,6 +69,48 @@ export default class AccountsStore {
       this.loadTransactions();
   }
 
+  addFreshAddress = task(
+    async () => {
+      let account = this.accounts.get(this.appStore.selectedAccount);
+
+      if (account) {
+        // lets generate an address and add it to the account
+        let nextFreshIndex =
+          account.addresses.size > 0
+            ? Math.max(...account.addresses.keys()) + 1
+            : 0;
+
+        // Make sure the coin is correct on the device
+        await this.deviceStore.device.changeNetwork(
+          account.coin.version,
+          account.coin.p2shVersion
+        );
+
+        let address = new Address();
+        address.index = nextFreshIndex;
+        address.path = `${account.purpose}'/${account.coin.coinType}'/${
+          account.index
+        }'/0/${nextFreshIndex}`;
+        address.internal = false;
+        address.address = await this.deviceStore.device.getAddress(
+          address.path
+        );
+
+        if (!account.addresses.has(address.index)) {
+          runInAction(() => {
+            account.addresses.set(address.index, address);
+          });
+        }
+
+        // this._forceAddressesRefresh();
+        return true;
+      }
+
+      return false;
+    },
+    { state: undefined }
+  );
+
   loadTransactions = task(
     async () => {
       console.log('loadTransactions!');
