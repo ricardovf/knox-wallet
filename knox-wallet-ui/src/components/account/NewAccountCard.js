@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Loading from '../Loading';
 import { COIN_SELECTION_ALL } from '../../store/AppStore';
 import Typography from '@material-ui/core/Typography/Typography';
+import { coins } from '../../blockchain/Coins';
 
 export const styles = theme => ({
   card: {
@@ -44,7 +45,7 @@ export default class NewAccountCard extends React.Component {
           {!accountsStore.loadAccounts.pending &&
             appStore.selectedCoin !== COIN_SELECTION_ALL && (
               <Button variant={'flat'} color={'primary'}>
-                New Account
+                New {coins[appStore.selectedCoin].name} Account
               </Button>
             )}
           {!accountsStore.loadAccounts.pending &&

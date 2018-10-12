@@ -8,6 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import logo from '../media/img/logo-knox-vertical-white-bg.png';
+import { linkToAccounts, linkToSettings } from '../LinkMaker';
 
 export const styles = theme => ({
   list: {
@@ -55,7 +56,7 @@ export default class MainLeftMenu extends React.Component {
             <ListItem
               button
               onClick={() => {
-                routing.push('/accounts');
+                routing.push(linkToAccounts());
                 appStore.mainLeftMenuClose();
               }}
             >
@@ -64,7 +65,7 @@ export default class MainLeftMenu extends React.Component {
             <ListItem
               button
               onClick={() => {
-                routing.push('/settings');
+                routing.push(linkToSettings());
                 appStore.mainLeftMenuClose();
               }}
             >

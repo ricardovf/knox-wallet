@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { linkToAccount, linkToReceive, linkToSend } from '../../LinkMaker';
 
 export const styles = theme => ({
   appBarContainer: {
@@ -38,7 +39,7 @@ export const styles = theme => ({
 @observer
 export default class AccountMenu extends React.Component {
   render() {
-    const { classes, appStore, accountsStore, routing } = this.props;
+    const { classes, appStore, accountsStore, routing, account } = this.props;
 
     return (
       <React.Fragment>
@@ -61,35 +62,40 @@ export default class AccountMenu extends React.Component {
               {/*>*/}
               {/*<Icon>home</Icon>*/}
               {/*</IconButton>*/}
-              <Typography
-                variant="subheading"
-                color="inherit"
-                className={classes.accountName}
-              >
-                <span
-                  title="Go to Account 1 dashboard"
-                  onClick={() => routing.push('/account')}
-                >
-                  Account 1
-                </span>
-              </Typography>
 
-              <IconButton
-                color="inherit"
-                title="Send funds"
-                aria-label="Send funds"
-                onClick={() => routing.push('/send')}
-              >
-                <Icon>send</Icon>
-              </IconButton>
-              <IconButton
-                color="inherit"
-                title="Receive funds"
-                aria-label="Receive funds"
-                onClick={() => routing.push('/receive')}
-              >
-                <Icon>arrow_downward</Icon>
-              </IconButton>
+              {account && (
+                <React.Fragment>
+                  <Typography
+                    variant="subheading"
+                    color="inherit"
+                    className={classes.accountName}
+                  >
+                    <span
+                      title={`Go to ${account.name} dashboard`}
+                      onClick={() => routing.push(linkToAccount(account))}
+                    >
+                      {account.name}
+                    </span>
+                  </Typography>
+
+                  <IconButton
+                    color="inherit"
+                    title="Send funds"
+                    aria-label="Send funds"
+                    onClick={() => routing.push(linkToSend(account))}
+                  >
+                    <Icon>send</Icon>
+                  </IconButton>
+                  <IconButton
+                    color="inherit"
+                    title="Receive funds"
+                    aria-label="Receive funds"
+                    onClick={() => routing.push(linkToReceive(account))}
+                  >
+                    <Icon>arrow_downward</Icon>
+                  </IconButton>
+                </React.Fragment>
+              )}
             </Toolbar>
           </AppBar>
         </div>

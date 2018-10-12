@@ -45,4 +45,36 @@ export default class BitcoinInsightAPI extends BitcoinAPI {
         });
     });
   }
+
+  _transactionDetails(transactionId) {
+    return new Promise((resolve, reject) => {
+      if (!this.endpoint) return reject('Invalid endpoint');
+      if (!transactionId) return reject('Invalid transaction id');
+
+      fetch(`${this.endpoint}/tx/${transactionId}`)
+        .then(response => response.json())
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => {
+          reject('Error requesting Bitcoin API: ' + err);
+        });
+    });
+  }
+
+  _transactionRaw(transactionId) {
+    return new Promise((resolve, reject) => {
+      if (!this.endpoint) return reject('Invalid endpoint');
+      if (!transactionId) return reject('Invalid transaction id');
+
+      fetch(`${this.endpoint}/rawtx/${transactionId}`)
+        .then(response => response.json())
+        .then(data => {
+          resolve(data.rawtx);
+        })
+        .catch(err => {
+          reject('Error requesting Bitcoin API: ' + err);
+        });
+    });
+  }
 }

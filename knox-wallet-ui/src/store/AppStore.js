@@ -20,13 +20,19 @@ export default class AppStore {
   mainLeftMenuIsOpen = false;
 
   @observable
-  page = 'accounts';
-
-  @observable
   setupIsCreatingOrRecovering = undefined;
 
   @observable
   selectedCoin = COIN_SELECTION_ALL;
+
+  @observable
+  selectedAccount = null;
+
+  @action.bound
+  changeSelectedAccount(account) {
+    console.log('changeSelectedAccount: ' + account);
+    this.selectedAccount = account;
+  }
 
   @action.bound
   changeSelectedCoin(coin) {

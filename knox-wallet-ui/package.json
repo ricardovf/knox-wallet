@@ -20,6 +20,7 @@
     "mobx-react-router": "^4.0.5",
     "mobx-task": "^1.0.0-alpha.0",
     "mobx-utils": "^5.0.2",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.1",
     "ramda": "^0.25.0",
     "react": "^16.0.0",

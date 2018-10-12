@@ -11,6 +11,8 @@ import * as R from 'ramda';
 import Address from '../blockchain/Address';
 import Account from '../blockchain/Account';
 import * as mobx from 'mobx';
+import Transaction from '../blockchain/Transaction';
+import moment from 'moment';
 
 const bitcoinAPI = new BitcoinInsightAPI();
 
@@ -59,6 +61,41 @@ export default class AccountsStore {
       this.loadAddresses();
   }
 
+  _forceTransactionsRefresh() {
+    if (
+      this.loadTransactions.result === undefined ||
+      !this.loadTransactions.pending
+    )
+      this.loadTransactions();
+  }
+
+  loadTransactions = task(
+    async () => {
+      console.log('loadTransactions!');
+      for (let accountIndex of [...this.accounts.keys()]) {
+        let account = this.accounts.get(accountIndex);
+        for (let transactionId of [...account.transactions.keys()]) {
+          let transaction = account.transactions.get(transactionId);
+
+          if (!transaction.loaded) {
+            let info = await bitcoinAPI._transactionDetails(transaction.id);
+
+            transaction.data = info;
+            transaction.confirmations = info.confirmations;
+            transaction.valueIn = info.valueIn;
+            transaction.valueOut = info.valueOut;
+            transaction.fees = info.fees;
+            transaction.time = moment(info.time);
+            transaction.loaded = true;
+          }
+        }
+      }
+
+      return true;
+    },
+    { state: undefined }
+  );
+
   loadAddresses = task(
     async () => {
       console.log('loadAddresses!');
@@ -75,13 +112,17 @@ export default class AccountsStore {
           address.totalSent = info.totalSentSat;
           address.unconfirmedBalance = info.unconfirmedBalanceSat;
 
+          address.lastUpdate = new Date();
+
           if (Array.isArray(info.transactions) && info.transactions.length) {
-            for (let transaction of info.transactions) {
-              // add the transaction
+            for (let transactionId of info.transactions) {
+              let transaction = new Transaction(transactionId);
+
+              if (!account.transactions.has(transaction.id)) {
+                account.transactions.set(transaction.id, transaction);
+              }
             }
           }
-
-          address.lastUpdate = new Date();
         }
 
         account.updateBalance();

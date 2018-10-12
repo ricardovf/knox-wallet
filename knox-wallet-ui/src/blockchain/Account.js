@@ -10,6 +10,7 @@ export default class Account {
   purpose = null;
   addresses = new Map();
   addressesInternal = new Map();
+  transactions = new Map();
 
   @observable
   _balance = '0';

@@ -12,6 +12,7 @@ import Icon from '@material-ui/core/Icon';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import Loading from '../Loading';
+import { linkToAccount, linkToReceive, linkToSend } from '../../LinkMaker';
 
 export const styles = theme => ({
   card: {
@@ -66,7 +67,7 @@ export default class AccountCard extends React.Component {
         className={classes.card}
         onClick={event => {
           event.stopPropagation();
-          routing.push('/account');
+          routing.push(linkToAccount(account));
         }}
       >
         <CardContent>
@@ -103,7 +104,7 @@ export default class AccountCard extends React.Component {
               aria-label="Send funds"
               onClick={event => {
                 event.stopPropagation();
-                routing.push('/send');
+                routing.push(linkToSend(account));
               }}
             >
               <Icon>send</Icon>
@@ -113,7 +114,7 @@ export default class AccountCard extends React.Component {
               aria-label="Receive funds"
               onClick={event => {
                 event.stopPropagation();
-                routing.push('/receive');
+                routing.push(linkToReceive(account));
               }}
             >
               <Icon>arrow_downward</Icon>

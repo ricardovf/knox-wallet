@@ -2,44 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a7b1d44-0643-4870-81c1-effbf81576b5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/blockchain/Account.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/Address.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/Coins.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/Converter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/Transaction.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/bitcoin/AccountDiscovery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinAPI.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/blockchain/bitcoin/__tests__/AccountDiscovery.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Loading.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ricardo.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LinkMaker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Message.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/blockchain/Account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/blockchain/Account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/blockchain/Transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/blockchain/Transaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AppLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AppLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/FullLoading.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FullLoading.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MainLeftMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MainLeftMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/account/AccountCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/AccountCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/account/AccountDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/AccountDashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/account/AccountMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/AccountMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/account/NewAccountCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/account/NewAccountCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/accounts/Accounts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/accounts/Accounts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/accounts/AccountsMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/accounts/AccountsMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/Constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/Constants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/SecureDevice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/SecureDevice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/AccountsStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/AccountsStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/AppStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/AppStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/DeviceStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/DeviceStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/basic/src/BasicWalletApplet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/helloworld.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/src/HelloWorldApplet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/test/HelloWorldAppletTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/test/JavaCardTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/test/TestSuite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/helloworld/test/TestUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/playground.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/playground.ipr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playground/playground.iws" beforeDir="false" afterPath="$PROJECT_DIR$/../playground/playground.iws" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -60,7 +38,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="39277" />
+          <entry key="js" value="41182" />
           <entry key="json" value="2" />
           <entry key="md" value="13" />
           <entry key="ts" value="1" />
@@ -69,15 +47,15 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="2" />
-          <entry key="JavaScript" value="39277" />
+          <entry key="JavaScript" value="41182" />
           <entry key="PLAIN_TEXT" value="13" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="389" />
-          <entry key="json" value="15" />
+          <entry key="js" value="405" />
+          <entry key="json" value="16" />
           <entry key="md" value="4" />
           <entry key="png" value="1" />
           <entry key="ts" value="17" />
@@ -86,8 +64,8 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="1" />
-          <entry key="JSON" value="15" />
-          <entry key="JavaScript" value="389" />
+          <entry key="JSON" value="16" />
+          <entry key="JavaScript" value="405" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="TypeScript" value="17" />
         </counts>
@@ -105,19 +83,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/blockchain/Converter.js">
+        <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/account/AccountCard.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="650">
-              <caret line="95" column="17" selection-start-line="95" selection-start-column="17" selection-end-line="95" selection-end-column="17" />
+            <state relative-caret-position="527">
+              <caret line="98" column="58" lean-forward="true" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="64" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -126,10 +95,67 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="107" column="26" lean-forward="true" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Message.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2">
+              <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/account/AccountMenu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="631">
+              <caret line="74" column="54" lean-forward="true" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/LinkMaker.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="644">
+              <caret line="28" column="17" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/blockchain/Account.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="619">
+              <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -141,13 +167,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>title</find>
-      <find>flexCenter</find>
-      <find>card</find>
-      <find>detailsPadding</find>
-      <find>valueNega</find>
       <find>appStore.changePage</find>
-      <find>routing.push</find>
       <find>&lt;Route</find>
       <find>@withRouter</find>
       <find>ref=</find>
@@ -171,6 +191,12 @@
       <find>status</find>
       <find>.status</find>
       <find>_forceAddressesRefresh</find>
+      <find>moment</find>
+      <find>routing.push</find>
+      <find>page</find>
+      <find>'routing'</find>
+      <find>routing</find>
+      <find>paper</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -190,8 +216,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/setup/CreateSteps.js" />
-        <option value="$PROJECT_DIR$/src/components/setup/Steps.js" />
         <option value="$PROJECT_DIR$/src/device/util/PIN.js" />
         <option value="$PROJECT_DIR$/src/components/setup/NumericKeyboard.js" />
         <option value="$PROJECT_DIR$/src/components/Footer.js" />
@@ -212,11 +236,8 @@
         <option value="$PROJECT_DIR$/src/store/index.js" />
         <option value="$PROJECT_DIR$/src/components/account/Receive.js" />
         <option value="$PROJECT_DIR$/src/components/account/Send.js" />
-        <option value="$PROJECT_DIR$/src/components/account/AccountDashboard.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/components/MainLeftMenu.js" />
         <option value="$PROJECT_DIR$/src/blockchain/bitcoin/Account.js" />
-        <option value="$PROJECT_DIR$/src/blockchain/Transaction.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinBlockCypherAPI.js" />
@@ -225,22 +246,27 @@
         <option value="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinAPI.js" />
         <option value="$PROJECT_DIR$/src/device/Constants.js" />
         <option value="$PROJECT_DIR$/src/components/FullLoading.js" />
-        <option value="$PROJECT_DIR$/src/components/AppLayout.js" />
         <option value="$PROJECT_DIR$/src/store/DeviceStore.js" />
         <option value="$PROJECT_DIR$/src/blockchain/bitcoin/AccountDiscovery.js" />
-        <option value="$PROJECT_DIR$/src/store/AppStore.js" />
-        <option value="$PROJECT_DIR$/src/components/account/AccountMenu.js" />
         <option value="$PROJECT_DIR$/src/components/accounts/AccountsMenu.js" />
         <option value="$PROJECT_DIR$/src/components/Loading.js" />
-        <option value="$PROJECT_DIR$/src/components/account/NewAccountCard.js" />
         <option value="$PROJECT_DIR$/src/components/accounts/Accounts.js" />
         <option value="$PROJECT_DIR$/src/blockchain/Coins.js" />
         <option value="$PROJECT_DIR$/src/blockchain/Address.js" />
-        <option value="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js" />
-        <option value="$PROJECT_DIR$/src/components/account/AccountCard.js" />
-        <option value="$PROJECT_DIR$/src/store/AccountsStore.js" />
         <option value="$PROJECT_DIR$/src/blockchain/Converter.js" />
         <option value="$PROJECT_DIR$/src/blockchain/Account.js" />
+        <option value="$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js" />
+        <option value="$PROJECT_DIR$/src/blockchain/Transaction.js" />
+        <option value="$PROJECT_DIR$/src/store/AccountsStore.js" />
+        <option value="$PROJECT_DIR$/src/components/MainLeftMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/account/AccountCard.js" />
+        <option value="$PROJECT_DIR$/src/components/account/NewAccountCard.js" />
+        <option value="$PROJECT_DIR$/src/components/AppLayout.js" />
+        <option value="$PROJECT_DIR$/src/LinkMaker.js" />
+        <option value="$PROJECT_DIR$/src/store/AppStore.js" />
+        <option value="$PROJECT_DIR$/src/components/account/AccountMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/Message.js" />
+        <option value="$PROJECT_DIR$/src/components/account/AccountDashboard.js" />
       </list>
     </option>
   </component>
@@ -305,12 +331,6 @@
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
               <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="blockchain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
-              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -319,6 +339,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="account" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knox-wallet-ui" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="setup" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="knox-wallet-ui" type="b2602c69:ProjectViewProjectNode" />
@@ -362,10 +389,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/blockchain/bitcoin" />
       <recent name="$PROJECT_DIR$/src/blockchain/bitcoin/__tests__" />
       <recent name="$PROJECT_DIR$/src/blockchain" />
-      <recent name="$PROJECT_DIR$/src/components/account" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -431,7 +458,7 @@
       <workItem from="1524778639351" duration="255000" />
       <workItem from="1524778905665" duration="2516000" />
       <workItem from="1538158140427" duration="3422000" />
-      <workItem from="1538163061565" duration="167160000" />
+      <workItem from="1538163061565" duration="171594000" />
     </task>
     <servers />
   </component>
@@ -468,7 +495,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="186070000" />
+    <option name="totallyTimeSpent" value="190504000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="136" y="23" width="2105" height="1011" extended-state="0" />
@@ -484,7 +511,7 @@
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" weight="0.32969433" />
       <window_info anchor="bottom" id="Version Control" order="4" />
       <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Find" order="6" weight="0.32969433" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32861805" />
       <window_info anchor="bottom" id="Run" order="7" weight="0.33078602" />
       <window_info anchor="bottom" id="Debug" order="8" weight="0.31707317" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
@@ -502,64 +529,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/account/Receive.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/account/Send.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="128" column="36" lean-forward="true" selection-start-line="128" selection-start-column="36" selection-end-line="128" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="76" column="36" lean-forward="true" selection-start-line="76" selection-start-column="36" selection-end-line="76" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/MainLeftMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-28">
-          <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#172#205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/setup/RecoveryEnterWords.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="191" column="59" lean-forward="true" selection-start-line="191" selection-start-column="22" selection-end-line="191" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -685,23 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/blockchain/Transaction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="68" column="38" lean-forward="true" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -715,16 +667,6 @@
           <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
           <folding>
             <element signature="e#0#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/account/NewAccountCard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="41" column="34" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -766,23 +708,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/account/AccountMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="31" column="17" lean-forward="true" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/accounts/Accounts.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2">
@@ -797,20 +722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="35" column="33" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -874,16 +785,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/AccountsStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="72" selection-start-line="72" selection-end-line="72" />
-          <folding>
-            <element signature="e#0#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/blockchain/Converter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -891,10 +792,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/blockchain/bitcoin/BitcoinInsightAPI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="48" column="38" lean-forward="true" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/blockchain/Transaction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="10" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/AccountsStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="77" column="25" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MainLeftMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="67" column="45" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/account/AccountCard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="650">
-          <caret line="95" column="17" selection-start-line="95" selection-start-column="17" selection-end-line="95" selection-end-column="17" />
+        <state relative-caret-position="225">
+          <caret line="57" column="19" selection-start-line="57" selection-start-column="6" selection-end-line="57" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/account/NewAccountCard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="47" column="24" lean-forward="true" selection-start-line="47" selection-start-column="24" selection-end-line="47" selection-end-column="24" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -903,11 +862,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/blockchain/Account.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="619">
+          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/AppStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="644">
+          <caret line="28" column="17" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="98" column="58" lean-forward="true" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/setup/SimpleMessage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LinkMaker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Message.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2">
+          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/account/AccountMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="631">
+          <caret line="74" column="54" lean-forward="true" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="107" column="26" lean-forward="true" selection-start-line="107" selection-start-column="26" selection-end-line="107" selection-end-column="26" />
         </state>
       </provider>
     </entry>

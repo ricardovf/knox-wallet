@@ -18,6 +18,9 @@ import AddressesTable from './AddressesTable';
 import TransactionsTable from './TransactionsTable';
 import TransactionsChart from './TransactionsChart';
 import { withRouter } from 'react-router';
+import Loading from '../Loading';
+import Message from '../Message';
+import { linkToAccount, linkToAccounts } from '../../LinkMaker';
 
 export const styles = theme => ({
   root: {
@@ -71,18 +74,78 @@ export const styles = theme => ({
       fontWeight: 300,
     },
   },
+  loadingPaper: {
+    position: 'relative',
+    minHeight: 400,
+  },
+  goToDashboardButton: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 @withStyles(styles)
-@inject('appStore', 'accountsStore')
+@inject('appStore', 'accountsStore', 'routing')
 @observer
 export default class AccountDashboard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+  }
+
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const { classes, appStore, accountsStore, routing } = this.props;
+
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+
+    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
+
+    // @todo put this code in a component
+    if (!accountsLoaded) {
+      return (
+        <div className={classes.root}>
+          <AccountMenu />
+          <Paper className={classes.loadingPaper} square>
+            <Loading text="Loading accounts..." />
+          </Paper>
+        </div>
+      );
+    } else if (!account) {
+      return (
+        <div className={classes.root}>
+          <AccountMenu />
+          <Paper className={classes.loadingPaper} square>
+            <Message
+              text="Invalid account selected!"
+              content={
+                <Button
+                  className={classes.goToDashboardButton}
+                  size={'large'}
+                  variant={'raised'}
+                  color={'primary'}
+                  onClick={() => {
+                    routing.push(linkToAccounts());
+                  }}
+                >
+                  Go to dashboard
+                </Button>
+              }
+            />
+          </Paper>
+        </div>
+      );
+    }
+
+    // @todo if loading, show loading
 
     return (
       <div className={classes.root}>
-        <AccountMenu />
+        <AccountMenu account={account} />
+
         <Paper className={classes.paper} square>
           <div className={classes.margin}>
             <Typography
@@ -90,11 +153,12 @@ export default class AccountDashboard extends React.Component {
               gutterBottom
               className={classes.accountCurrencyLogo}
             >
-              Bitcoin <img alt="Bitcoin" src={iconBTC} />
+              {account.coin.name}{' '}
+              <img alt={account.coin.name} src={account.coin.icon} />
             </Typography>
             <Typography variant="headline" className={classes.valueDollar}>
-              1.23123123 BTC
-              <small>U$ 231</small>
+              {`${account.balance} ${account.coin.symbol}`}
+              <small>{`U$ ${account.balanceUSD}`}</small>
             </Typography>
 
             <TransactionsChart />

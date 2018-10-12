@@ -14,6 +14,7 @@ import Send from './account/Send';
 import AccountDashboard from './account/AccountDashboard';
 import { Switch, Route, Redirect, withRouter } from 'react-router';
 import { autorun } from 'mobx';
+import { linkToAccounts } from '../LinkMaker';
 
 const theme = createMuiTheme();
 
@@ -74,7 +75,7 @@ export default class AppLayout extends React.Component {
   }
 
   render() {
-    const { classes, appStore, routing } = this.props;
+    const { classes, appStore, routing, match } = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -85,7 +86,7 @@ export default class AppLayout extends React.Component {
               height={65}
               className={classes.logo}
               onClick={() => {
-                routing.push('/accounts');
+                routing.push(linkToAccounts());
               }}
             />
           </Toolbar>
@@ -93,9 +94,9 @@ export default class AppLayout extends React.Component {
         <MainLeftMenu />
         <Switch>
           <Route exact path="/accounts" component={Accounts} />
-          <Route exact path="/receive" component={Receive} />
-          <Route exact path="/send" component={Send} />
-          <Route exact path="/account" component={AccountDashboard} />
+          <Route path="/account/:id/receive" component={Receive} />
+          <Route path="/account/:id/send" component={Send} />
+          <Route path="/account/:id" component={AccountDashboard} />
           <Redirect exact from="/" to="/accounts" />
           <Route component={NotFound} />
         </Switch>
