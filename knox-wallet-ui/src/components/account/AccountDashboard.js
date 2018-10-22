@@ -23,6 +23,9 @@ import Message from '../Message';
 import { linkToAccount, linkToAccounts } from '../../LinkMaker';
 import AccountNotFound from './AccountNotFound';
 import AccountLoading from './AccountLoading';
+import { values, keys, entries } from 'mobx';
+import Transaction from '../../blockchain/Transaction';
+import * as R from 'ramda';
 
 export const styles = theme => ({
   root: {
@@ -93,10 +96,16 @@ export default class AccountDashboard extends React.Component {
     super(props);
 
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+
+    if (!this.props.accountsStore.loadTransactions.pending)
+      this.props.accountsStore.loadTransactions();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+
+    if (!this.props.accountsStore.loadTransactions.pending)
+      this.props.accountsStore.loadTransactions();
   }
 
   render() {
@@ -110,6 +119,11 @@ export default class AccountDashboard extends React.Component {
     } else if (!account) {
       return <AccountNotFound />;
     }
+
+    let transactionsByDay = Transaction.getReceivedByDay(
+      values(account.transactions),
+      R.map(R.prop('address'), values(account.addresses))
+    );
 
     return (
       <div className={classes.root}>
@@ -130,7 +144,10 @@ export default class AccountDashboard extends React.Component {
               <small>{`U$ ${account.balanceUSD}`}</small>
             </Typography>
 
-            <TransactionsChart />
+            <TransactionsChart
+              transactionsByDay={transactionsByDay}
+              account={account}
+            />
           </div>
 
           <div className={classes.header}>
@@ -141,11 +158,10 @@ export default class AccountDashboard extends React.Component {
           </div>
 
           <div className={classes.margin + ' ' + classes.marginNoTop}>
-            <TransactionsTable />
-          </div>
-          <Divider />
-          <div className={classes.margin + ' ' + classes.marginNoTop}>
-            <TransactionsTable />
+            <TransactionsTable
+              transactionsByDay={transactionsByDay}
+              account={account}
+            />
           </div>
         </Paper>
       </div>

@@ -113,7 +113,6 @@ export default class AccountsStore {
 
   loadTransactions = task(
     async () => {
-      console.log('loadTransactions!');
       for (let accountIndex of [...this.accounts.keys()]) {
         let account = this.accounts.get(accountIndex);
         for (let transactionId of [...account.transactions.keys()]) {
@@ -122,13 +121,15 @@ export default class AccountsStore {
           if (!transaction.loaded) {
             let info = await bitcoinAPI._transactionDetails(transaction.id);
 
-            transaction.data = info;
-            transaction.confirmations = info.confirmations;
-            transaction.valueIn = info.valueIn;
-            transaction.valueOut = info.valueOut;
-            transaction.fees = info.fees;
-            transaction.time = moment(info.time);
-            transaction.loaded = true;
+            runInAction(() => {
+              transaction.data = info;
+              transaction.confirmations = info.confirmations;
+              transaction.valueIn = info.valueIn;
+              transaction.valueOut = info.valueOut;
+              transaction.fees = info.fees;
+              transaction.time = moment.unix(info.time);
+              transaction.loaded = true;
+            });
           }
         }
       }
@@ -140,7 +141,6 @@ export default class AccountsStore {
 
   loadAddresses = task(
     async () => {
-      console.log('loadAddresses!');
       for (let accountIndex of [...this.accounts.keys()]) {
         let account = this.accounts.get(accountIndex);
         for (let addressIndex of [...account.addresses.keys()]) {
@@ -157,13 +157,15 @@ export default class AccountsStore {
           address.lastUpdate = new Date();
 
           if (Array.isArray(info.transactions) && info.transactions.length) {
-            for (let transactionId of info.transactions) {
-              let transaction = new Transaction(transactionId);
+            runInAction(() => {
+              for (let transactionId of info.transactions) {
+                let transaction = new Transaction(transactionId);
 
-              if (!account.transactions.has(transaction.id)) {
-                account.transactions.set(transaction.id, transaction);
+                if (!account.transactions.has(transaction.id)) {
+                  account.transactions.set(transaction.id, transaction);
+                }
               }
-            }
+            });
           }
         }
 
@@ -177,7 +179,6 @@ export default class AccountsStore {
 
   loadAccounts = task(
     async () => {
-      console.log('loadAccounts!');
       for (let coin of R.values(this.coins)) {
         bitcoinAPI.endpoint = coin.insightAPI;
         let accounts = {};
@@ -231,7 +232,6 @@ export default class AccountsStore {
         }
       }
 
-      console.log(this.accounts.toJSON());
       this._forceAddressesRefresh();
 
       return true;

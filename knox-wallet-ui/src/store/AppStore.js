@@ -30,7 +30,6 @@ export default class AppStore {
 
   @action.bound
   changeSelectedAccount(account) {
-    console.log('changeSelectedAccount: ' + account);
     this.selectedAccount = account;
   }
 

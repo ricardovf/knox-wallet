@@ -57,102 +57,100 @@ export const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(address, path, balance, balanceUSD, confirmed = true) {
-  id += 1;
-  return { id, address, path, balance, balanceUSD, confirmed };
-}
-
-const rows = [
-  createData(
-    '17yYCtcqRtqQbfASBvdYVqunLPS16faZ5d',
-    '11:00 PM',
-    '+0.22112521',
-    232,
-    false
-  ),
-  createData(
-    '13yYCtcqRtqQbfASBvdYVqunLPS16faZ5d',
-    '10:00 PM',
-    '-0.22112521',
-    301
-  ),
-  createData(
-    '12cYCtcqRtqQbfASBvdYVqunLPS16faZ5d',
-    '9:00 PM',
-    '+1.22112521',
-    1234
-  ),
-];
-
 @withStyles(styles)
 @inject('appStore', 'accountsStore')
 @observer
 export default class TransactionsTable extends React.Component {
   render() {
-    const { classes, appStore, accountsStore } = this.props;
+    const {
+      classes,
+      appStore,
+      accountsStore,
+      transactionsByDay,
+      account,
+    } = this.props;
 
-    return (
-      <Table className={classes.table} padding={'none'}>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.cell}>April 25, 2018</TableCell>
-            <TableCell numeric className={classes.cell}>
-              Amount
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow hover key={row.id} className={classes.row}>
-                <TableCell component="th" scope="row" className={classes.cell}>
-                  <div className={classes.address}>
-                    {row.address}
+    let tables = [];
+    for (let day of [...transactionsByDay.keys()]) {
+      let transactions = transactionsByDay.get(day);
 
-                    <IconButton
-                      color="inherit"
-                      title="Open transaction details in Blockchain explorer"
-                      aria-label="Receive funds"
-                    >
-                      <Icon color={'secondary'} fontSize={'small'}>
-                        open_in_new
-                      </Icon>
-                    </IconButton>
-                    {row.confirmed ? (
-                      ''
-                    ) : (
-                      <Chip
-                        color="secondary"
-                        icon={<Icon>error_outline</Icon>}
-                        label="Unconfirmed"
-                      />
-                    )}
-                  </div>
-                  <div className={classes.path}>{row.path} </div>
-                </TableCell>
-                <TableCell
-                  numeric
-                  className={classes.values + ' ' + classes.cell}
+      tables.push(
+        <Table className={classes.table} padding={'none'}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.cell}>{day}</TableCell>
+              <TableCell numeric className={classes.cell}>
+                Amount
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {transactions.map(transaction => {
+              return (
+                <TableRow
+                  hover
+                  key={transaction.id}
+                  className={classes.transaction}
                 >
-                  <div
-                    className={
-                      row.balance[0] === '+'
-                        ? classes.valuePositive
-                        : classes.valueNegative
-                    }
+                  <TableCell
+                    component="th"
+                    scope="transaction"
+                    className={classes.cell}
                   >
-                    {row.balance} BTC
-                  </div>
-                  <div className={classes.valueSecondary}>
-                    U$ {row.balanceUSD}
-                  </div>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    );
+                    <div className={classes.address}>
+                      {transaction.address}
+
+                      <IconButton
+                        component="a"
+                        color="inherit"
+                        title="Open transaction details in Blockchain explorer"
+                        aria-label="Receive funds"
+                        href={account.coin.transactionUrl + transaction.id}
+                        target="_blank"
+                      >
+                        <Icon color={'secondary'} fontSize={'small'}>
+                          open_in_new
+                        </Icon>
+                      </IconButton>
+                      {transaction.confirmed ? (
+                        ''
+                      ) : (
+                        <Chip
+                          color="secondary"
+                          icon={<Icon>error_outline</Icon>}
+                          label="Unconfirmed"
+                        />
+                      )}
+                    </div>
+                    <div className={classes.path}>{transaction.hour} </div>
+                  </TableCell>
+                  <TableCell
+                    numeric
+                    className={classes.values + ' ' + classes.cell}
+                  >
+                    <div
+                      className={
+                        transaction.balance > 0
+                          ? classes.valuePositive
+                          : classes.valueNegative
+                      }
+                    >
+                      {`${transaction.balance > 0 ? '+' : '-'} ${
+                        transaction.balanceBTC
+                      } ${account.coin.symbol}`}
+                    </div>
+                    <div className={classes.valueSecondary}>
+                      U$ {transaction.balanceUSD}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      );
+    }
+
+    return tables;
   }
 }

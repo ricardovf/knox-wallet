@@ -2,16 +2,21 @@ import * as R from 'ramda';
 import { Big } from 'big.js';
 import { satoshiToBTC, satoshiToUSD } from './Converter';
 import { observable, computed, action, autorun, runInAction } from 'mobx';
+import * as moment from 'moment';
 
 export default class Account {
   coin = null;
   index = null;
   name = '';
   purpose = null;
+
   @observable
   addresses = new Map();
+
   @observable
   addressesInternal = new Map();
+
+  @observable
   transactions = new Map();
 
   @observable

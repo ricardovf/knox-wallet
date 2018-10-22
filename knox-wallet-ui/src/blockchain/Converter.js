@@ -1,4 +1,5 @@
 import { Big } from 'big.js';
+import { toFormat } from './toFormat';
 
 export function satoshiToBTC(satoshi, returnString = true) {
   let n = new Big(satoshi);
@@ -18,5 +19,6 @@ export function BTCToSatoshi(btc, returnString = true) {
 
 export function satoshiToUSD(satoshi, returnString = true, precision = 2) {
   let n = satoshiToBTC(satoshi, false).times(6200);
-  return returnString ? n.toFixed(precision) : n;
+
+  return returnString ? toFormat(n, precision, 1) : n;
 }
