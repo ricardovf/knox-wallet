@@ -44,7 +44,12 @@ export default class NewAccountCard extends React.Component {
           )}
           {!accountsStore.loadAccounts.pending &&
             appStore.selectedCoin !== COIN_SELECTION_ALL && (
-              <Button variant={'flat'} color={'primary'}>
+              <Button
+                disabled={!accountsStore.canAddNewAccount}
+                onClick={() => accountsStore.newAccount(appStore.selectedCoin)}
+                variant={'flat'}
+                color={'primary'}
+              >
                 New {coins[appStore.selectedCoin].name} Account
               </Button>
             )}

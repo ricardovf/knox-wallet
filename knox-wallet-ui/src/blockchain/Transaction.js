@@ -53,22 +53,18 @@ export default class Transaction {
             let day = transaction.time.format('MMM D, YYYY');
 
             // Sum the outputs values
+            let balance = new Big(0);
             let validOutputs = R.filter(
               t =>
                 R.intersection(t.scriptPubKey.addresses, accountAddresses)
                   .length > 0,
               transaction.data.vout
             );
-
-            console.log(validOutputs);
-
-            let balance = new Big(0);
             R.forEach(o => (balance = balance.plus(o.value)), validOutputs);
-
-            console.log(balance.toString());
 
             let obj = {
               id: transaction.id,
+              timestamp: transaction.time.unix(),
               day: day,
               hour: transaction.time.format('h:mm A'),
               confirmations: transaction.confirmations,
@@ -88,7 +84,7 @@ export default class Transaction {
       }
     }
 
-    // sort by date the days and the inner transactions
+    // @todo sort by date the days and the inner transactions
     return byDay;
   }
 }

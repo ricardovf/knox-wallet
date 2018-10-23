@@ -2,6 +2,7 @@ import { observable, computed, action, autorun, runInAction } from 'mobx';
 import BitcoinAPI from '../blockchain/bitcoin/BitcoinAPI';
 import { task } from 'mobx-task';
 import { coins } from '../blockchain/Coins';
+import { Converter } from '../blockchain/Converter';
 import BitcoinInsightAPI from '../blockchain/bitcoin/BitcoinInsightAPI';
 import AccountDiscovery, {
   DEFAULT_PURPOSE,
@@ -13,6 +14,8 @@ import Account from '../blockchain/Account';
 import * as mobx from 'mobx';
 import Transaction from '../blockchain/Transaction';
 import moment from 'moment';
+import { asyncComputed } from 'computed-async-mobx';
+import { COIN_SELECTION_ALL } from './AppStore';
 
 const bitcoinAPI = new BitcoinInsightAPI();
 
@@ -23,6 +26,24 @@ export default class AccountsStore {
   @observable.shallow
   coins = coins;
 
+  _currentUSDRate = asyncComputed(undefined, 60000, async () => {
+    try {
+      return await fetch('http://api.coindesk.com/v1/bpi/currentprice/USD.json')
+        .then(response => response.json())
+        .then(data => {
+          Converter.currentUSDRate = data.bpi.USD.rate_float;
+          return Converter.currentUSDRate;
+        });
+    } catch (e) {
+      if (__DEV__) console.log(e);
+    }
+  });
+
+  @computed
+  get currentUSDRate() {
+    return this._currentUSDRate.get();
+  }
+
   @observable
   accounts = new Map();
 
@@ -30,6 +51,54 @@ export default class AccountsStore {
     this.appStore = appStore;
     this.deviceStore = appStore.deviceStore;
     this._refreshAccountsInterval = null;
+
+    this._currentUSDRate.refresh();
+  }
+
+  @computed
+  get canAddNewAccount() {
+    if (this.appStore.selectedCoin !== COIN_SELECTION_ALL) {
+      for (let accountIndex of [...this.accounts.keys()]) {
+        let account = this.accounts.get(accountIndex);
+
+        if (
+          account.coin.key === this.appStore.selectedCoin &&
+          account.addresses.size === 0
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  @action.bound
+  newAccount(coinKey) {
+    let coin = coins[coinKey];
+
+    if (!coin) return false;
+
+    // Discover the next account index
+    let maxIndex = 0;
+    for (let accountIndex of [...this.accounts.keys()]) {
+      let account = this.accounts.get(accountIndex);
+
+      if (account.coin.key === coin.key && account.index >= maxIndex)
+        maxIndex = account.index + 1;
+    }
+
+    let account = new Account();
+    account.coin = coin;
+    account.index = maxIndex;
+    account.name = `Account ${parseInt(maxIndex, 10) + 1}`;
+    account.purpose = DEFAULT_PURPOSE;
+
+    this.accounts.set(account.getIdentifier(), account);
+
+    return true;
   }
 
   @action

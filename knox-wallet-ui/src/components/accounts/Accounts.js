@@ -13,6 +13,7 @@ import NewAccountCard from '../account/NewAccountCard';
 import { withRouter } from 'react-router';
 import * as R from 'ramda';
 import { values } from 'mobx';
+import { COIN_SELECTION_ALL } from '../../store/AppStore';
 
 export const styles = theme => ({
   root: {
@@ -41,6 +42,15 @@ export default class Accounts extends React.Component {
   render() {
     const { classes, appStore, accountsStore } = this.props;
 
+    let accounts = values(accountsStore.accounts);
+
+    if (appStore.selectedCoin !== COIN_SELECTION_ALL) {
+      accounts = R.filter(
+        acc => acc.coin.key === appStore.selectedCoin,
+        accounts
+      );
+    }
+
     return (
       <div className={classes.root}>
         <AccountsMenu />
@@ -50,7 +60,7 @@ export default class Accounts extends React.Component {
           container
           alignItems={'stretch'}
         >
-          {values(accountsStore.accounts).map(account => {
+          {accounts.map(account => {
             return (
               <Grid
                 key={account.getIdentifier()}

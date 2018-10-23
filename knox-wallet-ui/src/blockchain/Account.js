@@ -8,7 +8,7 @@ export default class Account {
   coin = null;
   index = null;
   name = '';
-  purpose = null;
+  purpose = 0;
 
   @observable
   addresses = new Map();
