@@ -1,6 +1,4 @@
-import { observable, action, autorun, runInAction, computed } from 'mobx';
-import SecureDevice from '../device/SecureDevice';
-import TransportHTTP from '../device/TransportHTTP';
+import { action, computed } from 'mobx';
 import { __DEV__ } from '../Util';
 import { asyncComputed } from 'computed-async-mobx';
 import {
@@ -206,6 +204,7 @@ export default class DeviceStore {
   async setPIN(pin) {
     try {
       await this.device.changePin(pin);
+      await this.device.verifyPin(pin);
       this._forceRefresh();
     } catch (e) {
       if (__DEV__) console.log(e);

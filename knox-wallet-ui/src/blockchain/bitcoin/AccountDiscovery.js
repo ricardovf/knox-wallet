@@ -1,5 +1,4 @@
 import BitcoinAPI from './BitcoinAPI';
-import bigInt from 'big-integer';
 
 export const DEFAULT_GAP_LIMIT = 20;
 export const DEFAULT_PURPOSE = 44;
@@ -56,7 +55,7 @@ export default class AccountDiscovery {
           // Example: https://test-insight.bitpay.com/api/addr/mkWwBRoFVYr8xQci3tr8VteayMYLKBhcxG
           API.setEndPoint(coin.insightAPI);
           addressInfo = await API.addressInfo(address);
-          console.log(path, addressInfo);
+          // console.log(path, addressInfo);
         } catch (e) {
           addressInfo = null;
         }

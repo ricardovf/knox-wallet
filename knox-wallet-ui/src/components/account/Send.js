@@ -1,21 +1,12 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AccountCard from '../account/AccountCard';
 import AccountMenu from './AccountMenu';
 import Grid from '@material-ui/core/Grid/Grid';
-import NewAccountCard from '../account/NewAccountCard';
 import Paper from '@material-ui/core/Paper';
-import { paperWidth } from '../setup/BasePaper';
-import iconBTC from '../../media/img/currency-icon-BTC.png';
 import Divider from '@material-ui/core/Divider';
-import AddressesTable from './AddressesTable';
-import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -26,9 +17,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Slider from '@material-ui/lab/Slider';
-import { withRouter } from 'react-router';
 import AccountLoading from './AccountLoading';
 import AccountNotFound from './AccountNotFound';
+import { action, computed, observable } from 'mobx';
+import {
+  BTCToSatoshi,
+  BTCToUSD,
+  satoshiToBTC,
+  satoshiToUSD,
+} from '../../blockchain/Converter';
+import { Big } from 'big.js';
+import * as R from 'ramda';
+import * as bitcoin from 'bitcoinjs-lib';
 
 export const styles = theme => ({
   root: {
@@ -93,7 +93,7 @@ export const styles = theme => ({
     padding: theme.spacing.unit * 2,
   },
   buttonContainer: {
-    textAlign: 'right',
+    textAlign: 'center',
   },
   field: {
     margin: theme.spacing.unit,
@@ -131,6 +131,141 @@ export const styles = theme => ({
 @inject('appStore', 'accountsStore')
 @observer
 export default class Send extends React.Component {
+  @observable
+  amount = null; // btc
+
+  @observable
+  feeSlider = 4; // slider
+
+  @observable
+  destination = '';
+
+  @computed
+  get destinationValid() {
+    let account = this.props.accountsStore.accounts.get(
+      this.props.appStore.selectedAccount
+    );
+    if (this.destination.length > 0 && account) {
+      try {
+        bitcoin.address.toOutputScript(
+          this.destination,
+          account.coin.network === 'testnet'
+            ? bitcoin.networks.testnet
+            : bitcoin.networks.bitcoin
+        );
+        return true;
+      } catch (e) {}
+    }
+
+    return false;
+  }
+
+  @computed
+  get fee() {
+    let fees = R.reverse(R.values(this.props.accountsStore.currentFees));
+    return fees[this.feeSlider] ? fees[this.feeSlider].feeBTC : new Big(0);
+  }
+
+  @computed
+  get feeLegend() {
+    let fees = R.reverse(R.values(this.props.accountsStore.currentFees));
+
+    return fees[this.feeSlider]
+      ? `U$ ${BTCToUSD(this.fee)} ~ ${
+          fees[this.feeSlider].minutes
+        } minutes to confirm transaction (${fees[this.feeSlider].blocks} block${
+          fees[this.feeSlider].blocks > 1 ? 's' : ''
+        })`
+      : '';
+  }
+
+  @computed
+  get finalBalance() {
+    let account = this.props.accountsStore.accounts.get(
+      this.props.appStore.selectedAccount
+    );
+    if (account) {
+      try {
+        return satoshiToBTC(account.balance, false)
+          .minus(this.amount ? this.amount : 0)
+          .minus(this.fee ? this.fee : 0);
+      } catch (e) {}
+    }
+
+    return new Big(0);
+  }
+
+  @computed
+  get isValid() {
+    const { appStore, accountsStore } = this.props;
+
+    let account = accountsStore.accounts.get(appStore.selectedAccount);
+    let fees = R.reverse(R.values(this.props.accountsStore.currentFees));
+
+    if (
+      account &&
+      fees[this.feeSlider] &&
+      this.amount &&
+      this.amount.gt(0) &&
+      this.finalBalance.gte(0) &&
+      this.destination.length > 0 &&
+      this.destinationValid
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  @action.bound
+  changeFee(fee) {
+    this.feeSlider = fee;
+  }
+
+  @action.bound
+  changeAmount(amount) {
+    try {
+      amount = amount
+        .replace(',', '.')
+        .replace(/[^0-9.]/g, '')
+        .trim();
+
+      if (amount.length === 0) return (this.amount = null);
+      // Only let one point
+      if (
+        amount.indexOf('.') &&
+        amount.indexOf('.', amount.indexOf('.') + 1) !== -1
+      ) {
+        amount = amount.substr(0, amount.indexOf('.', amount.indexOf('.') + 1));
+      }
+      let originalAmount = amount;
+
+      this.amount = new Big(amount);
+      this.amount._addPoint =
+        !this.amount.toString().includes('.') && originalAmount.includes('.');
+
+      this.amount._addZeros = '';
+
+      if (this.amount._addPoint) {
+        if (originalAmount[originalAmount.length - 1] === '0')
+          this.amount._addZeros = originalAmount.substr(
+            originalAmount.indexOf('.') + 1
+          );
+      } else if (this.amount.toString().includes('.')) {
+        if (originalAmount[originalAmount.length - 1] === '0')
+          this.amount._addZeros = originalAmount.replace(
+            this.amount.toString(),
+            ''
+          );
+      }
+    } catch (e) {}
+  }
+
+  @action.bound
+  changeDestination(destination) {
+    this.destination = destination;
+  }
+
   constructor(props) {
     super(props);
 
@@ -163,7 +298,8 @@ export default class Send extends React.Component {
               gutterBottom
               className={classes.accountCurrencyLogo}
             >
-              Bitcoin <img alt="Bitcoin" src={iconBTC} />
+              {account.coin.name}{' '}
+              <img alt={account.coin.name} src={account.coin.icon} />
             </Typography>
             <Typography gutterBottom variant="headline">
               Send funds
@@ -185,20 +321,54 @@ export default class Send extends React.Component {
                     <FormControl fullWidth className={classes.field}>
                       <InputLabel htmlFor="amount">Amount</InputLabel>
                       <Input
+                        value={
+                          this.amount === null
+                            ? ''
+                            : this.amount.toString() +
+                              (this.amount._addPoint ? '.' : '') +
+                              (this.amount._addZeros
+                                ? this.amount._addZeros
+                                : '')
+                        }
+                        onChange={event => {
+                          this.changeAmount(event.target.value);
+                        }}
                         autoFocus
                         id="amount"
                         endAdornment={
-                          <InputAdornment position="end">BTC</InputAdornment>
+                          <InputAdornment position="end">
+                            {account.coin.symbol}
+                          </InputAdornment>
                         }
                       />
-                      <FormHelperText>U$ 0</FormHelperText>
+                      <FormHelperText>{`U$ ${BTCToUSD(
+                        this.amount
+                      )}`}</FormHelperText>
                     </FormControl>
 
-                    <FormControl fullWidth className={classes.field}>
+                    <FormControl
+                      fullWidth
+                      className={classes.field}
+                      error={
+                        this.destination.length > 0 && !this.destinationValid
+                      }
+                    >
                       <InputLabel htmlFor="address">
                         Destination address
                       </InputLabel>
-                      <Input id="address" />
+                      <Input
+                        value={this.destination}
+                        onChange={event => {
+                          this.changeDestination(event.target.value);
+                        }}
+                        id="destination"
+                      />
+                      {this.destination.length > 0 &&
+                        !this.destinationValid && (
+                          <FormHelperText id="pin-text">
+                            Invalid address
+                          </FormHelperText>
+                        )}
                     </FormControl>
 
                     <FormControl fullWidth className={classes.field}>
@@ -208,15 +378,17 @@ export default class Send extends React.Component {
 
                       <Slider
                         className={classes.slider}
-                        value={1}
+                        value={this.feeSlider}
                         min={0}
-                        max={6}
+                        max={R.keys(accountsStore.currentFees).length - 1}
                         step={1}
-                        // onChange={this.handleChange}
+                        onChange={(event, value) => {
+                          this.changeFee(value);
+                        }}
                       />
 
                       <FormHelperText className={classes.sliderDescription}>
-                        U$ 0.30 ~ 1 hour to confirm transaction
+                        {this.feeLegend}
                       </FormHelperText>
                     </FormControl>
                   </div>
@@ -242,34 +414,54 @@ export default class Send extends React.Component {
                         <ListItemText primary="Current balance" />
                         <ListItemSecondaryAction className={classes.values}>
                           <div className={classes.valuePositive}>
-                            1.232131322 BTC
+                            {`${account.balanceBTC} ${account.coin.symbol}`}
                           </div>
-                          <div className={classes.valueSecondary}>U$ 240</div>
+                          <div className={classes.valueSecondary}>{`U$ ${
+                            account.balanceUSD
+                          }`}</div>
                         </ListItemSecondaryAction>
                       </ListItem>
                       <ListItem className={classes.detailsItem}>
                         <ListItemText primary="Amount to send" />
                         <ListItemSecondaryAction className={classes.values}>
-                          <div className={classes.valueNegative}>-0.23 BTC</div>
-                          <div className={classes.valueSecondary}>U$ 20</div>
+                          <div className={classes.valueNegative}>{`${
+                            this.amount && this.amount.gt(0) ? '-' : ''
+                          }${this.amount ? this.amount.toString() : 0} ${
+                            account.coin.symbol
+                          }`}</div>
+                          <div
+                            className={classes.valueSecondary}
+                          >{`U$ ${BTCToUSD(this.amount)}`}</div>
                         </ListItemSecondaryAction>
                       </ListItem>
                       <ListItem className={classes.detailsItem}>
                         <ListItemText primary="Fee" />
                         <ListItemSecondaryAction className={classes.values}>
-                          <div className={classes.valueNegative}>
-                            -0.00002 BTC
-                          </div>
-                          <div className={classes.valueSecondary}>U$ 0.3</div>
+                          <div
+                            className={classes.valueNegative}
+                          >{`-${this.fee.toString()} ${
+                            account.coin.symbol
+                          }`}</div>
+                          <div
+                            className={classes.valueSecondary}
+                          >{`U$ ${BTCToUSD(this.fee)}`}</div>
                         </ListItemSecondaryAction>
                       </ListItem>
                       <ListItem className={classes.detailsItem}>
                         <ListItemText primary="Final balance" />
                         <ListItemSecondaryAction className={classes.values}>
-                          <div className={classes.valuePositive}>
-                            1.132131322 BTC
-                          </div>
-                          <div className={classes.valueSecondary}>U$ 230</div>
+                          <div
+                            className={
+                              this.finalBalance.gt(0)
+                                ? classes.valuePositive
+                                : classes.valueNegative
+                            }
+                          >{`${this.finalBalance.toString()} ${
+                            account.coin.symbol
+                          }`}</div>
+                          <div
+                            className={classes.valueSecondary}
+                          >{`U$ ${BTCToUSD(this.finalBalance)}`}</div>
                         </ListItemSecondaryAction>
                       </ListItem>
                     </List>
@@ -279,7 +471,12 @@ export default class Send extends React.Component {
             </Grid>
 
             <div className={classes.buttonContainer}>
-              <Button variant={'raised'} color={'primary'}>
+              <Button
+                disabled={!this.isValid}
+                size={'large'}
+                variant={'raised'}
+                color={'primary'}
+              >
                 Send
               </Button>
             </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';

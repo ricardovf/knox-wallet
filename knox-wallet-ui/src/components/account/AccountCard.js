@@ -2,16 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
-import Loading from '../Loading';
 import { linkToAccount, linkToReceive, linkToSend } from '../../LinkMaker';
 
 export const styles = theme => ({

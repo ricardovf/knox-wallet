@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
 import { inject, observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,8 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import { linkToAccount, linkToReceive, linkToSend } from '../../LinkMaker';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

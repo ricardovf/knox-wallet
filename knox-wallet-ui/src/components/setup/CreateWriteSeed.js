@@ -1,13 +1,13 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';
+import { styles as baseStyle } from './BasePaper';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { inject, observer } from 'mobx-react';
-import { computed, observable, action, runInAction } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
 import { task } from 'mobx-task';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 

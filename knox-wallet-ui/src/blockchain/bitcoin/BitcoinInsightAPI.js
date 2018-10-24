@@ -1,4 +1,6 @@
 import BitcoinAPI from './BitcoinAPI';
+import { Big } from 'big.js';
+import { Converter } from '../Converter';
 
 export default class BitcoinInsightAPI extends BitcoinAPI {
   constructor(endpoint) {
@@ -55,6 +57,22 @@ export default class BitcoinInsightAPI extends BitcoinAPI {
         .then(response => response.json())
         .then(data => {
           resolve(data);
+        })
+        .catch(err => {
+          reject('Error requesting Bitcoin API: ' + err);
+        });
+    });
+  }
+
+  async fee(blocks = 2) {
+    return new Promise((resolve, reject) => {
+      if (!this.endpoint) return reject('Invalid endpoint');
+      if (!parseInt(blocks)) return reject('Invalid block number');
+
+      fetch(`${this.endpoint}/utils/estimatefee/?nbBlocks=${blocks}`)
+        .then(response => response.json())
+        .then(data => {
+          resolve(new Big(data[blocks]));
         })
         .catch(err => {
           reject('Error requesting Bitcoin API: ' + err);

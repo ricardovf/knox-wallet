@@ -1,6 +1,5 @@
 import React from 'react';
 import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
-import LineChart from 'recharts/lib/chart/LineChart';
 import Line from 'recharts/lib/cartesian/Line';
 import XAxis from 'recharts/lib/cartesian/XAxis';
 import YAxis from 'recharts/lib/cartesian/YAxis';
@@ -9,7 +8,7 @@ import Tooltip from 'recharts/lib/component/Tooltip';
 import { Big } from 'big.js';
 import { BTCToSatoshi, satoshiToUSD } from '../../blockchain/Converter';
 import { isNumOrStr } from 'recharts/src/util/DataUtils';
-import { Bar, ComposedChart, Scatter } from 'recharts';
+import { ComposedChart, Scatter } from 'recharts';
 import * as R from 'ramda';
 
 const tooltipFormatter = value =>

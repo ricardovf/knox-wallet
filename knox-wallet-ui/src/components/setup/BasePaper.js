@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
-import { inject, observer } from 'mobx-react';
 
 export const paperWidth = 720;
 

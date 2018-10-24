@@ -1,15 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import logo from '../../media/img/logo-knox-horizontal-blue-bg.png';
-import { withStyles } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Typography } from '@material-ui/core';
 import InstallConnector from './InstallConnector';
 import ConnectDevice from './ConnectDevice';
 import CreateOrRecovery from './CreateOrRecovery';
-import { observer, inject } from 'mobx-react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { inject, observer } from 'mobx-react';
 import Footer from '../Footer';
 import {
   STATE_INSTALLED,

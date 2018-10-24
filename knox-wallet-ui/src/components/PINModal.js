@@ -1,24 +1,21 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import Steps from './setup/Steps';
 import { inject, observer } from 'mobx-react';
-import { paperWidth, styles as baseStyle } from './setup/BasePaper';
+import { paperWidth } from './setup/BasePaper';
 import { withStyles } from '@material-ui/core';
-import { action, computed, observable, runInAction } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { isValidPin } from '../device/util/PIN';
 import {
   PIN_MAX_ATTEMPTS,
   PIN_MAX_LENGTH,
   PIN_MIN_LENGTH,
 } from '../device/Constants';
-import Typography from '@material-ui/core/Typography/Typography';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import Input from '@material-ui/core/Input/Input';
 import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment';
@@ -29,7 +26,6 @@ import NumericKeyboard from './setup/NumericKeyboard';
 import Footer from './Footer';
 import withMobileDialog from '@material-ui/core/es/withMobileDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { asyncComputed, promisedComputed } from 'computed-async-mobx';
 import { task } from 'mobx-task';
 
 const styles = theme => {
@@ -110,7 +106,7 @@ class PINModal extends React.Component {
 
     if (
       (this.pinValid && this.tries > 0) ||
-      deviceStore.pinRemainingAttempts != PIN_MAX_ATTEMPTS
+      deviceStore.pinRemainingAttempts !== PIN_MAX_ATTEMPTS
     ) {
       showError = true;
       errorText = '';

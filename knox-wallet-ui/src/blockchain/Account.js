@@ -1,8 +1,6 @@
-import * as R from 'ramda';
 import { Big } from 'big.js';
 import { satoshiToBTC, satoshiToUSD } from './Converter';
-import { observable, computed, action, autorun, runInAction } from 'mobx';
-import * as moment from 'moment';
+import { action, observable } from 'mobx';
 
 export default class Account {
   coin = null;

@@ -1,7 +1,7 @@
 import moment from 'moment';
-import { BTCToSatoshi, satoshiToBTC, satoshiToUSD } from './Converter';
+import { BTCToSatoshi, satoshiToUSD } from './Converter';
 import * as R from 'ramda';
-import { observable, values } from 'mobx';
+import { observable } from 'mobx';
 import { Big } from 'big.js';
 
 export default class Transaction {
@@ -33,7 +33,7 @@ export default class Transaction {
   }
 
   get isConfirmed() {
-    return this.confirmations > 2;
+    return this.confirmations > 1;
   }
 
   static getReceivedByDay(

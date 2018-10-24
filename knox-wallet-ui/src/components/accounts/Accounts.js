@@ -1,20 +1,13 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import AccountCard from '../account/AccountCard';
 import AccountsMenu from './AccountsMenu';
 import Grid from '@material-ui/core/Grid/Grid';
 import NewAccountCard from '../account/NewAccountCard';
-import { withRouter } from 'react-router';
 import * as R from 'ramda';
 import { values } from 'mobx';
 import { COIN_SELECTION_ALL } from '../../store/AppStore';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 export const styles = theme => ({
   root: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { observer, inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { __DEV__ } from '../Util';
 import Button from '@material-ui/core/Button';
 import { STATE_INSTALLED } from '../device/Constants';

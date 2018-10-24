@@ -15,7 +15,6 @@ import * as bitcoin from 'bitcoinjs-lib';
 import { ec as EC } from 'elliptic';
 import Signature from 'elliptic/lib/elliptic/ec/signature';
 import NoDeviceConnectedException from '../NoDeviceConnectedException';
-import bip39 from 'bip39';
 
 const debug = false;
 

@@ -42,8 +42,8 @@
       <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
+            <state relative-caret-position="132">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -164,7 +164,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="2560" />
     <option name="height" value="1012" />
@@ -516,7 +516,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1012" extended-state="0" />
+    <frame x="0" y="23" width="2560" height="1012" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -907,8 +907,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
+        <state relative-caret-position="132">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>

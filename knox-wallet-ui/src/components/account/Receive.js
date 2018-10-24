@@ -1,26 +1,16 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AccountCard from '../account/AccountCard';
 import AccountMenu from './AccountMenu';
-import Grid from '@material-ui/core/Grid/Grid';
-import NewAccountCard from '../account/NewAccountCard';
 import Paper from '@material-ui/core/Paper';
-import { paperWidth } from '../setup/BasePaper';
-import iconBTC from '../../media/img/currency-icon-BTC.png';
 import Divider from '@material-ui/core/Divider';
 import AddressesTable from './AddressesTable';
-import { withRouter } from 'react-router';
 import AccountLoading from './AccountLoading';
 import AccountNotFound from './AccountNotFound';
 import * as R from 'ramda';
-import Tab from '@material-ui/core/Tab/Tab';
-import { observable, runInAction, values, action, computed } from 'mobx';
+import { computed, values } from 'mobx';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -166,7 +156,8 @@ export default class Receive extends React.Component {
               gutterBottom
               className={classes.accountCurrencyLogo}
             >
-              Bitcoin <img alt="Bitcoin" src={iconBTC} />
+              {account.coin.name}{' '}
+              <img alt={account.coin.name} src={account.coin.icon} />
             </Typography>
             <Typography gutterBottom variant="headline">
               Receive funds

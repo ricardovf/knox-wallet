@@ -1,9 +1,6 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import BasePaper, { paperWidth, styles as baseStyle } from './BasePaper';
+import BasePaper, { styles as baseStyle } from './BasePaper';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button/Button';
-import TextField from '@material-ui/core/TextField';
 import Steps from './Steps';
 import { inject, observer } from 'mobx-react';
 import {

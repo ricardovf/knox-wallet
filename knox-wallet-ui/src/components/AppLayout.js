@@ -1,19 +1,20 @@
 import React from 'react';
 import logo from '../media/img/logo-knox-horizontal-blue-bg.png';
-import { withStyles } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Typography } from '@material-ui/core';
-import { observer, inject } from 'mobx-react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { inject, observer } from 'mobx-react';
 import Footer from './Footer';
 import MainLeftMenu from './MainLeftMenu';
 import Accounts from './accounts/Accounts';
 import Receive from './account/Receive';
 import Send from './account/Send';
 import AccountDashboard from './account/AccountDashboard';
-import { Switch, Route, Redirect, withRouter } from 'react-router';
-import { autorun } from 'mobx';
+import { Redirect, Route, Switch, withRouter } from 'react-router';
 import { linkToAccounts } from '../LinkMaker';
 
 const theme = createMuiTheme();

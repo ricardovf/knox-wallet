@@ -1,5 +1,4 @@
-import { observable, computed, action, autorun, runInAction } from 'mobx';
-import BitcoinAPI from '../blockchain/bitcoin/BitcoinAPI';
+import { action, computed, observable, runInAction } from 'mobx';
 import { task } from 'mobx-task';
 import { coins } from '../blockchain/Coins';
 import { Converter } from '../blockchain/Converter';
@@ -11,7 +10,6 @@ import { __DEV__ } from '../Util';
 import * as R from 'ramda';
 import Address from '../blockchain/Address';
 import Account from '../blockchain/Account';
-import * as mobx from 'mobx';
 import Transaction from '../blockchain/Transaction';
 import moment from 'moment';
 import { asyncComputed } from 'computed-async-mobx';
@@ -28,12 +26,8 @@ export default class AccountsStore {
 
   _currentUSDRate = asyncComputed(undefined, 60000, async () => {
     try {
-      return await fetch('http://api.coindesk.com/v1/bpi/currentprice/USD.json')
-        .then(response => response.json())
-        .then(data => {
-          Converter.currentUSDRate = data.bpi.USD.rate_float;
-          return Converter.currentUSDRate;
-        });
+      Converter.currentUSDRate = await bitcoinAPI.currentUSDRate();
+      return Converter.currentUSDRate;
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -42,6 +36,28 @@ export default class AccountsStore {
   @computed
   get currentUSDRate() {
     return this._currentUSDRate.get();
+  }
+
+  _currentFees = asyncComputed({}, 60000, async () => {
+    let fees = {};
+    try {
+      bitcoinAPI.setEndPoint(coins.BTC_TESTNET.insightAPI);
+
+      for (let blocks of [1, 2, 4, 5, 10])
+        fees[blocks] = {
+          blocks: blocks,
+          feeBTC: await bitcoinAPI.fee(blocks),
+          minutes: blocks * 10,
+        };
+    } catch (e) {
+      if (__DEV__) console.log(e);
+    }
+    return fees;
+  });
+
+  @computed
+  get currentFees() {
+    return this._currentFees.get();
   }
 
   @observable
@@ -53,6 +69,7 @@ export default class AccountsStore {
     this._refreshAccountsInterval = null;
 
     this._currentUSDRate.refresh();
+    this._currentFees.refresh();
   }
 
   @computed
@@ -110,7 +127,7 @@ export default class AccountsStore {
       this._forceAccountsRefresh();
       this._refreshAccountsInterval = setInterval(
         this._forceAccountsRefresh,
-        30000 // 30 seconds
+        30000 * (__DEV__ ? 10 : 1) // 30 seconds
       );
     }
   }
@@ -215,7 +232,7 @@ export default class AccountsStore {
               coin.p2shVersion
             );
 
-            if (__DEV__) AccountDiscovery.GAP_LIMIT = 5;
+            if (__DEV__) AccountDiscovery.GAP_LIMIT = 2;
 
             accounts = await AccountDiscovery.discover(
               this.deviceStore.device.getAddress.bind(this.deviceStore.device),

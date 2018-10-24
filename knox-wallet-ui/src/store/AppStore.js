@@ -1,6 +1,4 @@
-import { observable, computed, action, autorun, runInAction } from 'mobx';
-import { __DEV__ } from '../Util';
-import { asyncComputed } from 'computed-async-mobx';
+import { action, observable } from 'mobx';
 import {
   BITCOIN_P2SH_VERSION,
   BITCOIN_VERSION,

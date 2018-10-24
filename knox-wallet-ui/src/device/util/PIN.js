@@ -1,4 +1,3 @@
-import DeviceException from '../DeviceException';
 import { PIN_MAX_LENGTH, PIN_MIN_LENGTH } from '../Constants';
 
 export function isValidPinLength(pin) {

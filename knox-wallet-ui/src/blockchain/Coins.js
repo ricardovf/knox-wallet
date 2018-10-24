@@ -1,11 +1,7 @@
 import {
-  BITCOIN_P2SH_VERSION,
   BITCOIN_TESTNET_P2SH_VERSION,
   BITCOIN_TESTNET_VERSION,
-  BITCOIN_VERSION,
 } from '../device/Constants';
-
-import iconBTC from '../media/img/currency-icon-BTC.png';
 import iconBTCTestnet from '../media/img/currency-icon-BTC-Testnet.png';
 
 export const coins = {
