@@ -109,6 +109,8 @@ export default class Transaction {
     // Group
     byDay = R.groupBy(t => t.day)(byDay);
 
+    console.log(byDay);
+
     return byDay;
   }
 }

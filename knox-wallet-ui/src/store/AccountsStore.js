@@ -177,24 +177,24 @@ export default class AccountsStore {
         for (let transactionId of [...account.transactions.keys()]) {
           let transaction = account.transactions.get(transactionId);
 
-          if (!transaction.loaded) {
-            try {
-              bitcoinAPI.setEndPoint(account.coin.insightAPI);
-              let info = await bitcoinAPI.transactionDetails(transaction.id);
+          //if (!transaction.loaded) {
+          try {
+            bitcoinAPI.setEndPoint(account.coin.insightAPI);
+            let info = await bitcoinAPI.transactionDetails(transaction.id);
 
-              runInAction(() => {
-                transaction.data = info;
-                transaction.confirmations = info.confirmations;
-                transaction.valueIn = info.valueIn;
-                transaction.valueOut = info.valueOut;
-                transaction.fees = info.fees;
-                transaction.time = moment.unix(info.time);
-                transaction.loaded = true;
-              });
-            } catch (e) {
-              // ignore, the transaction might not yet been propagated
-            }
+            runInAction(() => {
+              transaction.data = info;
+              transaction.confirmations = info.confirmations;
+              transaction.valueIn = info.valueIn;
+              transaction.valueOut = info.valueOut;
+              transaction.fees = info.fees;
+              transaction.time = moment.unix(info.time);
+              transaction.loaded = true;
+            });
+          } catch (e) {
+            // ignore, the transaction might not yet been propagated
           }
+          //}
         }
       }
 

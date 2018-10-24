@@ -30,7 +30,7 @@ export default class TransactionsChart extends React.Component {
 
       for (let transaction of transactions) {
         if (transaction.value.gt(0))
-          dayReceived = balance.plus(transaction.value);
+          dayReceived = dayReceived.plus(transaction.value);
         else daySent = daySent.plus(transaction.value.abs());
 
         balance = balance.plus(transaction.value);

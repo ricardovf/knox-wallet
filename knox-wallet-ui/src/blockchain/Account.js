@@ -46,11 +46,13 @@ export default class Account {
     for (let addressIndex of [...this.addresses.keys()]) {
       let address = this.addresses.get(addressIndex);
       balance = balance.plus(address.balance);
+      balance = balance.plus(address.unconfirmedBalance);
     }
 
     for (let addressIndex of [...this.addressesInternal.keys()]) {
       let address = this.addressesInternal.get(addressIndex);
       balance = balance.plus(address.balance);
+      balance = balance.plus(address.unconfirmedBalance);
     }
 
     this._balance = balance.toString();
