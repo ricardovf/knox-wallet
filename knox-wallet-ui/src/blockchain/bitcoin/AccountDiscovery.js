@@ -11,6 +11,7 @@ export default class AccountDiscovery {
    * @param API
    * @param coin
    * @param purpose
+   * @param internal
    * @param initialAccount
    * @param initialIndex
    * @return {Promise<any>}
@@ -20,6 +21,7 @@ export default class AccountDiscovery {
     API,
     coin,
     purpose = DEFAULT_PURPOSE,
+    internal = false,
     initialAccount = 0,
     initialIndex = 0
   ) {
@@ -44,22 +46,32 @@ export default class AccountDiscovery {
 
       let currentGap = 0;
       do {
-        let path = `${purpose}'/${coin_type}'/${account}'/0/${address_index}`;
+        let path = `${purpose}'/${coin_type}'/${account}'/${
+          internal ? 1 : 0
+        }/${address_index}`;
         let address = await addressDerive(path);
-        let totalReceived;
+        let addressInfo;
 
         try {
-          totalReceived = bigInt(await API.addressTotalReceived(address));
+          // Example: https://test-insight.bitpay.com/api/addr/mkWwBRoFVYr8xQci3tr8VteayMYLKBhcxG
+          API.setEndPoint(coin.insightAPI);
+          addressInfo = await API.addressInfo(address);
+          console.log(path, addressInfo);
         } catch (e) {
-          totalReceived = bigInt(-1);
+          addressInfo = null;
         }
 
-        if (totalReceived.isPositive()) {
+        if (
+          addressInfo &&
+          Array.isArray(addressInfo.transactions) &&
+          addressInfo.transactions.length > 0
+        ) {
           accountsFound[account] = accountsFound[account] || {};
           accountsFound[account][address_index] = {
             address,
             path,
-            totalReceived: totalReceived.toString(),
+            internal,
+            ...addressInfo,
           };
         } else {
           currentGap++;
@@ -73,6 +85,8 @@ export default class AccountDiscovery {
           accountsFound[account] !== undefined
         ) {
           account++;
+          address_index = 0;
+          currentGap = 0;
         }
       } while (currentGap < this.GAP_LIMIT);
 

@@ -86,14 +86,17 @@ export default class AccountsStore {
     for (let accountIndex of [...this.accounts.keys()]) {
       let account = this.accounts.get(accountIndex);
 
-      if (account.coin.key === coin.key && account.index >= maxIndex)
-        maxIndex = account.index + 1;
+      if (
+        account.coin.key === coin.key &&
+        parseInt(account.index, 10) >= maxIndex
+      )
+        maxIndex = parseInt(account.index, 10) + 1;
     }
 
     let account = new Account();
     account.coin = coin;
     account.index = maxIndex;
-    account.name = `Account ${parseInt(maxIndex, 10) + 1}`;
+    account.name = `Account ${maxIndex + 1}`;
     account.purpose = DEFAULT_PURPOSE;
 
     this.accounts.set(account.getIdentifier(), account);
@@ -107,7 +110,7 @@ export default class AccountsStore {
       this._forceAccountsRefresh();
       this._refreshAccountsInterval = setInterval(
         this._forceAccountsRefresh,
-        60000 * 5 // 5 minutes
+        30000 // 30 seconds
       );
     }
   }
@@ -124,19 +127,6 @@ export default class AccountsStore {
     if (this.loadAccounts.result === undefined || !this.loadAccounts.pending)
       this.loadAccounts();
   };
-
-  _forceAddressesRefresh() {
-    if (this.loadAddresses.result === undefined || !this.loadAddresses.pending)
-      this.loadAddresses();
-  }
-
-  _forceTransactionsRefresh() {
-    if (
-      this.loadTransactions.result === undefined ||
-      !this.loadTransactions.pending
-    )
-      this.loadTransactions();
-  }
 
   addFreshAddress = task(
     async () => {
@@ -171,7 +161,6 @@ export default class AccountsStore {
           });
         }
 
-        // this._forceAddressesRefresh();
         return true;
       }
 
@@ -184,61 +173,29 @@ export default class AccountsStore {
     async () => {
       for (let accountIndex of [...this.accounts.keys()]) {
         let account = this.accounts.get(accountIndex);
+
         for (let transactionId of [...account.transactions.keys()]) {
           let transaction = account.transactions.get(transactionId);
 
           if (!transaction.loaded) {
-            let info = await bitcoinAPI._transactionDetails(transaction.id);
+            try {
+              bitcoinAPI.setEndPoint(account.coin.insightAPI);
+              let info = await bitcoinAPI.transactionDetails(transaction.id);
 
-            runInAction(() => {
-              transaction.data = info;
-              transaction.confirmations = info.confirmations;
-              transaction.valueIn = info.valueIn;
-              transaction.valueOut = info.valueOut;
-              transaction.fees = info.fees;
-              transaction.time = moment.unix(info.time);
-              transaction.loaded = true;
-            });
+              runInAction(() => {
+                transaction.data = info;
+                transaction.confirmations = info.confirmations;
+                transaction.valueIn = info.valueIn;
+                transaction.valueOut = info.valueOut;
+                transaction.fees = info.fees;
+                transaction.time = moment.unix(info.time);
+                transaction.loaded = true;
+              });
+            } catch (e) {
+              // ignore, the transaction might not yet been propagated
+            }
           }
         }
-      }
-
-      return true;
-    },
-    { state: undefined }
-  );
-
-  loadAddresses = task(
-    async () => {
-      for (let accountIndex of [...this.accounts.keys()]) {
-        let account = this.accounts.get(accountIndex);
-        for (let addressIndex of [...account.addresses.keys()]) {
-          let address = account.addresses.get(addressIndex);
-
-          // @todo only update if forceUpdateOfAddresses.lenght > 0 && addr is in forceUpdateOfAddresses
-          let info = await bitcoinAPI.addressInfo(address.address);
-
-          address.balance = info.balanceSat;
-          address.totalReceived = info.totalReceivedSat;
-          address.totalSent = info.totalSentSat;
-          address.unconfirmedBalance = info.unconfirmedBalanceSat;
-
-          address.lastUpdate = new Date();
-
-          if (Array.isArray(info.transactions) && info.transactions.length) {
-            runInAction(() => {
-              for (let transactionId of info.transactions) {
-                let transaction = new Transaction(transactionId);
-
-                if (!account.transactions.has(transaction.id)) {
-                  account.transactions.set(transaction.id, transaction);
-                }
-              }
-            });
-          }
-        }
-
-        account.updateBalance();
       }
 
       return true;
@@ -248,60 +205,90 @@ export default class AccountsStore {
 
   loadAccounts = task(
     async () => {
-      for (let coin of R.values(this.coins)) {
-        bitcoinAPI.endpoint = coin.insightAPI;
-        let accounts = {};
-        try {
-          // make sure we are in correct network
-          await this.deviceStore.device.changeNetwork(
-            coin.version,
-            coin.p2shVersion
-          );
+      for (let internal of [true, false]) {
+        for (let coin of R.values(this.coins)) {
+          let accounts = {};
+          try {
+            // make sure we are in correct network
+            await this.deviceStore.device.changeNetwork(
+              coin.version,
+              coin.p2shVersion
+            );
 
-          if (__DEV__) AccountDiscovery.GAP_LIMIT = 5;
+            if (__DEV__) AccountDiscovery.GAP_LIMIT = 5;
 
-          // @todo init from current account
+            accounts = await AccountDiscovery.discover(
+              this.deviceStore.device.getAddress.bind(this.deviceStore.device),
+              bitcoinAPI,
+              coin,
+              DEFAULT_PURPOSE,
+              internal
+            );
 
-          accounts = await AccountDiscovery.discover(
-            this.deviceStore.device.getAddress.bind(this.deviceStore.device),
-            bitcoinAPI,
-            coin
-          );
+            runInAction(() => {
+              R.forEachObjIndexed((accountAddresses, accountIndex) => {
+                let account = new Account();
+                account.coin = coin;
+                account.index = accountIndex;
+                account.name = `Account ${parseInt(accountIndex, 10) + 1}`;
+                account.purpose = DEFAULT_PURPOSE;
 
-          runInAction(() => {
-            R.forEachObjIndexed((accountAddresses, accountIndex) => {
-              let account = new Account();
-              account.coin = coin;
-              account.index = accountIndex;
-              account.name = `Account ${parseInt(accountIndex, 10) + 1}`;
-              account.purpose = DEFAULT_PURPOSE;
-
-              if (!this.accounts.has(account.getIdentifier())) {
-                this.accounts.set(account.getIdentifier(), account);
-              } else {
-                account = this.accounts.get(account.getIdentifier());
-              }
-
-              R.forEachObjIndexed((addressInfo, addressIndex) => {
-                let address = new Address();
-                address.index = addressIndex;
-                address.address = addressInfo.address;
-                address.path = addressInfo.path;
-                address.internal = false;
-
-                if (!account.addresses.has(addressIndex)) {
-                  account.addresses.set(addressIndex, address);
+                if (!this.accounts.has(account.getIdentifier())) {
+                  this.accounts.set(account.getIdentifier(), account);
+                } else {
+                  account = this.accounts.get(account.getIdentifier());
                 }
-              }, accountAddresses);
-            }, accounts);
-          });
-        } catch (e) {
-          // @todo display error to user
-          return false;
+
+                R.forEachObjIndexed((addressInfo, addressIndex) => {
+                  let address = new Address();
+                  address.index = addressIndex;
+                  address.address = addressInfo.address;
+                  address.path = addressInfo.path;
+                  address.internal = addressInfo.internal;
+
+                  let addresses = internal
+                    ? account.addressesInternal
+                    : account.addresses;
+
+                  if (!addresses.has(addressIndex))
+                    addresses.set(addressIndex, address);
+                  else address = addresses.get(addressIndex);
+
+                  address.updateValues(
+                    addressInfo.balanceSat,
+                    addressInfo.unconfirmedBalanceSat,
+                    addressInfo.totalReceivedSat,
+                    addressInfo.totalSentSat
+                  );
+
+                  if (
+                    Array.isArray(addressInfo.transactions) &&
+                    addressInfo.transactions.length
+                  ) {
+                    for (let transactionId of addressInfo.transactions) {
+                      let transaction = new Transaction(transactionId);
+
+                      if (!account.transactions.has(transaction.id))
+                        account.transactions.set(transaction.id, transaction);
+                    }
+
+                    address.transactionsIds = addressInfo.transactions;
+                  } else {
+                    address.transactionsIds = [];
+                  }
+                }, accountAddresses);
+
+                account.updateBalance();
+
+                if (!this.loadTransactions.pending) this.loadTransactions();
+              }, accounts);
+            });
+          } catch (e) {
+            // @todo display error to user
+            return false;
+          }
         }
       }
-
-      this._forceAddressesRefresh();
 
       return true;
     },

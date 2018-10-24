@@ -46,7 +46,7 @@ export default class BitcoinInsightAPI extends BitcoinAPI {
     });
   }
 
-  _transactionDetails(transactionId) {
+  transactionDetails(transactionId) {
     return new Promise((resolve, reject) => {
       if (!this.endpoint) return reject('Invalid endpoint');
       if (!transactionId) return reject('Invalid transaction id');

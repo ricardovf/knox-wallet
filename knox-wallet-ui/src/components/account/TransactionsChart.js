@@ -10,6 +10,7 @@ import { Big } from 'big.js';
 import { BTCToSatoshi, satoshiToUSD } from '../../blockchain/Converter';
 import { isNumOrStr } from 'recharts/src/util/DataUtils';
 import { Bar, ComposedChart, Scatter } from 'recharts';
+import * as R from 'ramda';
 
 const tooltipFormatter = value =>
   Array.isArray(value) && isNumOrStr(value[0]) && isNumOrStr(value[1])
@@ -22,23 +23,34 @@ export default class TransactionsChart extends React.Component {
 
     let data = [];
     let balance = new Big(0);
-    for (let day of [...transactionsByDay.keys()]) {
-      let transactions = transactionsByDay.get(day);
+    for (let day of R.reverse(R.keys(transactionsByDay))) {
+      let transactions = transactionsByDay[day];
+      let dayReceived = new Big(0);
+      let daySent = new Big(0);
 
       for (let transaction of transactions) {
-        balance = balance.plus(transaction.balance);
+        if (transaction.value.gt(0))
+          dayReceived = balance.plus(transaction.value);
+        else daySent = daySent.plus(transaction.value.abs());
 
-        data.push({
-          name: `${transaction.day} ${transaction.hour}`,
-          Received: transaction.balance.toString() + ' ' + account.coin.symbol,
-          Balance: balance.toString(),
-          'Balance ': 'U$ ' + satoshiToUSD(BTCToSatoshi(balance.toString())),
-        });
+        balance = balance.plus(transaction.value);
       }
+
+      // if (daySent.gt(0)) daySent = daySent.minus(dayReceived);
+
+      data.push({
+        name: day,
+        Received: dayReceived.toString() + ' ' + account.coin.symbol,
+        Sent: daySent.gt(0)
+          ? daySent.toString() + ' ' + account.coin.symbol
+          : undefined,
+        Balance: balance.toString(),
+        'Balance ': 'U$ ' + satoshiToUSD(BTCToSatoshi(balance.toString())),
+      });
     }
 
     data.push({
-      name: 'Today',
+      name: 'Final balance',
       Balance: balance.toString(),
       'Balance ': 'U$ ' + satoshiToUSD(BTCToSatoshi(balance.toString())),
     });

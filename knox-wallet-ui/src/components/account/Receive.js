@@ -21,6 +21,10 @@ import AccountNotFound from './AccountNotFound';
 import * as R from 'ramda';
 import Tab from '@material-ui/core/Tab/Tab';
 import { observable, runInAction, values, action, computed } from 'mobx';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Icon from '@material-ui/core/Icon';
 
 export const styles = theme => ({
   root: {
@@ -54,6 +58,12 @@ export const styles = theme => ({
       paddingBottom: theme.spacing.unit * 2,
       fontSize: '20px',
     },
+    '& > div > h2': {
+      margin: 0,
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      fontSize: '20px',
+    },
   },
   accountCurrencyLogo: {
     position: 'relative',
@@ -77,21 +87,22 @@ export default class Receive extends React.Component {
     const { appStore, accountsStore } = this.props;
 
     let account = accountsStore.accounts.get(appStore.selectedAccount);
-    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
-    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
 
-    if (account && accountsLoaded && addressesLoaded) {
+    if (account) {
       return R.map(address => {
         return {
           id: address.index,
           address: address.address,
           path: address.path,
+          internal: address.internal,
           balance: address.balance,
           balanceBTC: address.balanceBTC,
           balanceUSD: address.balanceUSD,
           coinSymbol: account.coin.symbol,
+          hasAnyTransaction: account.hasAnyTransaction,
+          hasUnconfirmedBalance: address.hasUnconfirmedBalance,
         };
-      }, R.filter(address => address.balance > 0, values(account.addresses)));
+      }, R.filter(address => address.hasAnyTransaction === true, [...values(account.addresses), ...values(account.addressesInternal)]));
     }
 
     return [];
@@ -102,21 +113,22 @@ export default class Receive extends React.Component {
     const { appStore, accountsStore } = this.props;
 
     let account = accountsStore.accounts.get(appStore.selectedAccount);
-    let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
-    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
 
-    if (account && accountsLoaded && addressesLoaded) {
+    if (account) {
       return R.map(address => {
         return {
           id: address.index,
           address: address.address,
           path: address.path,
+          internal: address.internal,
           balance: address.balance,
           balanceBTC: address.balanceBTC,
           balanceUSD: address.balanceUSD,
           coinSymbol: account.coin.symbol,
+          hasAnyTransaction: account.hasAnyTransaction,
+          hasUnconfirmedBalance: address.hasUnconfirmedBalance,
         };
-      }, R.filter(address => address.balance == 0, values(account.addresses)));
+      }, R.filter(address => address.hasAnyTransaction === false, [...values(account.addresses), ...values(account.addressesInternal)]));
     }
 
     return [];
@@ -137,11 +149,10 @@ export default class Receive extends React.Component {
 
     let account = accountsStore.accounts.get(appStore.selectedAccount);
     let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
-    let addressesLoaded = accountsStore.loadAddresses.result !== undefined;
 
-    if (!accountsLoaded || !addressesLoaded) {
+    if (!accountsLoaded && !account) {
       return <AccountLoading />;
-    } else if (!account) {
+    } else if (accountsLoaded && !account) {
       return <AccountNotFound />;
     }
 
@@ -191,15 +202,27 @@ export default class Receive extends React.Component {
             </Button>
           </div>
 
-          <div className={classes.header}>
-            <Typography gutterBottom variant="title" className={classes.margin}>
-              Previous addresses
-            </Typography>
-            <Divider />
-          </div>
-          <div className={classes.margin + ' ' + classes.marginNoTop}>
-            <AddressesTable addresses={this.previousAddresses} />
-          </div>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              className={classes.header}
+              expandIcon={<Icon>expand_more</Icon>}
+            >
+              <Typography variant="title">Previous addresses</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <AddressesTable addresses={this.previousAddresses} />
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+
+          {/*<div className={classes.header}>*/}
+          {/*<Typography gutterBottom variant="title" className={classes.margin}>*/}
+          {/**/}
+          {/*</Typography>*/}
+          {/*<Divider />*/}
+          {/*</div>*/}
+          {/*<div className={classes.margin + ' ' + classes.marginNoTop}>*/}
+          {/*<AddressesTable addresses={this.previousAddresses} />*/}
+          {/*</div>*/}
         </Paper>
       </div>
     );

@@ -11,6 +11,7 @@ import Icon from '@material-ui/core/Icon';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { linkToAccount, linkToReceive, linkToSend } from '../../LinkMaker';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const styles = theme => ({
   appBarContainer: {
@@ -27,7 +28,11 @@ export const styles = theme => ({
     flexGrow: 1,
     '& span': {
       cursor: 'pointer',
+      paddingRight: '10px',
     },
+  },
+  progress: {
+    position: 'absolute',
   },
   // coinsMenu: {
   //   padding: theme.spacing.unit * 1,
@@ -40,6 +45,10 @@ export const styles = theme => ({
 export default class AccountMenu extends React.Component {
   render() {
     const { classes, appStore, accountsStore, routing, account } = this.props;
+
+    let pending =
+      accountsStore.loadAccounts.pending ||
+      accountsStore.loadTransactions.pending;
 
     return (
       <React.Fragment>
@@ -74,8 +83,15 @@ export default class AccountMenu extends React.Component {
                       title={`Go to ${account.name} dashboard`}
                       onClick={() => routing.push(linkToAccount(account))}
                     >
-                      {account.name}
+                      {account.name}{' '}
                     </span>
+                    {pending && (
+                      <CircularProgress
+                        size={24}
+                        color="secondary"
+                        className={classes.progress}
+                      />
+                    )}
                   </Typography>
 
                   <IconButton

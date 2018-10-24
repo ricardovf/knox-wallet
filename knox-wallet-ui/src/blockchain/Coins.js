@@ -9,19 +9,6 @@ import iconBTC from '../media/img/currency-icon-BTC.png';
 import iconBTCTestnet from '../media/img/currency-icon-BTC-Testnet.png';
 
 export const coins = {
-  BTC: {
-    key: 'BTC',
-    name: 'Bitcoin',
-    symbol: 'BTC',
-    network: 'livenet',
-    insightAPI: 'https://search.bitaccess.ca/insight-api',
-    blockCypherAPI: 'https://api.blockcypher.com/v1/btc/main',
-    transactionUrl: 'https://live.blockcypher.com/btc/tx/',
-    coinType: 0, // For BIP 44
-    version: BITCOIN_VERSION,
-    p2shVersion: BITCOIN_P2SH_VERSION,
-    icon: iconBTC,
-  },
   BTC_TESTNET: {
     key: 'BTC_TESTNET',
     name: 'Bitcoin Testnet',
@@ -35,4 +22,17 @@ export const coins = {
     p2shVersion: BITCOIN_TESTNET_P2SH_VERSION,
     icon: iconBTCTestnet,
   },
+  // BTC: {
+  //   key: 'BTC',
+  //   name: 'Bitcoin',
+  //   symbol: 'BTC',
+  //   network: 'livenet',
+  //   insightAPI: 'https://search.bitaccess.ca/insight-api',
+  //   blockCypherAPI: 'https://api.blockcypher.com/v1/btc/main',
+  //   transactionUrl: 'https://live.blockcypher.com/btc/tx/',
+  //   coinType: 0, // For BIP 44
+  //   version: BITCOIN_VERSION,
+  //   p2shVersion: BITCOIN_P2SH_VERSION,
+  //   icon: iconBTC,
+  // },
 };

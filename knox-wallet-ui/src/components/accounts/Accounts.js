@@ -14,6 +14,7 @@ import { withRouter } from 'react-router';
 import * as R from 'ramda';
 import { values } from 'mobx';
 import { COIN_SELECTION_ALL } from '../../store/AppStore';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export const styles = theme => ({
   root: {
@@ -53,6 +54,7 @@ export default class Accounts extends React.Component {
 
     return (
       <div className={classes.root}>
+        {/*<LinearProgress className={classes.progress} />*/}
         <AccountsMenu />
         <Grid
           className={classes.grid}

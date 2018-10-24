@@ -24,10 +24,6 @@ export const styles = theme => ({
     marginLeft: -18,
     marginRight: 10,
   },
-
-  // coinsMenu: {
-  //   padding: theme.spacing.unit * 1,
-  // },
 });
 
 @withStyles(styles)

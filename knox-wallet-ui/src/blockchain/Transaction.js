@@ -36,55 +36,79 @@ export default class Transaction {
     return this.confirmations > 2;
   }
 
-  static getReceivedByDay(transactions, accountAddresses) {
-    let byDay = new Map();
+  static getReceivedByDay(
+    transactions,
+    accountAddresses,
+    accountAddressesInternal
+  ) {
+    let accountAddressesAll = [
+      ...accountAddresses,
+      ...accountAddressesInternal,
+    ];
+
+    let byDay = [];
     // group transactions by day
     for (let transaction of transactions) {
+      let obj = {
+        id: transaction.id,
+        timestamp: transaction.time.unix(),
+        day: transaction.time.format('MMM D, YYYY'),
+        hour: transaction.time.format('h:mm A'),
+        confirmations: transaction.confirmations,
+        confirmed: transaction.isConfirmed,
+        fees: transaction.fees,
+      };
+
+      // Find input values (sent)
+      if (Array.isArray(transaction.data.vin)) {
+        for (let inTx of transaction.data.vin) {
+          if (accountAddressesAll.includes(inTx.addr)) {
+            let value = new Big(inTx.value).times(-1);
+            byDay.push({
+              ...obj,
+              address: inTx.addr,
+              isInternalAddress: accountAddressesInternal.includes(inTx.addr),
+              value: value,
+              valueBTC: value.toString(),
+              valueUSD: satoshiToUSD(BTCToSatoshi(value.toString())),
+            });
+          }
+        }
+      }
+
+      // Find output values (received)
       if (Array.isArray(transaction.data.vout)) {
-        let addresses = R.flatten(
-          R.map(R.path(['scriptPubKey', 'addresses']), transaction.data.vout)
-        );
-
-        if (
-          Array.isArray(addresses) &&
-          R.intersection(addresses, accountAddresses).length > 0
-        ) {
-          if (moment.isMoment(transaction.time)) {
-            let day = transaction.time.format('MMM D, YYYY');
-
-            // Sum the outputs values
-            let balance = new Big(0);
-            let validOutputs = R.filter(
-              t =>
-                R.intersection(t.scriptPubKey.addresses, accountAddresses)
-                  .length > 0,
-              transaction.data.vout
-            );
-            R.forEach(o => (balance = balance.plus(o.value)), validOutputs);
-
-            let obj = {
-              id: transaction.id,
-              timestamp: transaction.time.unix(),
-              day: day,
-              hour: transaction.time.format('h:mm A'),
-              confirmations: transaction.confirmations,
-              confirmed: transaction.isConfirmed,
-              fees: transaction.fees,
-              balance: balance,
-              balanceBTC: balance.toString(),
-              balanceUSD: satoshiToUSD(BTCToSatoshi(balance.toString())),
-              address: R.intersection(addresses, accountAddresses).join(', '),
-            };
-
-            if (!byDay.has(day)) byDay.set(day, []);
-
-            byDay.get(day).push(obj);
+        for (let outTx of transaction.data.vout) {
+          if (
+            outTx.scriptPubKey &&
+            Array.isArray(outTx.scriptPubKey.addresses)
+          ) {
+            for (let outTxAddress of outTx.scriptPubKey.addresses) {
+              if (accountAddressesAll.includes(outTxAddress)) {
+                let value = new Big(outTx.value);
+                byDay.push({
+                  ...obj,
+                  address: outTxAddress,
+                  isInternalAddress: accountAddressesInternal.includes(
+                    outTxAddress
+                  ),
+                  value: value,
+                  valueBTC: value.toString(),
+                  valueUSD: satoshiToUSD(BTCToSatoshi(value.toString())),
+                });
+              }
+            }
           }
         }
       }
     }
 
-    // @todo sort by date the days and the inner transactions
+    // Sort
+    byDay = R.sortWith([R.descend(R.prop('timestamp'))])(byDay);
+
+    // Group
+    byDay = R.groupBy(t => t.day)(byDay);
+
     return byDay;
   }
 }

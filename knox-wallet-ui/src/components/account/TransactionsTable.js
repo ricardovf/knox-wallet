@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip/Chip';
+import * as R from 'ramda';
 
 export const styles = theme => ({
   values: {
@@ -30,6 +31,9 @@ export const styles = theme => ({
   address: {
     fontSize: 16,
     fontWeight: 400,
+  },
+  mono: {
+    fontFamily: 'monospace',
   },
   path: {
     marginTop: 4,
@@ -55,14 +59,16 @@ export default class TransactionsTable extends React.Component {
     const { classes, transactionsByDay, account } = this.props;
 
     let tables = [];
-    for (let day of [...transactionsByDay.keys()]) {
-      let transactions = transactionsByDay.get(day);
+    for (let day of R.keys(transactionsByDay)) {
+      let transactions = transactionsByDay[day];
 
       tables.push(
         <Table key={day} className={classes.table} padding={'none'}>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.cell}>{day}</TableCell>
+              <TableCell className={classes.cell}>
+                <strong>{day}</strong>
+              </TableCell>
               <TableCell numeric className={classes.cell}>
                 Amount
               </TableCell>
@@ -73,7 +79,12 @@ export default class TransactionsTable extends React.Component {
               return (
                 <TableRow
                   hover
-                  key={transaction.id}
+                  key={
+                    day +
+                    transaction.id +
+                    transaction.address +
+                    transaction.valueBTC
+                  }
                   className={classes.transaction}
                 >
                   <TableCell
@@ -82,8 +93,17 @@ export default class TransactionsTable extends React.Component {
                     className={classes.cell}
                   >
                     <div className={classes.address}>
-                      {transaction.address}
-
+                      <span className={classes.mono}>
+                        {transaction.address}
+                      </span>{' '}
+                      {transaction.isInternalAddress && (
+                        <Chip
+                          variant="outlined"
+                          color="default"
+                          // icon={<Icon>error_outline</Icon>}
+                          label="This is a change address"
+                        />
+                      )}
                       <IconButton
                         component="a"
                         color="inherit"
@@ -96,9 +116,7 @@ export default class TransactionsTable extends React.Component {
                           open_in_new
                         </Icon>
                       </IconButton>
-                      {transaction.confirmed ? (
-                        ''
-                      ) : (
+                      {!transaction.confirmed && (
                         <Chip
                           color="secondary"
                           icon={<Icon>error_outline</Icon>}
@@ -114,17 +132,17 @@ export default class TransactionsTable extends React.Component {
                   >
                     <div
                       className={
-                        transaction.balance > 0
+                        transaction.value > 0
                           ? classes.valuePositive
                           : classes.valueNegative
                       }
                     >
-                      {`${transaction.balance > 0 ? '+' : '-'} ${
-                        transaction.balanceBTC
+                      {`${transaction.value > 0 ? '+' : ''} ${
+                        transaction.valueBTC
                       } ${account.coin.symbol}`}
                     </div>
                     <div className={classes.valueSecondary}>
-                      U$ {transaction.balanceUSD}
+                      U$ {transaction.valueUSD}
                     </div>
                   </TableCell>
                 </TableRow>

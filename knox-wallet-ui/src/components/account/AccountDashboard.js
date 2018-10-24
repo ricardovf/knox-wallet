@@ -100,15 +100,16 @@ export default class AccountDashboard extends React.Component {
     let account = accountsStore.accounts.get(appStore.selectedAccount);
     let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
 
-    if (!accountsLoaded) {
+    if (!accountsLoaded && !account) {
       return <AccountLoading />;
-    } else if (!account) {
+    } else if (accountsLoaded && !account) {
       return <AccountNotFound />;
     }
 
     let transactionsByDay = Transaction.getReceivedByDay(
       values(account.transactions),
-      R.map(R.prop('address'), values(account.addresses))
+      R.map(R.prop('address'), values(account.addresses)),
+      R.map(R.prop('address'), values(account.addressesInternal))
     );
 
     return (

@@ -16,6 +16,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Chip from '@material-ui/core/Chip/Chip';
 
 export const styles = theme => ({
   values: {
@@ -34,6 +35,9 @@ export const styles = theme => ({
   address: {
     fontSize: 16,
     fontWeight: 400,
+  },
+  mono: {
+    fontFamily: 'monospace',
   },
   path: {
     marginTop: 4,
@@ -75,13 +79,30 @@ export default class AddressesTable extends React.Component {
         <TableBody>
           {addresses.map(address => {
             return (
-              <TableRow hover key={address.id} className={classes.address}>
+              <TableRow hover key={address.address} className={classes.address}>
                 <TableCell
                   component="th"
                   scope="address"
                   className={classes.cell}
                 >
-                  <div className={classes.address}>{address.address}</div>
+                  <div className={classes.address}>
+                    <span className={classes.mono}>{address.address}</span>{' '}
+                    {address.internal && (
+                      <Chip
+                        variant="outlined"
+                        color="default"
+                        // icon={<Icon>error_outline</Icon>}
+                        label="This is a change address"
+                      />
+                    )}
+                    {address.hasUnconfirmedBalance && (
+                      <Chip
+                        color="secondary"
+                        icon={<Icon>error_outline</Icon>}
+                        label="Unconfirmed"
+                      />
+                    )}
+                  </div>
                   <div className={classes.path}>{address.path}</div>
                 </TableCell>
                 <TableCell

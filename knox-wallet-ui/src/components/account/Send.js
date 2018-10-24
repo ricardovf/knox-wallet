@@ -147,9 +147,9 @@ export default class Send extends React.Component {
     let account = accountsStore.accounts.get(appStore.selectedAccount);
     let accountsLoaded = accountsStore.loadAccounts.result !== undefined;
 
-    if (!accountsLoaded) {
+    if (!accountsLoaded && !account) {
       return <AccountLoading />;
-    } else if (!account) {
+    } else if (accountsLoaded && !account) {
       return <AccountNotFound />;
     }
 
