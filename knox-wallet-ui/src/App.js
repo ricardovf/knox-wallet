@@ -4,8 +4,8 @@ import SetupLayout from './components/setup/SetupLayout';
 import { inject, observer } from 'mobx-react';
 import AppLayout from './components/AppLayout';
 import { STATE_PIN_SET, STATE_READY } from './device/Constants';
-import PINModal from './components/PINModal';
 import FullLoading from './components/FullLoading';
+import UnlockWithPINModal from './components/UnlockWithPINModal';
 
 @inject('appStore', 'deviceStore')
 @observer
@@ -52,7 +52,7 @@ export default class App extends Component {
 
     return (
       <React.Fragment>
-        <PINModal open={showPinModal} />
+        <UnlockWithPINModal open={showPinModal} />
         {maybeContent}
       </React.Fragment>
     );

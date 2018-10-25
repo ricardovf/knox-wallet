@@ -55,17 +55,21 @@ const styles = theme => {
 @withStyles(styles)
 @inject('appStore', 'deviceStore')
 @observer
-class PINModal extends React.Component {
+class VerifyPINModal extends React.Component {
   @observable
   pin = '';
 
   @observable
   tries = 0;
 
+  @observable
+  pinValidatedOnDevice = false;
+
   verifyPinOnDevice = task(
     async () => {
       try {
         await this.props.deviceStore.verifyPin(this.pin);
+        this.props.handleSuccess();
         return true;
       } catch (e) {}
 
@@ -91,9 +95,15 @@ class PINModal extends React.Component {
     this.tries = tries;
   }
 
+  @action.bound
+  changePinValidatedOnDevice(validated) {
+    this.pinValidatedOnDevice = validated;
+  }
+
   componentDidMount() {
     this.changePin('');
     this.changeTries(0);
+    this.changePinValidatedOnDevice(false);
     this.props.deviceStore._pinRemainingAttempts.refresh();
   }
 
@@ -160,26 +170,28 @@ class PINModal extends React.Component {
 
     return (
       <Dialog
-        disableBackdropClick
-        disableEscapeKeyDown
         onExit={() => {
           this.changePin('');
           this.changeTries(0);
         }}
+        onClose={this.props.handleClose}
         open={open}
         aria-labelledby="form-dialog-pin-enter"
         classes={{ paper: classes.paper }}
         fullScreen={fullScreen}
       >
-        <DialogTitle id="form-dialog-pin-enter">Unlock device</DialogTitle>
+        <DialogTitle id="form-dialog-pin-enter">Confirm operation</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter your PIN to unlock the device
+            Please enter your PIN to confirm the operation
           </DialogContentText>
           {pinEntry}
-          <Footer onlySimulator={true} />
+          {/*<Footer onlySimulator={true} />*/}
         </DialogContent>
         <DialogActions>
+          <Button className={classes.button} onClick={this.props.handleClose}>
+            Cancel
+          </Button>
           <Button
             color="primary"
             className={classes.button}
@@ -188,7 +200,7 @@ class PINModal extends React.Component {
             }}
             disabled={!this.pinValid || this.verifyPinOnDevice.pending}
           >
-            Continue
+            Confirm
             {this.verifyPinOnDevice.state !== undefined &&
               this.verifyPinOnDevice.pending && (
                 <CircularProgress
@@ -203,10 +215,12 @@ class PINModal extends React.Component {
   }
 }
 
-PINModal.propTypes = {
+VerifyPINModal.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool,
   fullScreen: PropTypes.bool,
+  handleClose: PropTypes.func,
+  handleSuccess: PropTypes.func,
 };
 
-export default PINModal;
+export default VerifyPINModal;

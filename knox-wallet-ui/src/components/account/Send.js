@@ -20,15 +20,14 @@ import Slider from '@material-ui/lab/Slider';
 import AccountLoading from './AccountLoading';
 import AccountNotFound from './AccountNotFound';
 import { action, computed, observable } from 'mobx';
-import {
-  BTCToSatoshi,
-  BTCToUSD,
-  satoshiToBTC,
-  satoshiToUSD,
-} from '../../blockchain/Converter';
+import { BTCToUSD, satoshiToBTC } from '../../blockchain/Converter';
 import { Big } from 'big.js';
 import * as R from 'ramda';
 import * as bitcoin from 'bitcoinjs-lib';
+import VerifyPINModal from '../VerifyPINModal';
+import SendSuccess from './SendSuccess';
+import Icon from '@material-ui/core/Icon/Icon';
+import IconButton from '@material-ui/core/IconButton/IconButton';
 
 export const styles = theme => ({
   root: {
@@ -125,20 +124,33 @@ export const styles = theme => ({
   sliderDescription: {
     marginTop: theme.spacing.unit * 2,
   },
+  successMessage: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 @withStyles(styles)
 @inject('appStore', 'accountsStore')
 @observer
 export default class Send extends React.Component {
+  // Prevent browser auto fill
+  _formAmountId = `${Math.random()}`.substr(2);
+  _formDestinationId = `${Math.random()}`.substr(2);
+
   @observable
-  amount = null; // btc
+  amount = new Big('0.1'); // btc
 
   @observable
   feeSlider = 4; // slider
 
   @observable
-  destination = '';
+  destination = 'mqwPLbc6NTbKjUrqmit6DLrWYHJ1V7zonR';
+
+  @observable
+  pinValidated = false;
+
+  @observable
+  requestedToSend = false;
 
   @computed
   get destinationValid() {
@@ -266,14 +278,47 @@ export default class Send extends React.Component {
     this.destination = destination;
   }
 
+  @action.bound
+  changePinValidated(validated) {
+    this.pinValidated = validated;
+  }
+
+  @action.bound
+  changeRequestedToSend(requested) {
+    this.requestedToSend = requested;
+  }
+
+  @action.bound
+  cancelSend() {
+    this.requestedToSend = false;
+    this.pinValidated = false;
+  }
+
+  @action.bound
+  commitSend() {
+    this.requestedToSend = true;
+    this.pinValidated = true;
+  }
+
   constructor(props) {
     super(props);
 
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+
+    if (!this.props.accountsStore.loadTransactions.pending)
+      this.props.accountsStore.loadTransactions();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
+
+    if (!this.props.accountsStore.loadTransactions.pending)
+      this.props.accountsStore.loadTransactions();
+  }
+
+  componentDidMount() {
+    this.changePinValidated(false);
+    this.changeRequestedToSend(false);
   }
 
   render() {
@@ -288,8 +333,47 @@ export default class Send extends React.Component {
       return <AccountNotFound />;
     }
 
+    if (this.requestedToSend && this.pinValidated) {
+      return (
+        <SendSuccess
+          content={
+            <Typography
+              color="textSecondary"
+              gutterBottom
+              className={classes.successMessage}
+            >
+              Sent{' '}
+              <strong>{`${this.amount.toString()} ${
+                account.coin.symbol
+              }`}</strong>{' '}
+              {`(U$ ${BTCToUSD(this.amount)})`} to the address{' '}
+              <strong>{this.destination}</strong>{' '}
+              <IconButton
+                component="a"
+                color="inherit"
+                title="Open transaction details in Blockchain explorer"
+                aria-label="Receive funds"
+                href={account.coin.transactionUrl + 'TODO'}
+                target="_blank"
+              >
+                <Icon color={'secondary'} fontSize={'small'}>
+                  open_in_new
+                </Icon>
+              </IconButton>
+            </Typography>
+          }
+          account={account}
+        />
+      );
+    }
+
     return (
       <div className={classes.root}>
+        <VerifyPINModal
+          open={this.requestedToSend && !this.pinValidated}
+          handleClose={this.cancelSend}
+          handleSuccess={this.commitSend}
+        />
         <AccountMenu account={account} />
         <Paper className={classes.paper} square>
           <div className={classes.margin}>
@@ -319,7 +403,9 @@ export default class Send extends React.Component {
                 <div className={classes.container}>
                   <div className={classes.inner}>
                     <FormControl fullWidth className={classes.field}>
-                      <InputLabel htmlFor="amount">Amount</InputLabel>
+                      <InputLabel htmlFor={this._formAmountId}>
+                        Amount
+                      </InputLabel>
                       <Input
                         value={
                           this.amount === null
@@ -334,7 +420,7 @@ export default class Send extends React.Component {
                           this.changeAmount(event.target.value);
                         }}
                         autoFocus
-                        id="amount"
+                        id={this._formAmountId}
                         endAdornment={
                           <InputAdornment position="end">
                             {account.coin.symbol}
@@ -353,7 +439,7 @@ export default class Send extends React.Component {
                         this.destination.length > 0 && !this.destinationValid
                       }
                     >
-                      <InputLabel htmlFor="address">
+                      <InputLabel htmlFor={this._formDestinationId}>
                         Destination address
                       </InputLabel>
                       <Input
@@ -361,7 +447,7 @@ export default class Send extends React.Component {
                         onChange={event => {
                           this.changeDestination(event.target.value);
                         }}
-                        id="destination"
+                        id={this._formDestinationId}
                       />
                       {this.destination.length > 0 &&
                         !this.destinationValid && (
@@ -476,6 +562,9 @@ export default class Send extends React.Component {
                 size={'large'}
                 variant={'raised'}
                 color={'primary'}
+                onClick={() => {
+                  this.changeRequestedToSend(true);
+                }}
               >
                 Send
               </Button>

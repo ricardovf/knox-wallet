@@ -93,6 +93,9 @@ export default class AccountsStore {
   }
 
   @action.bound
+  sendTransaction() {}
+
+  @action.bound
   newAccount(coinKey) {
     let coin = coins[coinKey];
 

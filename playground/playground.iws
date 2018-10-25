@@ -39,11 +39,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="132">
               <caret line="16" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BasicWalletApplet.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="42" column="32" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -61,7 +70,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>java.lang.UnsatisfiedLinkError: no secp256k1 in java.library.path</find>
+      <find />
       <find>transientPrivateTransient</find>
       <find>genuinenessPrivateKey</find>
       <find>transientPrivate</find>
@@ -87,19 +96,19 @@
       <find>fill</find>
       <find>System</find>
       <find>System.out</find>
-      <find>if (!walletPin.check(scratch256, (sh</find>
+      <find />
       <find>stdVersion</find>
       <find>ALG_EC</find>
       <find>PONG</find>
     </findStrings>
     <replaceStrings>
-      <replace>package com.knox.playground.basic.btchip;</replace>
-      <replace>package com.knox.playground.basic.btchip.utils;</replace>
+      <replace />
+      <replace />
       <replace>com.knox.playground.basic.btchip.</replace>
       <replace>com.knox.playground.basic</replace>
       <replace>BasicWalletApplet</replace>
       <replace>MODE_DEVELOPMENT</replace>
-      <replace>assertEquals(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED, e.getSW())</replace>
+      <replace />
       <replace />
     </replaceStrings>
     <dirStrings>
@@ -164,7 +173,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="2560" />
     <option name="height" value="1012" />
@@ -193,6 +202,12 @@
               <item name="playground" type="462c0819:PsiDirectoryNode" />
               <item name="basic" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="playground" type="b2602c69:ProjectViewProjectNode" />
+              <item name="playground" type="462c0819:PsiDirectoryNode" />
+              <item name="basic" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="playground" type="b2602c69:ProjectViewProjectNode" />
@@ -516,7 +531,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1012" extended-state="1" />
+    <frame x="0" y="23" width="2560" height="1012" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -532,7 +547,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12109375" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26992187" />
       <window_info anchor="bottom" id="ANTLR Preview" order="10" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.2498621" />
@@ -877,13 +892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/test/PinTests.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
@@ -909,6 +917,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="42" column="32" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="32" />
         </state>
       </provider>
     </entry>
