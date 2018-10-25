@@ -28,6 +28,9 @@ export default class Transaction {
   @observable
   time = moment();
 
+  @observable
+  raw = '';
+
   constructor(id) {
     this.id = id;
   }
@@ -109,7 +112,7 @@ export default class Transaction {
     // Group
     byDay = R.groupBy(t => t.day)(byDay);
 
-    console.log(byDay);
+    // console.log(byDay);
 
     return byDay;
   }

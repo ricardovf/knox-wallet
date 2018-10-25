@@ -103,6 +103,29 @@ public class BitcoinJTest extends AbstractJavaCardTest {
     }
 
     @Test
+    public void generateAddressAccount1InternalIndex7() throws UnreadableWalletException {
+        NetworkParameters params = TestNet3Params.get();
+
+        DeterministicSeed seed = new DeterministicSeed(new String(DEFAULT_SEED_WORDS), null, "", 1409478661L);
+
+//        Wallet wallet = Wallet.fromSeed(params, seed);
+
+        DeterministicKey dkRoot = HDKeyDerivation.createMasterPrivateKey(seed.getSeedBytes());
+        DeterministicKey dk44H = HDKeyDerivation.deriveChildKey(dkRoot, 44 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H = HDKeyDerivation.deriveChildKey(dk44H, 1 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H = HDKeyDerivation.deriveChildKey(dk44H0H, 0 | ChildNumber.HARDENED_BIT);
+        DeterministicKey dk44H0H0H0 = HDKeyDerivation.deriveChildKey(dk44H0H0H, 1);
+        DeterministicKey dk44H0H0H00 = HDKeyDerivation.deriveChildKey(dk44H0H0H0, 7);
+
+        System.out.println(dk44H0H0H00.toAddress(params));
+        System.out.println(ByteUtil.hexString(dk44H0H0H00.getChainCode()));
+        System.out.println(ByteUtil.hexString(dk44H0H0H00.getPubKeyPoint().getEncoded()));
+        System.out.println(dk44H0H0H00.getPubKeyPoint());
+        System.out.println(dk44H0H0H00.getPrivateKeyAsHex());
+        System.out.println(dk44H0H0H00.getPrivateKeyAsWiF(params));
+    }
+
+    @Test
     public void signTest() throws UnreadableWalletException, BTChipException {
         String hash = "edfe77f05b19741c8908a5a05cb15f3dd3f4d0029b38b659e98d8a4c10e00bb9";
         byte[] challengeBytes = ByteUtil.byteArray(hash);

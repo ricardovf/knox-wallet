@@ -5,9 +5,10 @@ import Button from '@material-ui/core/Button';
 import AccountMenu from './AccountMenu';
 import Paper from '@material-ui/core/Paper';
 import Message from '../Message';
-import { linkToAccount, linkToAccounts } from '../../LinkMaker';
+import { linkToAccount, linkToAccounts, linkToSend } from '../../LinkMaker';
 import Icon from '@material-ui/core/Icon/Icon';
 import Typography from '@material-ui/core/Typography/Typography';
+import Loading from '../Loading';
 
 export const styles = theme => ({
   root: {
@@ -38,36 +39,72 @@ export const styles = theme => ({
 @observer
 export default class SendSuccess extends React.Component {
   render() {
-    const { classes, routing, account, content } = this.props;
+    const { classes, routing, account, content, loading, error } = this.props;
+
+    let back = (
+      <Button
+        className={classes.goToDashboardButton}
+        size={'large'}
+        variant={'raised'}
+        color={'primary'}
+        onClick={() => {
+          routing.push(linkToAccount(account));
+        }}
+      >
+        Go to the account dashboard
+      </Button>
+    );
 
     return (
       <div className={classes.root}>
         <AccountMenu />
         <Paper className={classes.loadingPaper} square>
-          <Message
-            content={
-              <React.Fragment>
-                <Icon style={{ fontSize: 90, color: 'green' }}>
-                  check_circle
-                </Icon>
+          {loading && (
+            <Paper className={classes.loadingPaper} square>
+              <Loading text="Preparing transaction..." />
+            </Paper>
+          )}
+          {!loading &&
+            error && (
+              <Message
+                content={
+                  <React.Fragment>
+                    <Icon style={{ fontSize: 90, color: '#F44336' }}>
+                      error_outline
+                    </Icon>
 
-                <Typography variant="title">Transaction confirmed!</Typography>
+                    <Typography variant="title" gutterBottom>
+                      An error happened while preparing the transaction
+                    </Typography>
 
-                {content}
-                <Button
-                  className={classes.goToDashboardButton}
-                  size={'large'}
-                  variant={'raised'}
-                  color={'primary'}
-                  onClick={() => {
-                    routing.push(linkToAccount(account));
-                  }}
-                >
-                  Go to the account dashboard
-                </Button>
-              </React.Fragment>
-            }
-          />
+                    <Typography variant="subheading" color={'textSecondary'}>
+                      Please try again in a few moments
+                    </Typography>
+
+                    {back}
+                  </React.Fragment>
+                }
+              />
+            )}
+          {!loading &&
+            !error && (
+              <Message
+                content={
+                  <React.Fragment>
+                    <Icon style={{ fontSize: 90, color: '#2BAF2B' }}>
+                      check_circle
+                    </Icon>
+
+                    <Typography variant="title">
+                      Transaction confirmed!
+                    </Typography>
+
+                    {content}
+                    {back}
+                  </React.Fragment>
+                }
+              />
+            )}
         </Paper>
       </div>
     );

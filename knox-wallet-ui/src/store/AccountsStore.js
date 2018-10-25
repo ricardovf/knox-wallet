@@ -14,6 +14,7 @@ import Transaction from '../blockchain/Transaction';
 import moment from 'moment';
 import { asyncComputed } from 'computed-async-mobx';
 import { COIN_SELECTION_ALL } from './AppStore';
+import BitcoinTransactionMaker from '../blockchain/bitcoin/BitcoinTransactionMaker';
 
 const bitcoinAPI = new BitcoinInsightAPI();
 
@@ -49,6 +50,9 @@ export default class AccountsStore {
           feeBTC: await bitcoinAPI.fee(blocks),
           minutes: blocks * 10,
         };
+
+      // Only collect fees between 0 and 1
+      fees = R.filter(fee => fee.feeBTC.gt(0) && fee.feeBTC.lt(1), fees);
     } catch (e) {
       if (__DEV__) console.log(e);
     }
@@ -91,9 +95,6 @@ export default class AccountsStore {
 
     return false;
   }
-
-  @action.bound
-  sendTransaction() {}
 
   @action.bound
   newAccount(coinKey) {
@@ -148,6 +149,32 @@ export default class AccountsStore {
       this.loadAccounts();
   };
 
+  commitTransaction = task(
+    async (account, amount, destination, fee) => {
+      try {
+        let maker = new BitcoinTransactionMaker(
+          bitcoinAPI,
+          this.deviceStore.device
+        );
+        let transaction = await maker.buildAndSignTransaction(
+          account,
+          amount,
+          destination,
+          fee
+        );
+
+        await maker.broadcast(account, transaction);
+
+        return transaction;
+      } catch (e) {
+        if (__DEV__) console.log(e);
+      }
+
+      return false;
+    },
+    { state: undefined }
+  );
+
   addFreshAddress = task(
     async () => {
       let account = this.accounts.get(this.appStore.selectedAccount);
@@ -166,7 +193,7 @@ export default class AccountsStore {
         );
 
         let address = new Address();
-        address.index = nextFreshIndex;
+        address.index = `${nextFreshIndex}`;
         address.path = `${account.purpose}'/${account.coin.coinType}'/${
           account.index
         }'/0/${nextFreshIndex}`;
@@ -190,14 +217,17 @@ export default class AccountsStore {
   );
 
   loadTransactions = task(
-    async () => {
+    async accountOnly => {
       for (let accountIndex of [...this.accounts.keys()]) {
         let account = this.accounts.get(accountIndex);
+
+        if (accountOnly && account !== accountOnly) continue;
+
+        // console.log('START transactions of account ' + account.index);
 
         for (let transactionId of [...account.transactions.keys()]) {
           let transaction = account.transactions.get(transactionId);
 
-          //if (!transaction.loaded) {
           try {
             bitcoinAPI.setEndPoint(account.coin.insightAPI);
             let info = await bitcoinAPI.transactionDetails(transaction.id);
@@ -214,8 +244,9 @@ export default class AccountsStore {
           } catch (e) {
             // ignore, the transaction might not yet been propagated
           }
-          //}
         }
+
+        // console.log('FINISH loading transactions of account ' + account.index);
       }
 
       return true;
@@ -300,7 +331,7 @@ export default class AccountsStore {
 
                 account.updateBalance();
 
-                if (!this.loadTransactions.pending) this.loadTransactions();
+                //if (!this.loadTransactions.pending) this.loadTransactions();
               }, accounts);
             });
           } catch (e) {

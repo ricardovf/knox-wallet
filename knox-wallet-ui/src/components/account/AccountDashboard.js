@@ -84,14 +84,22 @@ export default class AccountDashboard extends React.Component {
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
 
     if (!this.props.accountsStore.loadTransactions.pending)
-      this.props.accountsStore.loadTransactions();
+      this.props.accountsStore.loadTransactions(
+        this.props.accountsStore.accounts.get(
+          this.props.appStore.selectedAccount
+        )
+      );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
 
     if (!this.props.accountsStore.loadTransactions.pending)
-      this.props.accountsStore.loadTransactions();
+      this.props.accountsStore.loadTransactions(
+        this.props.accountsStore.accounts.get(
+          this.props.appStore.selectedAccount
+        )
+      );
   }
 
   render() {

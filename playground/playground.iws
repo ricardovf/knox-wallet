@@ -21,38 +21,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AbstractJavaCardTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/basic/test/AbstractJavaCardTest.java">
+      <file leaf-file-name="JCardSIMProprietaryAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
+            <state relative-caret-position="554">
+              <caret line="203" column="78" lean-forward="true" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SetupWalletTests.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
+      <file leaf-file-name="BitcoinJTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/test/BitcoinJTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="39" column="19" lean-forward="true" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+            <state relative-caret-position="70">
+              <caret line="108" column="76" lean-forward="true" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="183">
+              <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BasicWalletApplet.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
+      <file leaf-file-name="Crypto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/basic/src/Crypto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="42" column="32" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="32" />
+            <state relative-caret-position="22">
+              <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -70,8 +70,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find />
-      <find>transientPrivateTransient</find>
       <find>genuinenessPrivateKey</find>
       <find>transientPrivate</find>
       <find>signDeterministicECDSASHA256</find>
@@ -96,19 +94,21 @@
       <find>fill</find>
       <find>System</find>
       <find>System.out</find>
-      <find />
+      <find>if (!walletPin.check(scratch256, (sh</find>
       <find>stdVersion</find>
       <find>ALG_EC</find>
       <find>PONG</find>
+      <find>verifyPin</find>
+      <find>1752611f240ddd3fcbf2398eca1a590032847630ec8996426921dba1584eff69</find>
     </findStrings>
     <replaceStrings>
-      <replace />
-      <replace />
+      <replace>package com.knox.playground.basic.btchip;</replace>
+      <replace>package com.knox.playground.basic.btchip.utils;</replace>
       <replace>com.knox.playground.basic.btchip.</replace>
       <replace>com.knox.playground.basic</replace>
       <replace>BasicWalletApplet</replace>
       <replace>MODE_DEVELOPMENT</replace>
-      <replace />
+      <replace>assertEquals(ISO7816.SW_SECURITY_STATUS_NOT_SATISFIED, e.getSW())</replace>
       <replace />
     </replaceStrings>
     <dirStrings>
@@ -148,7 +148,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.txt" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
         <option value="$PROJECT_DIR$/basic/src/Bip32.java" />
-        <option value="$PROJECT_DIR$/basic/test/BitcoinJTest.java" />
         <option value="$PROJECT_DIR$/basic/jcardsim.cfg" />
         <option value="$PROJECT_DIR$/basic/basic.apdu" />
         <option value="$PROJECT_DIR$/basic/src/JCOPProprietaryAPI.java" />
@@ -162,7 +161,6 @@
         <option value="$PROJECT_DIR$/basic/test/TransactionTest.java" />
         <option value="$PROJECT_DIR$/basic/src/Crypto.java" />
         <option value="$PROJECT_DIR$/basic/src/ProprietaryAPI.java" />
-        <option value="$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java" />
         <option value="$PROJECT_DIR$/dongle/src/BTChipConstants.java" />
         <option value="$PROJECT_DIR$/dongle/src/BTChipDongle.java" />
         <option value="$PROJECT_DIR$/basic/test/PinTests.java" />
@@ -170,6 +168,8 @@
         <option value="$PROJECT_DIR$/basic/test/SetupWalletTests.java" />
         <option value="$PROJECT_DIR$/basic/src/BasicWalletApplet.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java" />
+        <option value="$PROJECT_DIR$/basic/test/BitcoinJTest.java" />
       </list>
     </option>
   </component>
@@ -315,7 +315,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.server.Server" />
       <module name="basic" />
@@ -331,6 +331,29 @@
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
+    <configuration name="BitcoinJTest.generateAddressAccount1InternalIndex7" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="basic" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.knox.playground.basic.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.knox.playground.basic" />
+      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.BitcoinJTest" />
+      <option name="METHOD_NAME" value="generateAddressAccount1InternalIndex7" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea -noverify" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
     <configuration name="PinTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="basic" />
       <extension name="coverage">
@@ -345,29 +368,6 @@
       <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.PinTests" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea -noverify" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="PinTests.correctPinTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="basic" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.knox.playground.basic.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.knox.playground.basic" />
-      <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.PinTests" />
-      <option name="METHOD_NAME" value="correctPinTest" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea -noverify" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
@@ -475,16 +475,16 @@
       <item itemvalue="Application.Server" />
       <item itemvalue="JUnit.com.knox.playground.basic in basic" />
       <item itemvalue="JUnit.PinTests" />
-      <item itemvalue="JUnit.PinTests.correctPinTest" />
       <item itemvalue="JUnit.SetupWalletTests.canPrepareSeedIfWalletTest" />
+      <item itemvalue="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7" />
         <item itemvalue="Application.Server" />
         <item itemvalue="JUnit.com.knox.playground.basic in basic" />
         <item itemvalue="JUnit.SetupWalletTests.canPrepareSeedIfWalletTest" />
         <item itemvalue="JUnit.PinTests" />
-        <item itemvalue="JUnit.PinTests.correctPinTest" />
       </list>
     </recent_temporary>
   </component>
@@ -499,15 +499,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 18m 55s.xml">
-      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 21m 13s.xml">
-      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 21m 42s.xml">
-      <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="SetupWalletTests_canPrepareSeedIfWalletTest - 2018.10.05 at 17h 37m 11s.xml">
       <configuration name="SetupWalletTests.canPrepareSeedIfWalletTest" configurationId="JUnit" />
     </history-entry>
@@ -529,6 +520,15 @@
     <history-entry file="com_knox_playground_basic_in_basic - 2018.10.10 at 19h 46m 42s.xml">
       <configuration name="com.knox.playground.basic in basic" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="BitcoinJTest_generateAddressAccount1InternalIndex7 - 2018.10.25 at 20h 02m 47s.xml">
+      <configuration name="BitcoinJTest.generateAddressAccount1InternalIndex7" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BitcoinJTest_generateAddressAccount1InternalIndex7 - 2018.10.25 at 20h 03m 25s.xml">
+      <configuration name="BitcoinJTest.generateAddressAccount1InternalIndex7" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="BitcoinJTest_generateAddressAccount1InternalIndex7 - 2018.10.25 at 20h 04m 04s.xml">
+      <configuration name="BitcoinJTest.generateAddressAccount1InternalIndex7" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1012" extended-state="0" />
@@ -536,18 +536,18 @@
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Tool Output" order="12" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.3281768" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3272921" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007422" side_tool="true" weight="0.42320442" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007422" side_tool="true" weight="0.42217484" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4992578" weight="0.42110875" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4992578" visible="true" weight="0.34861407" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26992187" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26992187" />
       <window_info anchor="bottom" id="ANTLR Preview" order="10" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.2498621" />
@@ -706,13 +706,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/BitcoinJTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1919">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../ext/bitcoinj-core-0.14.7-bundled.jar!/org/bitcoinj/core/DumpedPrivateKey.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -745,13 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../ext/bitcoinj-core-0.14.7-bundled.jar!/org/bitcoinj/core/ECKey.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="396" column="19" selection-start-line="396" selection-start-column="19" selection-end-line="396" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -791,20 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="20" column="59" lean-forward="true" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/JCOPProprietaryAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="21" column="25" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/Crypto.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2370">
-          <caret line="146" column="19" selection-start-line="146" selection-start-column="19" selection-end-line="146" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -864,13 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1232">
-          <caret line="56" column="96" selection-start-line="56" selection-start-column="78" selection-end-line="56" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/Server.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
@@ -899,6 +864,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="42" column="32" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/basic/test/AbstractJavaCardTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -906,24 +885,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/basic/test/SetupWalletTests.java">
+    <entry file="file://$PROJECT_DIR$/basic/src/JCOPProprietaryAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="39" column="19" lean-forward="true" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+        <state relative-caret-position="450">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/Crypto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../ext/bitcoinj-core-0.14.7-bundled.jar!/org/bitcoinj/core/ECKey.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-522">
+          <caret line="315" column="32" selection-start-line="315" selection-start-column="32" selection-end-line="315" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="203" column="78" lean-forward="true" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basic/test/BitcoinJTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="108" column="76" lean-forward="true" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/basic/src/BasicWalletApplet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="42" column="32" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="32" />
+        <state relative-caret-position="183">
+          <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
         </state>
       </provider>
     </entry>

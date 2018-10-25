@@ -38,3 +38,5 @@ export const BITCOIN_TESTNET_P2SH_VERSION = 196;
 export const PIN_MIN_LENGTH = 4;
 export const PIN_MAX_LENGTH = 12;
 export const PIN_MAX_ATTEMPTS = 5;
+
+export const SIGHASH_ALL = 0x01;

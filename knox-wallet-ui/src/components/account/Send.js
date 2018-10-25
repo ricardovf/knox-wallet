@@ -19,7 +19,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Slider from '@material-ui/lab/Slider';
 import AccountLoading from './AccountLoading';
 import AccountNotFound from './AccountNotFound';
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, when } from 'mobx';
 import { BTCToUSD, satoshiToBTC } from '../../blockchain/Converter';
 import { Big } from 'big.js';
 import * as R from 'ramda';
@@ -138,13 +138,13 @@ export default class Send extends React.Component {
   _formDestinationId = `${Math.random()}`.substr(2);
 
   @observable
-  amount = new Big('0.1'); // btc
+  amount = new Big('0.001'); // btc
 
   @observable
-  feeSlider = 4; // slider
+  feeSlider = 0; // slider
 
   @observable
-  destination = 'mqwPLbc6NTbKjUrqmit6DLrWYHJ1V7zonR';
+  destination = 'mx5h2xV2djdopQjoPAK5uARLmMSa456pLj';
 
   @observable
   pinValidated = false;
@@ -298,27 +298,46 @@ export default class Send extends React.Component {
   commitSend() {
     this.requestedToSend = true;
     this.pinValidated = true;
+
+    let account = this.props.accountsStore.accounts.get(
+      this.props.appStore.selectedAccount
+    );
+
+    let commit = () => {
+      this.props.accountsStore.commitTransaction(
+        account,
+        this.amount,
+        this.destination,
+        this.fee
+      );
+    };
+
+    this.props.accountsStore.loadTransactions(account);
+
+    when(() => !this.props.accountsStore.loadTransactions.pending, commit);
   }
 
   constructor(props) {
     super(props);
 
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
-
-    if (!this.props.accountsStore.loadTransactions.pending)
-      this.props.accountsStore.loadTransactions();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.props.appStore.changeSelectedAccount(this.props.match.params.id);
-
-    if (!this.props.accountsStore.loadTransactions.pending)
-      this.props.accountsStore.loadTransactions();
   }
 
   componentDidMount() {
     this.changePinValidated(false);
     this.changeRequestedToSend(false);
+
+    when(
+      () => R.values(this.props.accountsStore.currentFees).length > 0,
+      () =>
+        this.changeFee(
+          R.values(this.props.accountsStore.currentFees).length - 1
+        )
+    );
   }
 
   render() {
@@ -334,8 +353,14 @@ export default class Send extends React.Component {
     }
 
     if (this.requestedToSend && this.pinValidated) {
+      let loading =
+        accountsStore.loadTransactions.pending ||
+        accountsStore.commitTransaction.pending;
+
       return (
         <SendSuccess
+          loading={loading}
+          error={!loading && accountsStore.commitTransaction.result === false}
           content={
             <Typography
               color="textSecondary"
@@ -353,7 +378,14 @@ export default class Send extends React.Component {
                 color="inherit"
                 title="Open transaction details in Blockchain explorer"
                 aria-label="Receive funds"
-                href={account.coin.transactionUrl + 'TODO'}
+                href={
+                  account.coin.transactionUrl +
+                  (loading
+                    ? ''
+                    : accountsStore.commitTransaction.result
+                      ? accountsStore.commitTransaction.result.id
+                      : '')
+                }
                 target="_blank"
               >
                 <Icon color={'secondary'} fontSize={'small'}>
@@ -366,6 +398,8 @@ export default class Send extends React.Component {
         />
       );
     }
+
+    let feesLoaded = R.values(accountsStore.currentFees).length > 0;
 
     return (
       <div className={classes.root}>
@@ -461,21 +495,33 @@ export default class Send extends React.Component {
                       <InputLabel style={{ position: 'relative' }}>
                         Fee
                       </InputLabel>
+                      {!feesLoaded && (
+                        <FormHelperText
+                          className={
+                            classes.slider + ' ' + classes.valueNegative
+                          }
+                        >
+                          Error loading fee estimation. Please try again later.
+                        </FormHelperText>
+                      )}
+                      {feesLoaded && (
+                        <React.Fragment>
+                          <Slider
+                            className={classes.slider}
+                            value={this.feeSlider}
+                            min={0}
+                            max={R.keys(accountsStore.currentFees).length - 1}
+                            step={1}
+                            onChange={(event, value) => {
+                              this.changeFee(value);
+                            }}
+                          />
 
-                      <Slider
-                        className={classes.slider}
-                        value={this.feeSlider}
-                        min={0}
-                        max={R.keys(accountsStore.currentFees).length - 1}
-                        step={1}
-                        onChange={(event, value) => {
-                          this.changeFee(value);
-                        }}
-                      />
-
-                      <FormHelperText className={classes.sliderDescription}>
-                        {this.feeLegend}
-                      </FormHelperText>
+                          <FormHelperText className={classes.sliderDescription}>
+                            {this.feeLegend}
+                          </FormHelperText>
+                        </React.Fragment>
+                      )}
                     </FormControl>
                   </div>
                 </div>

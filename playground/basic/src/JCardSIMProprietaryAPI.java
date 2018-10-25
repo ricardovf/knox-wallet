@@ -75,8 +75,6 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
                                               short privateKeyOffset, byte[] publicPoint, short publicPointOffset) {
 
         if ((privateKey != null) && (keyAgreement != null)) {
-//            System.out.println("Chave privada:");
-//            System.out.println(ByteUtils.toHexString(privateKey));
             try {
                 // Generate first point at random
 //                point1.setA(Secp256k1.SECP256K1_G, (short) 2, (short) 16);
@@ -195,10 +193,17 @@ public class JCardSIMProprietaryAPI implements ProprietaryAPI {
         byte[] key = new byte[32];
         Util.arrayCopyNonAtomic(keyBuffer, keyOffset, key, (short) 0, (short)32);
 
+        System.out.println("Chave privada:");
+        System.out.println(ByteUtils.toHexString(key));
+
         byte[] hash = new byte[32];
         Util.arrayCopyNonAtomic(dataBuffer, dataOffset, hash, (short) 0, (short)32);
 
         org.bitcoinj.core.ECKey localKey = ECKey.fromPrivate(key, false);
+//        System.out.println(localKey.toStringWithPrivate());
+        System.out.println(ByteUtils.toHexString(localKey.getPrivKeyBytes()));
+        System.out.println(localKey.getPrivateKeyAsHex());
+
         ECKey.ECDSASignature sig = localKey.sign(Sha256Hash.wrap(hash));
 
         byte[] der = sig.encodeToDER();

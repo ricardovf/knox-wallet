@@ -17,6 +17,7 @@ import {
   INS_VERIFY_PIN,
   MODE_DEVELOPMENT,
   MODE_WALLET,
+  SIGHASH_ALL,
   SW_OK,
 } from './Constants';
 import DeviceException from './DeviceException';
@@ -277,6 +278,8 @@ export default class SecureDevice {
   }
 
   async signTransactionPrepare(path, hash) {
+    if (Buffer.isBuffer(hash)) hash = hash.toString('hex');
+
     if (hash == null || hash.length !== 64) {
       throw new DeviceException('Invalid hash length');
     }
@@ -313,7 +316,7 @@ export default class SecureDevice {
     response[0] = 0x30;
 
     // https://bitcoin.stackexchange.com/questions/37125/how-are-sighash-flags-encoded-into-a-signature
-    if (addSigType) response.push(0x01);
+    if (addSigType) response.push(SIGHASH_ALL);
 
     response = Buffer.from(response);
 

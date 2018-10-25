@@ -61,4 +61,16 @@ export default class Account {
   getIdentifier() {
     return `${this.purpose}-${this.coin.key || ''}-${this.index}`;
   }
+
+  getPathByAddress(originalAddress) {
+    for (let addressIndex of [...this.addresses.keys()]) {
+      let address = this.addresses.get(addressIndex);
+      if (address.address === originalAddress) return address.path;
+    }
+
+    for (let addressIndex of [...this.addressesInternal.keys()]) {
+      let address = this.addressesInternal.get(addressIndex);
+      if (address.address === originalAddress) return address.path;
+    }
+  }
 }

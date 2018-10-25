@@ -27,6 +27,7 @@ import Footer from './Footer';
 import withMobileDialog from '@material-ui/core/es/withMobileDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { task } from 'mobx-task';
+import { __DEV__ } from '../Util';
 
 const styles = theme => {
   return {
@@ -101,7 +102,7 @@ class VerifyPINModal extends React.Component {
   }
 
   componentDidMount() {
-    this.changePin('');
+    this.changePin(__DEV__ ? '1234' : '');
     this.changeTries(0);
     this.changePinValidatedOnDevice(false);
     this.props.deviceStore._pinRemainingAttempts.refresh();

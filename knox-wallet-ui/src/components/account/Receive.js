@@ -118,7 +118,7 @@ export default class Receive extends React.Component {
           hasAnyTransaction: account.hasAnyTransaction,
           hasUnconfirmedBalance: address.hasUnconfirmedBalance,
         };
-      }, R.filter(address => address.hasAnyTransaction === false, [...values(account.addresses), ...values(account.addressesInternal)]));
+      }, R.filter(address => address.hasAnyTransaction === false && address.internal === false, [...values(account.addresses), ...values(account.addressesInternal)]));
     }
 
     return [];
