@@ -20,12 +20,12 @@
     </SUITE>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="JCardSIMProprietaryAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
-              <caret line="203" column="78" lean-forward="true" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
+            <state relative-caret-position="4246">
+              <caret line="203" column="78" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
             </state>
           </provider>
         </entry>
@@ -33,8 +33,8 @@
       <file leaf-file-name="BitcoinJTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic/test/BitcoinJTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="108" column="76" lean-forward="true" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
+            <state relative-caret-position="1562">
+              <caret line="108" column="76" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -42,7 +42,7 @@
       <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
+            <state relative-caret-position="-261">
               <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
             </state>
           </provider>
@@ -51,7 +51,7 @@
       <file leaf-file-name="Crypto.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/basic/src/Crypto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
+            <state relative-caret-position="3608">
               <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
             </state>
           </provider>
@@ -183,8 +183,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -253,6 +251,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -315,7 +315,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.knox.playground.basic.server.Server" />
       <module name="basic" />
@@ -480,8 +480,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="JUnit.BitcoinJTest.generateAddressAccount1InternalIndex7" />
         <item itemvalue="JUnit.com.knox.playground.basic in basic" />
         <item itemvalue="JUnit.SetupWalletTests.canPrepareSeedIfWalletTest" />
         <item itemvalue="JUnit.PinTests" />
@@ -532,7 +532,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1012" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Tool Output" order="12" />
@@ -894,7 +893,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/Crypto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
+        <state relative-caret-position="3608">
           <caret line="185" column="24" selection-start-line="185" selection-start-column="24" selection-end-line="185" selection-end-column="24" />
         </state>
       </provider>
@@ -908,21 +907,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/src/JCardSIMProprietaryAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="203" column="78" lean-forward="true" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
+        <state relative-caret-position="4246">
+          <caret line="203" column="78" selection-start-line="203" selection-start-column="78" selection-end-line="203" selection-end-column="78" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/test/BitcoinJTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="108" column="76" lean-forward="true" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
+        <state relative-caret-position="1562">
+          <caret line="108" column="76" selection-start-line="108" selection-start-column="76" selection-end-line="108" selection-end-column="76" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
+        <state relative-caret-position="-261">
           <caret line="66" column="205" selection-start-line="66" selection-start-column="53" selection-end-line="66" selection-end-column="205" />
         </state>
       </provider>

@@ -7,6 +7,7 @@ import { BTCToSatoshi } from '../Converter';
 import { Big } from 'big.js';
 import * as R from 'ramda';
 import { SIGHASH_ALL } from '../../device/Constants';
+import * as bitcore from 'bitcore-lib';
 
 const SCRIPT_TYPES = classify.types;
 
@@ -28,11 +29,6 @@ export default class BitcoinTransactionMaker {
    */
   async buildAndSignTransaction(account, amountToSend, destination, fee) {
     if (account && amountToSend && destination && fee) {
-      console.log(
-        'Commiting transaction: ',
-        amountToSend.toString(),
-        fee.toString()
-      );
       // Make sure the coin is correct on the device
       await this.device.changeNetwork(
         account.coin.version,
@@ -45,34 +41,32 @@ export default class BitcoinTransactionMaker {
         amountAvailable,
       } = await this._collectInputTransactions(account, amountToSend, fee);
 
-      console.log(transactionsIdsVout, amountAvailable.toString());
+      let transaction = new bitcore.Transaction();
 
-      /**
-       * @type {TransactionBuilder}
-       */
-      // try {
-      const network =
+      bitcore.Networks.defaultNetwork =
         account.coin.network === 'testnet'
-          ? bitcoin.networks.testnet
-          : bitcoin.networks.bitcoin;
-      const txb = new bitcoin.TransactionBuilder(network);
+          ? bitcore.Networks.testnet
+          : bitcore.Networks.mainnet;
 
-      console.log(transactionsIdsVout);
-
-      txb.setVersion(1);
+      // Inputs
       for (let inTx of transactionsIdsVout) {
-        // nSequence is disabled, nLocktime is enabled, RBF is signaled.
-        // https://en.bitcoinwiki.org/wiki/NSequence
-        txb.addInput(inTx.id, inTx.voutN, 0xfffffffd);
-        // txb.__addInputUnsafe(Buffer.from(inTx.id, 'hex'), inTx.voutN, {
-        //   sequence: 0xfffffffd,
-        //   prevOutScript: inTx.script,
-        //   value: parseInt(BTCToSatoshi(inTx.value), 10),
-        // });
+        console.log(inTx);
+        let utxo = {
+          address: inTx.addresses[0],
+          txId: inTx.id,
+          outputIndex: inTx.voutN,
+          script: inTx.script,
+          satoshis: parseInt(BTCToSatoshi(inTx.value), 10),
+        };
+        transaction.from(utxo);
       }
+      // seq 0xfffffffd
 
       // Destination
-      txb.addOutput(destination, parseInt(BTCToSatoshi(amountToSend), 10));
+      transaction.to(destination, parseInt(BTCToSatoshi(amountToSend), 10));
+
+      // Fee
+      transaction.fee(parseInt(BTCToSatoshi(fee), 10));
 
       // Change
       let amountToChange = amountAvailable.minus(amountToSend).minus(fee);
@@ -80,30 +74,80 @@ export default class BitcoinTransactionMaker {
       if (amountToChange.gt(0)) {
         const internalAddress = await this._findInternalAddress(account);
 
-        txb.addOutput(
-          internalAddress.address,
-          parseInt(BTCToSatoshi(amountToChange), 10)
-        );
+        transaction.change(internalAddress.address);
       }
 
-      let i = 0;
+      // Sign
+      let index = 0;
       for (let inTx of transactionsIdsVout) {
-        await this._signInput(txb, account, inTx.addresses[0], i++);
+        let path = account.getPathByAddress(inTx.addresses[0]);
+        let pub = await this.device.getWalletPublicKey(path, false);
+
+        let privateKey = new bitcore.PrivateKey();
+        let sigtype = bitcore.crypto.Signature.SIGHASH_ALL;
+        let hashData = bitcore.crypto.Hash.sha256ripemd160(pub.publicKey);
+
+        let input = transaction.inputs[index];
+
+        console.log(input);
+
+        if (
+          bitcore.util.buffer.equals(
+            hashData,
+            input.output.script.getPublicKeyHash()
+          )
+        ) {
+          let hashbuf = bitcore.Transaction.sighash(
+            transaction,
+            sigtype,
+            index,
+            input.output.script
+          );
+          let ecdsa_ = bitcore.crypto.ECDSA().set({
+            hashbuf: hashbuf,
+            endian: 'little',
+            privkey: privateKey,
+          });
+
+          let signatureHash = ecdsa_.hashbuf;
+
+          console.log(`HASH: ${signatureHash.toString('hex')}`);
+
+          // DER encoded signature without hash type
+          const signatureDER = await this.device.signTransaction(
+            path,
+            signatureHash,
+            false,
+            false
+          );
+
+          let signature = new bitcore.crypto.Signature.fromDER(signatureDER);
+
+          transaction.applySignature(
+            new bitcore.Transaction.Signature({
+              publicKey: privateKey.publicKey,
+              prevTxId: input.prevTxId,
+              outputIndex: input.outputIndex,
+              inputIndex: index,
+              signature: signature,
+              sigtype: sigtype,
+            })
+          );
+        }
+
+        index++;
       }
 
-      // prepare for broadcast to the Bitcoin network
-      let finalTx = txb.build();
-      let finalTxRaw = finalTx.toHex();
+      console.log(transaction.toObject());
+      console.log(transaction.serialize());
 
-      console.log(finalTx);
-      console.log(finalTxRaw);
+      throw 'Error';
 
-      let transaction = new Transaction(null);
-      transaction.raw = finalTxRaw;
+      let ourTransaction = new Transaction(null);
+      ourTransaction.raw = transaction.serialize();
 
-      return transaction;
+      return ourTransaction;
     }
-
     return false;
   }
 
@@ -114,7 +158,7 @@ export default class BitcoinTransactionMaker {
    */
   async broadcast(account, transaction) {
     this.api.setEndPoint(account.coin.insightAPI);
-    return await this.api.broadcastTransaction(transaction);
+    await this.api.broadcastTransaction(transaction);
   }
 
   async _collectInputTransactions(account, amount, fee) {
@@ -134,7 +178,6 @@ export default class BitcoinTransactionMaker {
       ...accountAddressesInternal,
     ];
 
-    // group transactions by day
     for (let transaction of transactions) {
       if (`${transaction.data.version}` !== '1') continue;
 
@@ -157,13 +200,14 @@ export default class BitcoinTransactionMaker {
 
             transactionsIdsVout.push({
               id: transaction.id,
-              script: transaction.script,
+              script: outTx.scriptPubKey.hex,
               voutN: parseInt(outTx.n, 10),
               addresses: R.intersection(
                 outTx.scriptPubKey.addresses,
                 accountAddressesAll
               ),
               value: value,
+              valueBTC: value.toString(),
             });
           }
         }
@@ -218,224 +262,34 @@ export default class BitcoinTransactionMaker {
     return internalAddress;
   }
 
-  /**
-   * @param builder {TransactionBuilder}
-   * @param account {Account}
-   * @param address {String}
-   * @param vin {int}
-   * @return {Promise<boolean>}
-   * @private
-   */
   async _signInput(builder, account, address, vin) {
     if (!builder.__inputs[vin]) throw new Error('No input at index: ' + vin);
 
     let path = account.getPathByAddress(address);
     let pub = await this.device.getWalletPublicKey(path, false);
 
-    if (pub.address.toString('ascii') !== address)
+    if (pub.address.toString('ascii') !== address) {
       throw new Error(
         `The generated address ${pub.address.toString(
           'ascii'
         )} is different from the actual address ${address}`
       );
-
-    const hashType = SIGHASH_ALL;
-
-    let input = builder.__inputs[vin];
-
-    const ourPubKey = pub.publicKey;
-
-    if (!this._canSign(input)) {
-      const prepared = this._prepareInput(input, ourPubKey);
-
-      // updates inline
-      Object.assign(input, prepared);
     }
 
-    if (!this._canSign(input))
-      throw new Error(input.prevOutType + ' not supported');
-
-    // ready to sign
-    let signatureHash = builder.__tx.hashForSignature(
-      vin,
-      input.signScript,
-      hashType
-    );
-
-    // enforce in order signing of public keys
-    let i = 0;
-    for (let pubKey of input.pubkeys) {
-      if (!ourPubKey.equals(pubKey)) {
-        console.log('!ourPubKey.equals(pubKey)', ourPubKey, pubKey);
-        i++;
-        continue;
-      }
-      if (input.signatures[i]) throw new Error('Signature already exists');
-
-      console.log(
-        `Signing ${address} (${path}), pubkey=${ourPubKey.toString(
+    builder.sign(vin, {
+      publicKey: pub.publicKey,
+      sign: hash => {
+        console.log(`HASH RECEIVED IS: ${hash.toString('hex')}`);
+        const signature = Buffer.from(
+          '30440220487542050d87efb2dddfff5563f9374c48cfd5141c184689b875be0e656c17bb0220441a70af0cc905d65b0469f9f5e38d0c40bda8b26a72a5c4855553952b817e4201',
           'hex'
-        )}, hash=${signatureHash.toString('hex')}`
-      );
-
-      // DER encoded signature without hash type
-      const signature = await this.device.signTransaction(
-        path,
-        signatureHash,
-        false,
-        true
-      );
-
-      console.log(
-        `Signed: ${address} (${path}), hash=${signatureHash.toString(
-          'hex'
-        )}, signature=${signature.toString('hex')}`
-      );
-
-      // input.signatures[i] = signature;
-
-      const ss = bitcoin.script.signature.decode(signature);
-      const keyPair = bitcoin.ECPair.fromPublicKey(ourPubKey);
-      if (keyPair.verify(signatureHash, ss.signature)) {
-        console.log('Tudo certo na assinatura');
-      } else {
-        throw new Error('Problem verifing signature!');
-      }
-
-      input.signatures[i] = bitcoin.script.signature.encode(
-        ss.signature,
-        ss.hashType
-      );
-
-      return true;
-    }
-
-    throw new Error('Error signing inputs');
-  }
-
-  _canSign(input) {
-    return (
-      input.signScript !== undefined &&
-      input.signType !== undefined &&
-      input.pubkeys !== undefined &&
-      input.signatures !== undefined &&
-      input.signatures.length === input.pubkeys.length &&
-      input.pubkeys.length > 0 &&
-      (input.hasWitness === false || input.value !== undefined)
-    );
-  }
-
-  _prepareInput(input, ourPubKey) {
-    if (input.prevOutType && input.prevOutScript) {
-      // embedded scripts are not possible without extra information
-      if (input.prevOutType === SCRIPT_TYPES.P2SH)
-        throw new Error(
-          'PrevOutScript is ' + input.prevOutType + ', requires redeemScript'
         );
-      if (input.prevOutType === SCRIPT_TYPES.P2WSH)
-        throw new Error(
-          'PrevOutScript is ' + input.prevOutType + ', requires witnessScript'
-        );
-      if (!input.prevOutScript) throw new Error('PrevOutScript is missing');
+        const ss = bitcoin.script.signature.decode(signature);
 
-      const expanded = this._expandOutput(input.prevOutScript, ourPubKey);
-      if (!expanded.pubkeys)
-        throw new Error(
-          expanded.type +
-            ' not supported (' +
-            bitcoin.script.toASM(input.prevOutScript) +
-            ')'
-        );
-      if (input.signatures && input.signatures.some(x => x)) {
-        expanded.signatures = input.signatures;
-      }
+        return ss.signature;
+      },
+    });
 
-      let signScript = input.prevOutScript;
-      if (expanded.type === SCRIPT_TYPES.P2WPKH) {
-        signScript = bitcoin.payments.p2pkh({ pubkey: expanded.pubkeys[0] })
-          .output;
-      }
-
-      return {
-        prevOutType: expanded.type,
-        prevOutScript: input.prevOutScript,
-
-        hasWitness: expanded.type === SCRIPT_TYPES.P2WPKH,
-        signScript,
-        signType: expanded.type,
-
-        pubkeys: expanded.pubkeys,
-        signatures: expanded.signatures,
-      };
-    }
-
-    const prevOutScript = bitcoin.payments.p2pkh({ pubkey: ourPubKey }).output;
-    return {
-      prevOutType: SCRIPT_TYPES.P2PKH,
-      prevOutScript: prevOutScript,
-
-      hasWitness: false,
-      signScript: prevOutScript,
-      signType: SCRIPT_TYPES.P2PKH,
-
-      pubkeys: [ourPubKey],
-      signatures: [undefined],
-    };
-  }
-
-  _expandOutput(script, ourPubKey) {
-    const type = classify.output(script);
-
-    switch (type) {
-      case SCRIPT_TYPES.P2PKH: {
-        if (!ourPubKey) return { type };
-
-        // does our hash160(pubKey) match the output scripts?
-        const pkh1 = bitcoin.payments.p2pkh({ output: script }).hash;
-        const pkh2 = bitcoin.crypto.hash160(ourPubKey);
-        if (!pkh1.equals(pkh2)) return { type };
-
-        return {
-          type,
-          pubkeys: [ourPubKey],
-          signatures: [undefined],
-        };
-      }
-
-      case SCRIPT_TYPES.P2WPKH: {
-        if (!ourPubKey) return { type };
-
-        // does our hash160(pubKey) match the output scripts?
-        const wpkh1 = bitcoin.payments.p2wpkh({ output: script }).hash;
-        const wpkh2 = bitcoin.crypto.hash160(ourPubKey);
-        if (!wpkh1.equals(wpkh2)) return { type };
-
-        return {
-          type,
-          pubkeys: [ourPubKey],
-          signatures: [undefined],
-        };
-      }
-
-      case SCRIPT_TYPES.P2PK: {
-        const p2pk = bitcoin.payments.p2pk({ output: script });
-        return {
-          type,
-          pubkeys: [p2pk.pubkey],
-          signatures: [undefined],
-        };
-      }
-
-      case SCRIPT_TYPES.MULTISIG: {
-        const p2ms = bitcoin.payments.p2ms({ output: script });
-        return {
-          type,
-          pubkeys: p2ms.pubkeys,
-          signatures: p2ms.pubkeys.map(() => undefined),
-        };
-      }
-    }
-
-    return { type };
+    return true;
   }
 }

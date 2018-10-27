@@ -163,7 +163,8 @@ export default class AccountsStore {
           fee
         );
 
-        await maker.broadcast(account, transaction);
+        let txid = await maker.broadcast(account, transaction);
+        transaction.id = txid;
 
         return transaction;
       } catch (e) {

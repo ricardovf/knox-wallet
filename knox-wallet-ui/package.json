@@ -10,6 +10,7 @@
     "bip32": "^1.0.2",
     "bip39": "^2.5.0",
     "bitcoinjs-lib": "^4.0.2",
+    "bitcore-lib": "^0.15.0",
     "buffer": "^5.2.1",
     "computed-async-mobx": "^4.1.1",
     "currency.js": "^1.2.1",
