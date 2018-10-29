@@ -77,71 +77,90 @@ export default class BitcoinTransactionMaker {
         transaction.change(internalAddress.address);
       }
 
-      // Sign
-      let index = 0;
+      // Apply signatures
       for (let inTx of transactionsIdsVout) {
         let path = account.getPathByAddress(inTx.addresses[0]);
         let pub = await this.device.getWalletPublicKey(path, false);
 
-        let privateKey = new bitcore.PrivateKey();
+        let script = bitcore.Script.buildPublicKeyHashOut(
+          bitcore.Address.fromString(inTx.addresses[0])
+        );
+
+        let publicKey = bitcore.PublicKey.fromDER(pub.publicKey);
+
+        let privKey = new bitcore.PrivateKey();
+        privKey._pubkey = publicKey;
+        privKey._knox_path = path;
+        privKey._knox_publicKey = publicKey;
+        privKey._knox_publicKeyScript = script.getPublicKeyHash();
+
         let sigtype = bitcore.crypto.Signature.SIGHASH_ALL;
-        let hashData = bitcore.crypto.Hash.sha256ripemd160(pub.publicKey);
 
-        let input = transaction.inputs[index];
-
-        console.log(input);
-
-        if (
-          bitcore.util.buffer.equals(
-            hashData,
-            input.output.script.getPublicKeyHash()
+        let hashData = privKey._knox_publicKeyScript;
+        let index = 0;
+        for (let input of transaction.inputs) {
+          if (
+            !bitcore.util.buffer.equals(
+              hashData,
+              input.output.script.getPublicKeyHash()
+            )
           )
-        ) {
-          let hashbuf = bitcore.Transaction.sighash(
+            continue;
+
+          let hashbuf = bitcore.Transaction.sighash.sighash(
             transaction,
             sigtype,
             index,
             input.output.script
           );
-          let ecdsa_ = bitcore.crypto.ECDSA().set({
-            hashbuf: hashbuf,
-            endian: 'little',
-            privkey: privateKey,
-          });
 
-          let signatureHash = ecdsa_.hashbuf;
+          // let signature = bitcore.crypto.ECDSA.sign(
+          //   hashbuf,
+          //   privKey,
+          //   'little'
+          // ).set({
+          //   nhashtype: sigtype,
+          // });
 
-          console.log(`HASH: ${signatureHash.toString('hex')}`);
+          console.log(hashbuf.toString('hex'));
+          console.log(hashbuf.reverse().toString('hex'));
 
-          // DER encoded signature without hash type
-          const signatureDER = await this.device.signTransaction(
+          // DER encoded signature with hash type
+          const deviceSignature = await this.device.signTransaction(
             path,
-            signatureHash,
+            hashbuf,
             false,
+            true
+          );
+
+          console.log(deviceSignature.toString('hex'));
+
+          let signature = bitcore.crypto.Signature.fromDER(
+            deviceSignature,
             false
           );
 
-          let signature = new bitcore.crypto.Signature.fromDER(signatureDER);
+          console.log(signature.toString());
 
-          transaction.applySignature(
-            new bitcore.Transaction.Signature({
-              publicKey: privateKey.publicKey,
-              prevTxId: input.prevTxId,
-              outputIndex: input.outputIndex,
-              inputIndex: index,
-              signature: signature,
-              sigtype: sigtype,
-            })
-          );
+          let transactionSig = new bitcore.Transaction.Signature({
+            publicKey: privKey._knox_publicKey,
+            prevTxId: input.prevTxId,
+            outputIndex: input.outputIndex,
+            inputIndex: index,
+            signature: signature,
+            sigtype: sigtype,
+          });
+
+          transaction.applySignature(transactionSig);
+
+          index++;
         }
-
-        index++;
       }
 
       console.log(transaction.toObject());
       console.log(transaction.serialize());
 
-      throw 'Error';
+      // throw 'Error';
 
       let ourTransaction = new Transaction(null);
       ourTransaction.raw = transaction.serialize();
@@ -209,6 +228,8 @@ export default class BitcoinTransactionMaker {
               value: value,
               valueBTC: value.toString(),
             });
+            console.log(transactionsIdsVout);
+            console.log(transaction);
           }
         }
       }

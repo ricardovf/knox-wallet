@@ -138,7 +138,7 @@ export default class Send extends React.Component {
   _formDestinationId = `${Math.random()}`.substr(2);
 
   @observable
-  amount = new Big('0.001'); // btc
+  amount = new Big('0.0001'); // btc
 
   @observable
   feeSlider = 0; // slider
