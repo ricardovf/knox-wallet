@@ -21,10 +21,11 @@
           <entry key="project.closed" value="6" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.3" value="2" />
+          <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -78,7 +79,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="509">
+            <state relative-caret-position="897">
               <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="38" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -101,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-215">
-              <caret line="28" column="6" lean-forward="true" selection-start-line="21" selection-start-column="4" selection-end-line="28" selection-end-column="6" />
+            <state relative-caret-position="345">
+              <caret line="28" column="6" selection-start-line="21" selection-start-column="4" selection-end-line="28" selection-end-column="6" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -274,6 +275,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -310,7 +312,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -419,6 +420,7 @@
       <workItem from="1542032085010" duration="45000" />
       <workItem from="1542039284902" duration="1049000" />
       <workItem from="1542043711800" duration="2970000" />
+      <workItem from="1542129526273" duration="509000" />
     </task>
     <servers />
   </component>
@@ -455,7 +457,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="291822000" />
+    <option name="totallyTimeSpent" value="292331000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="334" y="23" width="1586" height="1012" extended-state="0" />
@@ -760,10 +762,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
+    <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-215">
-          <caret line="28" column="6" lean-forward="true" selection-start-line="21" selection-start-column="4" selection-end-line="28" selection-end-column="6" />
+        <state relative-caret-position="897">
+          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="38" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -779,10 +781,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AppLayout.js">
+    <entry file="file://$PROJECT_DIR$/src/components/account/AccountDashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="56" column="16" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="38" />
+        <state relative-caret-position="345">
+          <caret line="28" column="6" selection-start-line="21" selection-start-column="4" selection-end-line="28" selection-end-column="6" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
