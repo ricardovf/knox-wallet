@@ -42,7 +42,7 @@
       <file leaf-file-name="AbstractDongleInteraction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
+            <state relative-caret-position="503">
               <caret line="102" selection-start-line="102" selection-end-line="102" />
             </state>
           </provider>
@@ -542,7 +542,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5007422" side_tool="true" weight="0.42217484" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4992578" visible="true" weight="0.34861407" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4992578" weight="0.34861407" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="5" />
@@ -922,7 +922,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/basic/server/AbstractDongleInteraction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
+        <state relative-caret-position="503">
           <caret line="102" selection-start-line="102" selection-end-line="102" />
         </state>
       </provider>
